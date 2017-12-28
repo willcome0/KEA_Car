@@ -1,9 +1,0 @@
-.\obj\system_skeaz1284.o: RTE\Device\SKEAZ128xxx4\system_SKEAZ1284.c
-.\obj\system_skeaz1284.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\obj\system_skeaz1284.o: ..\Drivers\CMSIS\SKEAZ1284.h
-.\obj\system_skeaz1284.o: ..\Drivers\CMSIS\core_cm0plus.h
-.\obj\system_skeaz1284.o: ..\Drivers\CMSIS\core_cmInstr.h
-.\obj\system_skeaz1284.o: ..\Drivers\CMSIS\SKEAZ1284.h
-.\obj\system_skeaz1284.o: ..\Drivers\CMSIS\core_cmFunc.h
-.\obj\system_skeaz1284.o: ..\Drivers\CMSIS\SKEAZ1284.h
-.\obj\system_skeaz1284.o: ..\Drivers\CMSIS\system_SKEAZ1284.h
