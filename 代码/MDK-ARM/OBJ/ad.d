@@ -37,5 +37,6 @@
 .\obj\ad.o: ..\Inc\Encoder.h
 .\obj\ad.o: ..\Drivers\kalman.h
 .\obj\ad.o: ..\Inc\control.h
+.\obj\ad.o: ..\Inc\motor.h
 .\obj\ad.o: ..\Scr\12.12_agine\MPU6050.h
 .\obj\ad.o: ..\Scr\12.12_agine\My_I2C.h

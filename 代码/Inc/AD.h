@@ -23,11 +23,11 @@
 #define AD_BAT_Port  PTC
 #define AD_BAT_Pin   PTC1
 
-#define AD_1     1
-#define AD_2     2
-#define AD_3     3
-#define AD_4     4
-#define AD_BAT   5
+#define AD_1     0  //ADC0_SE0
+#define AD_2     1  //ADC0_SE1
+#define AD_3     14 //ADC0_SE14
+#define AD_4     13 //ADC0_SE13
+#define AD_BAT   12 //ADC0_SE12
 /***********************************************************
  * 
  * º¯ÊýÉùÃ÷

@@ -8,20 +8,20 @@
  * Òý½ÅÖØÃüÃû
  * 
  **********************************************************/
-#define KEY_Down_Port      PTE
-#define KEY_Down_Pin       PTE4
+#define KEY_Up_Port     PTA
+#define KEY_Up_Pin      PTA7
 
-#define KEY_Up_Port    PTD
-#define KEY_Up_Pin     PTD3
+#define KEY_Down_Port   PTA  
+#define KEY_Down_Pin    PTA6
 
-#define KEY_Mid_Port     PTF
-#define KEY_Mid_Pin      PTF1
+#define KEY_Mid_Port    PTE
+#define KEY_Mid_Pin     PTE4
 
-#define KEY_Right_Port    PTF
-#define KEY_Right_Pin     PTF0
+#define KEY_Left_Port   PTF
+#define KEY_Left_Pin    PTF2
 
-#define KEY_Left_Port   PTD
-#define KEY_Left_Pin    PTD4
+#define KEY_Right_Port  PTF
+#define KEY_Right_Pin   PTF1
 
 /***********************************************************
  * 

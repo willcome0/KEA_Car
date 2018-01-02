@@ -7,7 +7,7 @@ struct PLAN Plan1 =
         .Target.Speed = 130,//200
         
         .Angle.P  = 400,//220
-        .Angle.D  = 100,//60
+        .Angle.D  = 10,//60
         
         .Speed.P  = 22,//-400...-22
         .Speed.I  = 0,//-5

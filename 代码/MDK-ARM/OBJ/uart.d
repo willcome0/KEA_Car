@@ -37,6 +37,7 @@
 .\obj\uart.o: ..\Inc\Encoder.h
 .\obj\uart.o: ..\Drivers\kalman.h
 .\obj\uart.o: ..\Inc\control.h
+.\obj\uart.o: ..\Inc\motor.h
 .\obj\uart.o: ..\Scr\12.12_agine\MPU6050.h
 .\obj\uart.o: ..\Scr\12.12_agine\My_I2C.h
 .\obj\uart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

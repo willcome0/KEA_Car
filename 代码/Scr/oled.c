@@ -10,10 +10,10 @@
 待做：图形显示，中文显示
 */
 
-uint8_t HtoL(uint8_t a)
-{
-    return (a & 0x01)<<7| ((a>>1)&0x01)<<6 |((a>>2)&0x01)<<5 |((a>>3)&0x01)<<4 |((a>>4)&0x01)<<3 |((a>>5)&0x01)<<2 |((a>>6)&0x01)<<1 |((a>>7)&0x01);
-}
+//uint8_t HtoL(uint8_t a)
+//{
+//    return (a & 0x01)<<7| ((a>>1)&0x01)<<6 |((a>>2)&0x01)<<5 |((a>>3)&0x01)<<4 |((a>>4)&0x01)<<3 |((a>>5)&0x01)<<2 |((a>>6)&0x01)<<1 |((a>>7)&0x01);
+//}
     
     
     
@@ -23,20 +23,20 @@ uint8_t HtoL(uint8_t a)
 
 
 volatile uint8_t OLED_GRAM[OLED_X_MAX][8];
-uint8_t  oled[OLED_X_MAX][8] = {0};
+//uint8_t  oled[OLED_X_MAX][8] = {0};
 
-void PicChange(void)
-{
-    for(int i=0;i<OLED_X_MAX;i++)
-    {
-        for(int j=0;j<8;j++)
-        {
-           oled[i][j] = HtoL(OLED_GRAM[OLED_X_MAX - i -1][ 7 - j]);
-           // oled[i][j]  = 
-        }
-    }
-return ;
-}
+//void PicChange(void)
+//{
+//    for(int i=0;i<OLED_X_MAX;i++)
+//    {
+//        for(int j=0;j<8;j++)
+//        {
+//           oled[i][j] = HtoL(OLED_GRAM[OLED_X_MAX - i -1][ 7 - j]);
+//           // oled[i][j]  = 
+//        }
+//    }
+//return ;
+//}
 
 
 
@@ -44,7 +44,7 @@ return ;
 //更新显存到OLED
 void OLED_Refresh_Gram(void)
 {
-    PicChange();
+//    PicChange();
     
 	for(uint8_t i=0; i<8; i++)
 	{
@@ -52,7 +52,7 @@ void OLED_Refresh_Gram(void)
 		OLED_WR_Byte (0x00,Wirte_CMD);      //设置显示位置—列低地址
 		OLED_WR_Byte (0x10,Wirte_CMD);      //设置显示位置—列高地址
 		for(uint8_t n=0; n<OLED_X_MAX; n++)
-			OLED_WR_Byte(oled[n][i], Wirte_DATA);
+			OLED_WR_Byte(OLED_GRAM[n][i], Wirte_DATA);
 	}
 }
 //初始化SSD1306

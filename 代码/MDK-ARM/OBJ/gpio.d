@@ -37,5 +37,6 @@
 .\obj\gpio.o: ..\Inc\Encoder.h
 .\obj\gpio.o: ..\Drivers\kalman.h
 .\obj\gpio.o: ..\Inc\control.h
+.\obj\gpio.o: ..\Inc\motor.h
 .\obj\gpio.o: ..\Scr\12.12_agine\MPU6050.h
 .\obj\gpio.o: ..\Scr\12.12_agine\My_I2C.h

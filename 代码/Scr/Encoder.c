@@ -4,6 +4,7 @@ void Encoder_Init(void)
 {
     ftm_count_init(ftm0);
     ftm_count_init(ftm1);
+
     Pin_Input_Config(Dir_End_L_Port, Dir_End_L_Pin, 1);
     Pin_Input_Config(Dir_End_R_Port, Dir_End_R_Pin, 1);
 }

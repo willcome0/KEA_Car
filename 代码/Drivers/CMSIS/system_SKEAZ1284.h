@@ -90,7 +90,7 @@ extern "C" {
 #define DISABLE_WDOG    1// 禁用看门狗
 
 #ifndef CLOCK_SETUP
-  #define CLOCK_SETUP   1// 采用内部37.5KHz参考时钟，内核与总线时钟都为24MHz
+  #define CLOCK_SETUP   1// 选择晶振方案
 #endif
 /* Predefined clock setups
    0 ... Internal Clock Source (ICS) in FLL Engaged Internal (FEI) mode

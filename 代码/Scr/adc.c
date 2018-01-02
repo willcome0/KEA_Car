@@ -9,22 +9,14 @@
 
 void ADC_Config(uint8_t channel)
 {
-    //1.打开ADC模块时钟
-    SIM_SCGC |= SIM_SCGC_ADC_MASK;
-    //开启引脚的AD功能
-    ADC_APCTL1 |=0x0F;
-    //选择总线时钟
-    ADC_SC3 = (ADC_SC3 & ~ADC_SC3_ADICLK_MASK) | ADC_SC3_ADICLK(0x00);
-    //输入时钟4分频
-    ADC_SC3 = (ADC_SC3 & ~ADC_SC3_ADIV_MASK) | ADC_SC3_ADIV(0x10);
-    //2.2 根据采样精度   定ADC_SC3_MODE位
-	 ADC_SC3 |= ADC_SC3_MODE(2);       //选择12位转换模式
-
-    ADC_SC2 = 0x00;
-    //4.配置ADC_SC1：使能ADC，并设置为连续转换模式,使能外部引脚
-    ADC_SC1|= ADC_SC1_ADCO_MASK;
-    //选择采样通道
-    ADC_SC1|=ADC_SC1_ADCH(channel);
+	SIM_SCGC |= SIM_SCGC_ADC_MASK;				/* Enable bus clock in ADC*/
+	ADC_SC3 |= ADC_SC3_ADICLK(0x00);			/* Bus clock selected*/
+	ADC_SC2 |= 0x00;							/* Software Conversion trigger, disable compare function*/
+	ADC_SC1 = 0	;								/* Enable ADC by setting ADCH bits as low*/
+	ADC_SC1|= ADC_SC1_ADCO_MASK;  				/* Continuous mode operation */	
+	ADC_SC1|= ADC_SC1_AIEN_MASK;  				/* ADC Interrupt Enabled */
+	ADC_APCTL1 |= ADC_APCTL1_ADPC(1<<channel);  /* Channel selection */	
+	ADC_SC3 |= ADC_SC3_MODE(2);				/* 8,10,12 bit mode operation */
 }
 
 //============================================================================

@@ -17,7 +17,7 @@
 
 //      模块通道        端口      可选范围                建议
 #define FTM2_CH0_PIN   PTC0// H0        //C0  H0 F0              
-#define FTM2_CH1_PIN   PTH1        //C1  H1 F1  
+#define FTM2_CH1_PIN   PTC1        //C1  H1 F1  
 #define FTM2_CH2_PIN   PTC2// D0        //C2  G4 D0  
 #define FTM2_CH3_PIN   PTC3// D1        //C3  G5 D1
 #define FTM2_CH4_PIN   PTG6        //B4  G6  

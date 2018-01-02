@@ -24,7 +24,7 @@ int Speed_Slide[3]={0};//速度平滑参数
 int SpeedOUT;
 int32_t End_Integral = 0;    
 float x=0;  
-uint8_t Do_it = 0;
+uint8_t Do_it = 1;
 
 uint8_t Huan_Count = 0;
 void PIT_CH0_IRQHandler(void)
@@ -47,8 +47,8 @@ void PIT_CH0_IRQHandler(void)
     
 
 
-								Value_End_L = End_Read_Dir(End_L)==0? -ftm_count_get(ftm0) : ftm_count_get(ftm0); //编码器采集
-								Value_End_R = End_Read_Dir(End_R)==0? ftm_count_get(ftm1) : -ftm_count_get(ftm1); 
+								Value_End_L = Read_Input_State(Dir_End_L_Port, Dir_End_L_Pin)==0? -ftm_count_get(ftm0) :  ftm_count_get(ftm0); //编码器采集
+								Value_End_R = Read_Input_State(Dir_End_R_Port, Dir_End_R_Pin)==0?  ftm_count_get(ftm1) : -ftm_count_get(ftm1);
 
 
     
@@ -100,7 +100,8 @@ void PIT_CH0_IRQHandler(void)
 								//    Value_Inductor_L = Get_Ind_V(AD_2);
 								Value_Inductor_R = kalman1_filter(&AD_Kalman[0], Get_Ind_V(AD_1));
 								Value_Inductor_L = kalman1_filter(&AD_Kalman[1], Get_Ind_V(AD_2));
-								
+//								Value_Inductor_R = Get_Ind_V(AD_1);
+//								Value_Inductor_L = Get_Ind_V(AD_2);
 								
 //                                Beep_OFF();
 //                                if(Value_Ind_L_Old + Value_Ind_R_Old>2000)
@@ -137,8 +138,8 @@ void PIT_CH0_IRQHandler(void)
 								
 								L_Final_PWM = Angle_PWM + Speed_PWM - Turn_PWM;
 								R_Final_PWM = Angle_PWM + Speed_PWM + Turn_PWM;
-								L_Final_PWM = Do_it==0 ? 0:L_Final_PWM;
-								R_Final_PWM = Do_it==0 ? 0:R_Final_PWM;
+//								L_Final_PWM = Do_it==0 ? 0:L_Final_PWM;
+//								R_Final_PWM = Do_it==0 ? 0:R_Final_PWM;
      
     
 								if(L_Final_PWM<0)
@@ -195,7 +196,10 @@ uint8_t Just_Do_It(void)
 //    NVIC->ISER[0] = (1 << ((uint32_t)(PIT_CH0_IRQn) & 0x1F));
     OLED_Clear();
     
-    Do_it = 1;
+//    Do_it = 1;
+    Motor_L_EN(Enable);
+    Motor_R_EN(Enable);
+    
     while(1)
     {
         
@@ -212,7 +216,9 @@ uint8_t Just_Do_It(void)
                             
                             FTM_PWM_set_CnV(ftm2, ftm_ch2, 0);
                             FTM_PWM_set_CnV(ftm2, ftm_ch3, 0);
-                        Do_it = 0;
+//                        Do_it = 0;
+                            Motor_L_EN(Disable);
+                            Motor_R_EN(Disable);
                         PIT_CLR_Flag(PIT_CH0);
 //                        NVIC_DisableIRQ(PIT_CH0_IRQn);
                         return 0;

@@ -37,5 +37,6 @@
 .\obj\delay.o: ..\Inc\Encoder.h
 .\obj\delay.o: ..\Drivers\kalman.h
 .\obj\delay.o: ..\Inc\control.h
+.\obj\delay.o: ..\Inc\motor.h
 .\obj\delay.o: ..\Scr\12.12_agine\MPU6050.h
 .\obj\delay.o: ..\Scr\12.12_agine\My_I2C.h

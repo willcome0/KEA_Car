@@ -84,11 +84,13 @@
 *时间：	   2017.11.18
 *备注：	   state为0时，不知是否为下拉，配置的是上拉禁能。官方里除了上拉，
            就是禁能上拉。
-*举例：    Pin_Output_Config(PTD, PTD3, Pull_Up);   设置PD3脚输出高
+*举例：    Pin_Output_Config(PTD, PTD3, Pull_Up);   设置PD3脚输出高    ( port->PDDR &= (1<<port_pin)); \
 **************************************************************************/
 
 #define Pin_Input_Config(port,port_pin,state)       (port->PIDR &=~ (1<<port_pin)); \
+                                                    ( port->PDDR &= ~(1<<port_pin)); \
                                                     Pin_Pull_State(port,port_pin,state)
+                                                    
                                                     
 /*************************************************************************
 *函数名：  Pin_Output_Set

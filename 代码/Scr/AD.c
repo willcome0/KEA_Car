@@ -3,22 +3,22 @@
 
 void AD_Init(void)
 {
-    ADC_Config(0);
-    ADC_Config(1);
-    ADC_Config(15);
-    ADC_Config(14);
-    ADC_Config(9);
+    ADC_Config(AD_1);
+    ADC_Config(AD_2);
+    ADC_Config(AD_3);
+    ADC_Config(AD_4);
+    ADC_Config(AD_BAT);
 }
 
 uint16_t Get_Ind_V(uint8_t ADX)
 {
     switch(ADX)
     {
-        case AD_1:   return ADC_Ave(0 , 3);
-        case AD_2:   return ADC_Ave(1 , 3);
-        case AD_3:   return ADC_Ave(15, 3);
-        case AD_4:   return ADC_Ave(14, 3);
-        case AD_BAT: return ADC_Ave(9, 200);
+        case AD_1:   return ADC_Ave(AD_1 , 3);
+        case AD_2:   return ADC_Ave(AD_2 , 3);
+        case AD_3:   return ADC_Ave(AD_3, 3);
+        case AD_4:   return ADC_Ave(AD_4, 3);
+        case AD_BAT: return ADC_Ave(AD_BAT, 200);
     }
 }
 

@@ -529,17 +529,20 @@ uint8_t UI_Read_Ind(void)
             uint8_t str[32];
             sprintf(str, "AD_1:%4d  AD_2:%4d", Value_Inductor_L, Value_Inductor_R);
             OLED_Show_Str(0, 12, str, 12, 1);
-            sprintf(str, "AD1-2  :%4d ", Value_Inductor_L-Value_Inductor_R);
+//            sprintf(str, "AD1-2  :%4d ", Value_Inductor_L-Value_Inductor_R);
+//            OLED_Show_Str(0, 25, str, 12, 1);
+		    sprintf(str, "AD_1:%4d  AD_2:%4d", Error_Ind, 1111);
             OLED_Show_Str(0, 25, str, 12, 1);
-		
+        
+        
 		       sprintf(str, "PITCH: %3.2f   x:%f ", Pitch,x);
            OLED_Show_Str(0,45, str, 12, 1); 
 		    
 //            sprintf(str, "Pitch:%2.1f", Pitch );
 //            OLED_Show_Str(0, 38, str, 12, 1);
         
-           sprintf(str, "BAT:%2.2f", (float)Get_Ind_V(5)/410*1.78);
-           OLED_Show_Str(0, 60, str, 12, 1);
+//           sprintf(str, "BAT:%2.2f", (float)Get_Ind_V(5)/410*1.78);
+//           OLED_Show_Str(0, 60, str, 12, 1);
         
             OLED_Refresh_Gram();
 
@@ -623,8 +626,8 @@ uint8_t UI_Read_End(void)
 
     OLED_Show_StrAll(0,  0, " <    编 码 器 值      ", 1);
     
-    int16_t Value_End_L = 0;
-    int16_t Value_End_R = 0;
+//    int16_t Value_End_L = 0;
+//    int16_t Value_End_R = 0;
     for(;;)
     {
 		switch(Get_Key())
@@ -641,11 +644,11 @@ uint8_t UI_Read_End(void)
 //        sprintf(ch, "   2.  目标角度  %1.2f", (float)Plan1.Target.Speed/100);
         OLED_Show_StrAll(0,  39, ch, 1);
         
-        ftm_count_clean(ftm0);
-        ftm_count_clean(ftm1);
+//        ftm_count_clean(ftm0);
+//        ftm_count_clean(ftm1);
         
         OLED_Refresh_Gram();
-        Delay_ms(7);
+//        Delay_ms(7);
     }
 }
 

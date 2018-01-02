@@ -18,17 +18,17 @@
 //#define OLED_DC_Pin      PTF2
 
 /*自己板*/
-#define OLED_D0_Port     PTB
-#define OLED_D0_Pin      PTB0
+#define OLED_D0_Port     PTD
+#define OLED_D0_Pin      PTD3
 
-#define OLED_D1_Port     PTB
-#define OLED_D1_Pin      PTB1
+#define OLED_D1_Port     PTD
+#define OLED_D1_Pin      PTD2
 
 #define OLED_RST_Port    PTF
-#define OLED_RST_Pin     PTF2
+#define OLED_RST_Pin     PTF0
 
-#define OLED_DC_Port     PTF
-#define OLED_DC_Pin      PTF3
+#define OLED_DC_Port     PTD
+#define OLED_DC_Pin      PTD4
 
 #define  OLED_X_MAX		128		//定义液晶x轴的像素数
 #define  OLED_Y_MAX		64 		//定义液晶y轴的像素数

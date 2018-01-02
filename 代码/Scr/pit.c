@@ -39,17 +39,32 @@ void PIT_Config(uint8_t PIT_CHX, uint32_t ms, uint8_t priority)
 
 void PIT_CH1_IRQHandler(void)
 {
+    uint8_t ch[30];
     PIT_CLR_Flag(PIT_CH1);  //清除中断标志位
 //    Disable_PIT_CH1();
     /*中断内容--开始*/
 //        MPU6050_GetData(&GYRO, &ACC);	// 读取陀螺仪数据
 //        Data_Filter();
     // 对原始数据滑动滤波
-    Pin_Output_Toggle(LED_Green_Port, LED_Green_Pin);
-
-
     
-    Pin_Output_Toggle(PTE, PTE0);
+//    Pin_Output_Toggle(LED_Green_Port, LED_Green_Pin);
+
+
+//       int16_t Value_End_L = Read_Input_State(Dir_End_L_Port, Dir_End_L_Pin)==0? ftm_count_get(ftm0) : -ftm_count_get(ftm0); 
+//       int16_t Value_End_R = Read_Input_State(Dir_End_R_Port, Dir_End_R_Pin)==0? ftm_count_get(ftm1) : -ftm_count_get(ftm1);
+//            sprintf(ch,"L_编码器:%5d ", Value_End_L); 
+//        OLED_Show_StrAll(0,  26, ch, 1);
+//        sprintf(ch,"R_编码器:%5d ", Value_End_R);
+////        sprintf(ch, "   2.  目标角度  %1.2f", (float)Plan1.Target.Speed/100);
+//        OLED_Show_StrAll(0,  39, ch, 1);
+//        
+//        ftm_count_clean(ftm0);
+//        ftm_count_clean(ftm1);
+//        
+//        OLED_Refresh_Gram();
+    
+    
+
     /*中断内容--结束*/
 //    Enable_PIT_CH1();
 }

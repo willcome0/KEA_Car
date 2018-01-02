@@ -207,10 +207,14 @@ int main(void)
     Buzzer_Init();
     UART_Init(UART_1, 9600);
     LED_Init();
-    KEY_Init();
+    
+
+
     OLED_Init();      //OLED初始化
     Motor_Init();     //电机初始化
+    
     Encoder_Init();   //编码器初始化
+    KEY_Init();
     AD_Init();        //电磁AD初始化
     
     kalman1_init(&AD_Kalman[0],0,10);
@@ -237,18 +241,30 @@ int main(void)
 
 //    Just_Do_It();
 
+
+
+
+
     Beep_Time(100);
     uint8_t GO = 0;
     uint8_t temp_str[30];
     PIT_Config(PIT_CH0, 10, 0);//5ms中断
-//    PIT_Config(PIT_CH1, 10, 2);
-
-    Pin_Output_Config(PTE, PTE0, 1);//电平反转配置
+//    PIT_Config(PIT_CH1, 10, 0);
+//LED_Blue_ON();
+//    Pin_Output_Config(PTE, PTE0, 1);//电平反转配置
     uint8_t str[30] ;
     OLED_Clear();
+////    Motor_Set_Back_Speed(3000, 3000);
+////    Pin_Output_Set(Motor_L_EN_Port, Motor_L_EN_Pin, 0);
+////    Pin_Output_Set(Motor_R_EN_Port, Motor_R_EN_Pin, 0);
     while(1)     
     {
-            
+//    UI_Read_Ind();
+//        if(Read_Input_State(Dir_End_R_Port, Dir_End_R_Pin)==0)
+//            LED_Green_ON();
+//        else
+//            LED_Green_OFF();
+        
 //        MPU6050_GetData(&GYRO, &ACC);	// 读取陀螺仪数据
 //        Data_Filter();					// 对原始数据滑动滤波
 //        
@@ -273,9 +289,22 @@ int main(void)
 //        Send_Begin();
 //        Send_Variable();
 //     printf("emmmm\r\n");
-     
-//     OLED_Show_Str("");
 
+
+
+//     								MPU6050_GetData(&GYRO, &ACC);   //获取原始数据
+//								Data_Filter();     //原始数据滤波
+//								Get_Attitude();    //获取姿态
+//        sprintf(str, "PITCH: %3.2f    ", Pitch);
+//        OLED_Show_Str(0, 20, str, 12, 1);
+//        OLED_Refresh_Gram();
+            
+//        if((Read_Input_State(KEY_Left_Port, KEY_Left_Pin)==0) || (Read_Input_State(KEY_Up_Port, KEY_Up_Pin)==0) || (Read_Input_State(KEY_Down_Port, KEY_Down_Pin)==0))
+//            LED_Green_ON();
+//        else
+//            LED_Green_OFF();
+//        Get_Key();
+        
         switch(GO)
         {
             case  0:   GO = UI_Main();      break;
@@ -290,6 +319,24 @@ int main(void)
 
             default:   GO = UI_Main();
         }
+
+
+
+
+//LED_Red_ON();
+//Delay_ms(100);
+//LED_Red_OFF();
+//Delay_ms(100);
+
+//LED_Green_ON();
+//Delay_ms(100);
+//LED_Green_OFF();
+//Delay_ms(100);
+
+//LED_Blue_ON();
+//Delay_ms(1000);
+//LED_Blue_OFF();
+//Delay_ms(1000);
 
 //                printf("好使了！！\r\n");
 //        /*********while 测试*****************/

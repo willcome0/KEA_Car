@@ -2,11 +2,13 @@
 
 void KEY_Init(void)
 {
+//    ADC_APCTL1 = 1;
     Pin_Input_Config(KEY_Up_Port,    KEY_Up_Pin,    1);
     Pin_Input_Config(KEY_Down_Port,  KEY_Down_Pin,  1);
     Pin_Input_Config(KEY_Mid_Port,   KEY_Mid_Pin,   1);
     Pin_Input_Config(KEY_Left_Port,  KEY_Left_Pin,  1);
     Pin_Input_Config(KEY_Right_Port, KEY_Right_Pin, 1);
+//    ADC_APCTL1 = 1;
 }
 
 
@@ -32,7 +34,7 @@ uint8_t Get_Key(void)
             else if(Key_Keep > 3)
                 Key_Delay = 50;
             
-            temp_return = Press_Up;      
+            temp_return = Press_Up; 
             Beep_Time(2);
 
 		}
@@ -62,7 +64,7 @@ uint8_t Get_Key(void)
 	
 	else if(0 == Read_Input_State(KEY_Mid_Port, KEY_Mid_Pin))
 	{
-		Delay_ms(Key_Delay*1.3);
+		Delay_ms(Key_Delay*1.1);
 		if(0 == Read_Input_State(KEY_Mid_Port, KEY_Mid_Pin))
 		{
 			Beep_Time(2);

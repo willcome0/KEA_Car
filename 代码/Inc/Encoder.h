@@ -3,11 +3,11 @@
 
 #include "common.h"
 
-#define Dir_End_L_Port PTE
-#define Dir_End_L_Pin  PTE6
+#define Dir_End_L_Port PTB
+#define Dir_End_L_Pin  PTB2
 
 #define Dir_End_R_Port PTE
-#define Dir_End_R_Pin  PTE3
+#define Dir_End_R_Pin  PTE5
 
 #define End_L  0
 #define End_R  1

@@ -37,6 +37,7 @@
 #include "Encoder.h"
 #include "kalman.h"
 #include "control.h"
+#include "motor.h"
 //#include "ioi2c.h"
 
 #include "MPU6050.h"
