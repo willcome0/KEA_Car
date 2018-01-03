@@ -1,4 +1,9 @@
 ﻿*.Will
+*.uvoptx
+*.ini
+
 
 Code/MDK-ARM/Listings/
 Code/MDK-ARM/OBJ/
+Code/MDK-ARM/JLinkLog.txt
+Code/MDK-ARM/JLinkLog.txt
