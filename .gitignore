@@ -8,4 +8,5 @@ Code/MDK-ARM/OBJ/
 
 
 
-Code/MDK-ARM/JLinkLog.txt
+*.txt
+*.txt
