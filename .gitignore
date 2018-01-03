@@ -9,18 +9,7 @@
 *.Will
 /Listings/
 /OBJ/
-代码/MDK-ARM/JLinkLog.txt
-代码/MDK-ARM/Listings/NEW1.map
-代码/MDK-ARM/OBJ/control.crf
-代码/MDK-ARM/OBJ/control.o
-代码/MDK-ARM/OBJ/NEW1.axf
-代码/MDK-ARM/OBJ/NEW1.build_log.htm
-代码/MDK-ARM/OBJ/NEW1.hex
-代码/MDK-ARM/OBJ/NEW1.htm
-代码/MDK-ARM/OBJ/NEW1_Target 1.dep
-代码/MDK-ARM/OBJ/NEW1_Target 1.dep
-*.dep
-代码/MDK-ARM/OBJ/NEW1_Target 1.dep
+
 *.map
 *.dep
 *.htm
