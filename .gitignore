@@ -7,5 +7,5 @@
 *.o*.TMP
 #���˵��ļ���
 *.Will
-MDK-ARM/Listings/
-MDK-ARM/OBJ/
+/MDK-ARM/Listings/*
+/MDK-ARM/OBJ/*
