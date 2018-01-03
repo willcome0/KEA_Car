@@ -22,45 +22,53 @@ Dialog DLL:      TARMCM1.DLL V1.12.0.0
  
 <h2>Project:</h2>
 E:\1000NXP0001\KEA\自身笔记\GitHub_KEA\KEA_Car\代码\MDK-ARM\NEW1.uvprojx
-Project File Date:  12/23/2017
+Project File Date:  01/03/2018
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 4 (build 422)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Target 1'
-compiling main.c...
+compiling control.c...
 ..\Drivers\kalman.h(47): warning:  #1-D: last line of file ends without a newline
   #endif  /*_KALMAN_FILTER_H*/
 ..\Inc\control.h(17): warning:  #1-D: last line of file ends without a newline
   #endif
 ..\Inc\motor.h(33): warning:  #1-D: last line of file ends without a newline
   #endif
-..\Scr\main.c(17): warning:  #188-D: enumerated type mixed with another type
-  	NVIC_ClearPendingIRQ(vector_number); 		/* Clear pending interrupt register */
-..\Scr\main.c(18): warning:  #188-D: enumerated type mixed with another type
-  	NVIC_EnableIRQ(vector_number); 				/* Enable required Interrupt */
-..\Scr\main.c(37): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *restrict"
-      printf(dataToSend);
-..\Scr\main.c(216): warning:  #223-D: function "Encoder_Init" declared implicitly
-      Encoder_Init();   //编码器初始化
-..\Scr\main.c(316): warning:  #223-D: function "UI_MPU6050" declared implicitly
-              case 31:   GO = UI_MPU6050();   break;          
-..\Scr\main.c(317): warning:  #223-D: function "UI_Read_Ind" declared implicitly
-              case 32:   GO = UI_Read_Ind();  break;
-..\Scr\main.c(318): warning:  #223-D: function "UI_Read_End" declared implicitly
-              case 33:   GO = UI_Read_End();  break;
-..\Scr\main.c(449): warning:  #111-D: statement is unreachable
-      return 0;
-..\Scr\main.c(250): warning:  #177-D: variable "temp_str"  was declared but never referenced
-      uint8_t temp_str[30];
-..\Scr\main.c(255): warning:  #177-D: variable "str"  was declared but never referenced
-      uint8_t str[30] ;
-..\Scr\main.c(476): warning:  #1-D: last line of file ends without a newline
-  ********************************************************************************************/
-..\Scr\main.c: 14 warnings, 0 errors
+..\Inc\control.h(17): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\Scr\control.c(198): warning:  #223-D: function "Motor_L_Go_V" declared implicitly
+  										Motor_L_Go_V(L_Final_PWM);
+..\Scr\control.c(205): warning:  #223-D: function "Motor_L_Back_V" declared implicitly
+  										Motor_L_Back_V(L_Final_PWM);
+..\Scr\control.c(215): warning:  #223-D: function "Motor_R_Go_V" declared implicitly
+  										Motor_R_Go_V(R_Final_PWM);
+..\Scr\control.c(222): warning:  #223-D: function "Motor_R_Back_V" declared implicitly
+  										Motor_R_Back_V(R_Final_PWM);
+..\Scr\control.c(247): warning:  #61-D: integer operation result is out of range
+      
+otor_L_EN(Enable);
+..\Scr\control.c(247): warning:  #68-D: integer conversion resulted in a change of sign
+      
+otor_L_EN(Enable);
+..\Scr\control.c(284): warning:  #61-D: integer operation result is out of range
+                              
+otor_L_EN(Disable);
+..\Scr\control.c(284): warning:  #68-D: integer conversion resulted in a change of sign
+                              
+otor_L_EN(Disable);
+..\Scr\control.c(300): warning:  #223-D: function "Send_Begin" declared implicitly
+      Send_Begin();
+..\Scr\control.c(301): warning:  #223-D: function "Send_Variable" declared implicitly
+      Send_Variable();
+..\Scr\control.c(312): warning:  #1-D: last line of file ends without a newline
+  }
+..\Scr\control.c(240): warning:  #177-D: variable "str"  was declared but never referenced
+      uint8_t str[25];
+..\Scr\control.c: 16 warnings, 0 errors
 linking...
-Program Size: Code=23540 RO-data=57812 RW-data=280 ZI-data=5400  
+Program Size: Code=23524 RO-data=57812 RW-data=280 ZI-data=5400  
 FromELF: creating hex file...
-".\OBJ\NEW1.axf" - 0 Error(s), 14 Warning(s).
+".\OBJ\NEW1.axf" - 0 Error(s), 16 Warning(s).
 
 <h2>Software Packages used:</h2>
 
