@@ -19,3 +19,11 @@
 *.o
 *.crf
 *.map
+*.map
+*.crf
+*.o
+*.axf
+*.htm
+*.hex
+*.htm
+*.dep
