@@ -2,60 +2,60 @@
 
 
 /*************************************************************************
-*º¯ÊıÃû£º  PIT_Config
-*º¯Êı¹¦ÄÜ£ºPIT¶¨Ê±Æ÷ÖĞ¶ÏÅäÖÃ
-*Èë¿Ú²ÎÊı£º pitno: PITºÅ
-           ms: ¶¨Ê±Æ÷ÖĞ¶ÏÊ±¼ä
-           priority: ÓÅÏÈ¼¶
-*·µ»ØÖµ£º  ÎŞ
-*²âÊÔ£º    K
-*Ê±¼ä£º	   2017.11.19
-*±¸×¢£º	   ÈôÒª»ñÈ¡¸ü¶ÌµÄÖĞ¶Ï£¬¼õĞ¡¶Ô PIT_LDVAL(pitno) µÄ¸³Öµ¼´¿É¡£¹Ù·½µÄ²ÎÊıÉèÖÃ·Ç³£¶à£¬ÓĞ¿Õ¿ÉÒÔ¿´¿´¡£´Ë´¦ÊÇÖğ·É
-*¾ÙÀı£º    PIT_Config(PIT_CH1, 1, 1);  PIT_CH1¿ªÆô1msÖĞ¶Ï£¬ÓÅÏÈ¼¶Îª1
+*å‡½æ•°åï¼š  PIT_Config
+*å‡½æ•°åŠŸèƒ½ï¼šPITå®šæ—¶å™¨ä¸­æ–­é…ç½®
+*å…¥å£å‚æ•°ï¼š pitno: PITå·
+           ms: å®šæ—¶å™¨ä¸­æ–­æ—¶é—´
+           priority: ä¼˜å…ˆçº§
+*è¿”å›å€¼ï¼š  æ— 
+*æµ‹è¯•ï¼š    K
+*æ—¶é—´ï¼š	   2017.11.19
+*å¤‡æ³¨ï¼š	   è‹¥è¦è·å–æ›´çŸ­çš„ä¸­æ–­ï¼Œå‡å°å¯¹ PIT_LDVAL(pitno) çš„èµ‹å€¼å³å¯ã€‚å®˜æ–¹çš„å‚æ•°è®¾ç½®éå¸¸å¤šï¼Œæœ‰ç©ºå¯ä»¥çœ‹çœ‹ã€‚æ­¤å¤„æ˜¯é€é£
+*ä¸¾ä¾‹ï¼š    PIT_Config(PIT_CH1, 1, 1);  PIT_CH1å¼€å¯1msä¸­æ–­ï¼Œä¼˜å…ˆçº§ä¸º1
 **************************************************************************/
 
 void PIT_Config(uint8_t PIT_CHX, uint32_t ms, uint8_t priority)
 {
-    SIM_SCGC |= SIM_SCGC_PIT_MASK;  //Ê¹ÄÜPITÊ±ÖÓÃÅ
-    PIT_MCR &= ~PIT_MCR_MDIS_MASK;  //Ê¹ÄÜPITÄ£¿é
+    SIM_SCGC |= SIM_SCGC_PIT_MASK;  //ä½¿èƒ½PITæ—¶é’Ÿé—¨
+    PIT_MCR &= ~PIT_MCR_MDIS_MASK;  //ä½¿èƒ½PITæ¨¡å—
 
-    NVIC_DisableIRQ(PIT_CH_IRQ_NO + PIT_CHX);  //½ûÄÜ¸ÃÖĞ¶Ï
+    NVIC_DisableIRQ(PIT_CH_IRQ_NO + PIT_CHX);  //ç¦èƒ½è¯¥ä¸­æ–­
 
-    //ÅäÖÃPITÄ£¿é
+    //é…ç½®PITæ¨¡å—
     PIT_LDVAL(PIT_CHX) = BUS_CLK_KHZ * ms;
-    PIT_TCTRL(PIT_CHX) |= (PIT_TCTRL_TIE_MASK);     //¿ªpitÄ£¿éÖĞ¶Ï
-    PIT_TCTRL(PIT_CHX) |= (PIT_TCTRL_TEN_MASK);     //Ê¹ÄÜpitÄ£¿éÔËĞĞ
+    PIT_TCTRL(PIT_CHX) |= (PIT_TCTRL_TIE_MASK);     //å¼€pitæ¨¡å—ä¸­æ–­
+    PIT_TCTRL(PIT_CHX) |= (PIT_TCTRL_TEN_MASK);     //ä½¿èƒ½pitæ¨¡å—è¿è¡Œ
 
     NVIC_SetPriority(PIT_CH_IRQ_NO + PIT_CHX, priority);
     
-    NVIC_EnableIRQ(PIT_CH_IRQ_NO + PIT_CHX);   //Ê¹ÄÜ¸ÃÖĞ¶Ï
+    NVIC_EnableIRQ(PIT_CH_IRQ_NO + PIT_CHX);   //ä½¿èƒ½è¯¥ä¸­æ–­
 }
 
 /**************************************************************************/
 
-/*********************PITÖĞ¶Ï·şÎñº¯Êı***************************************/
+/*********************PITä¸­æ–­æœåŠ¡å‡½æ•°***************************************/
 
 
 
 void PIT_CH1_IRQHandler(void)
 {
     uint8_t ch[30];
-    PIT_CLR_Flag(PIT_CH1);  //Çå³ıÖĞ¶Ï±êÖ¾Î»
+    PIT_CLR_Flag(PIT_CH1);  //æ¸…é™¤ä¸­æ–­æ ‡å¿—ä½
 //    Disable_PIT_CH1();
-    /*ÖĞ¶ÏÄÚÈİ--¿ªÊ¼*/
-//        MPU6050_GetData(&GYRO, &ACC);	// ¶ÁÈ¡ÍÓÂİÒÇÊı¾İ
+    /*ä¸­æ–­å†…å®¹--å¼€å§‹*/
+//        MPU6050_GetData(&GYRO, &ACC);	// è¯»å–é™€èºä»ªæ•°æ®
 //        Data_Filter();
-    // ¶ÔÔ­Ê¼Êı¾İ»¬¶¯ÂË²¨
+    // å¯¹åŸå§‹æ•°æ®æ»‘åŠ¨æ»¤æ³¢
     
 //    Pin_Output_Toggle(LED_Green_Port, LED_Green_Pin);
 
 
 //       int16_t Value_End_L = Read_Input_State(Dir_End_L_Port, Dir_End_L_Pin)==0? ftm_count_get(ftm0) : -ftm_count_get(ftm0); 
 //       int16_t Value_End_R = Read_Input_State(Dir_End_R_Port, Dir_End_R_Pin)==0? ftm_count_get(ftm1) : -ftm_count_get(ftm1);
-//            sprintf(ch,"L_±àÂëÆ÷:%5d ", Value_End_L); 
+//            sprintf(ch,"L_ç¼–ç å™¨:%5d ", Value_End_L); 
 //        OLED_Show_StrAll(0,  26, ch, 1);
-//        sprintf(ch,"R_±àÂëÆ÷:%5d ", Value_End_R);
-////        sprintf(ch, "   2.  Ä¿±ê½Ç¶È  %1.2f", (float)Plan1.Target.Speed/100);
+//        sprintf(ch,"R_ç¼–ç å™¨:%5d ", Value_End_R);
+////        sprintf(ch, "   2.  ç›®æ ‡è§’åº¦  %1.2f", (float)Plan1.Target.Speed/100);
 //        OLED_Show_StrAll(0,  39, ch, 1);
 //        
 //        ftm_count_clean(ftm0);
@@ -65,7 +65,7 @@ void PIT_CH1_IRQHandler(void)
     
     
 
-    /*ÖĞ¶ÏÄÚÈİ--½áÊø*/
+    /*ä¸­æ–­å†…å®¹--ç»“æŸ*/
 //    Enable_PIT_CH1();
 }
 

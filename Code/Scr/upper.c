@@ -21,7 +21,7 @@ void my_putchar(char temp)
     UART_Send_Char(UART_1, temp);
 }
 
-/*用来通知上位机新的一组数据开始，要保存数据必须发送它*/
+/*鐢ㄦ潵閫氱煡涓婁綅鏈烘柊鐨勪竴缁勬暟鎹紑濮嬶紝瑕佷繚瀛樻暟鎹繀椤诲彂閫佸畠*/
 
 void Send_Begin()
 {

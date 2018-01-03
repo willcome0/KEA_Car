@@ -1,5 +1,5 @@
-//ËµÃ÷¼û¹¤³ÌÎÄ¼ş¼ĞÏÂµÄDocÎÄ¼ş¼ĞÄÚReadme.txtÎÄ¼ş
-#define GLOBLE_VAR  //Ö»ĞèÔÚmain.cÖĞ¶¨ÒåÒ»´Î£¬ÓÃÀ´·ÀÖ¹È«¾Ö±äÁ¿µÄÖØ¸´¶¨Òå
+//è¯´æ˜è§å·¥ç¨‹æ–‡ä»¶å¤¹ä¸‹çš„Docæ–‡ä»¶å¤¹å†…Readme.txtæ–‡ä»¶
+#define GLOBLE_VAR  //åªéœ€åœ¨main.cä¸­å®šä¹‰ä¸€æ¬¡ï¼Œç”¨æ¥é˜²æ­¢å…¨å±€å˜é‡çš„é‡å¤å®šä¹‰
 
 #include "includes.h"
 #include "common.h"
@@ -20,16 +20,16 @@ void Enable_Interrupt(uint8_t vector_number)
 }
 
 /*************************************************************************
-*º¯ Êı Ãû£ºusart1_report_imu()
-*º¯Êı¹¦ÄÜ£ºBYTE0(XX)Ê²Ã´ÍæÒâ
-*Ê±    ¼ä£º2017.8.6
-*±¸    ×¢£ºhttp://blog.sina.com.cn/s/blog_a3e25cc70102vhs5.html
+*å‡½ æ•° åï¼šusart1_report_imu()
+*å‡½æ•°åŠŸèƒ½ï¼šBYTE0(XX)ä»€ä¹ˆç©æ„
+*æ—¶    é—´ï¼š2017.8.6
+*å¤‡    æ³¨ï¼šhttp://blog.sina.com.cn/s/blog_a3e25cc70102vhs5.html
 **************************************************************************/
-#define BYTE0(dwTemp)       (*(char *)(&dwTemp))         //0-7Î»
-#define BYTE1(dwTemp)       (*((char *)(&dwTemp) + 1))  //8-15Î»
-#define BYTE2(dwTemp)       (*((char *)(&dwTemp) + 2))  //16-23Î»
-#define BYTE3(dwTemp)       (*((char *)(&dwTemp) + 3))  //24-31Î»
-uint8_t data_to_send[50];	//·¢ËÍÊı¾İ»º´æ
+#define BYTE0(dwTemp)       (*(char *)(&dwTemp))         //0-7ä½
+#define BYTE1(dwTemp)       (*((char *)(&dwTemp) + 1))  //8-15ä½
+#define BYTE2(dwTemp)       (*((char *)(&dwTemp) + 2))  //16-23ä½
+#define BYTE3(dwTemp)       (*((char *)(&dwTemp) + 3))  //24-31ä½
+uint8_t data_to_send[50];	//å‘é€æ•°æ®ç¼“å­˜
 void ANO_DT_Send_Data(uint8_t *dataToSend , uint8_t length)
 {
 ////	Usart2_Send(data_to_send, length);
@@ -124,25 +124,25 @@ void ANO_DT_Send_Senser(int16_t a_x,int16_t a_y,int16_t a_z,int16_t g_x,int16_t 
 	
 	ANO_DT_Send_Data(data_to_send, _cnt);
 }
-//ÏÂÃæÓë»ñÈ¡½Ç¶È·ÅÔÚÑ­»·Àï¼´¿É
+//ä¸‹é¢ä¸è·å–è§’åº¦æ”¾åœ¨å¾ªç¯é‡Œå³å¯
 //	ANO_DT_Send_Status(Roll, Pitch, Yaw, 1, 1, 1);
 //	ANO_DT_Send_Senser(Accel_X,Accel_Y,Accel_Z,Gyro_X,Gyro_Y,Gyro_Z,1,1,1,0);
 
 
 
 
-//¿¨¶ûÂüÂË²¨²ÎÊıÓëº¯Êı
-//float dt=0.001;//×¢Òâ£ºdtµÄÈ¡ÖµÎªkalmanÂË²¨Æ÷²ÉÑùÊ±¼ä
-//float angle, angle_dot;//½Ç¶ÈºÍ½ÇËÙ¶È
+//å¡å°”æ›¼æ»¤æ³¢å‚æ•°ä¸å‡½æ•°
+//float dt=0.001;//æ³¨æ„ï¼šdtçš„å–å€¼ä¸ºkalmanæ»¤æ³¢å™¨é‡‡æ ·æ—¶é—´
+//float angle, angle_dot;//è§’åº¦å’Œè§’é€Ÿåº¦
 //float P[2][2] = {{ 1, 0 },
 //                 { 0, 1 }};
 //float Pdot[4] ={ 0,0,0,0};
-//float Q_angle=0.001, Q_gyro=0.005; //½Ç¶ÈÊı¾İÖÃĞÅ¶È,½ÇËÙ¶ÈÊı¾İÖÃĞÅ¶È
+//float Q_angle=0.001, Q_gyro=0.005; //è§’åº¦æ•°æ®ç½®ä¿¡åº¦,è§’é€Ÿåº¦æ•°æ®ç½®ä¿¡åº¦
 //float R_angle=0.5 ,C_0 = 1;
 //float q_bias, angle_err, PCt_0, PCt_1, E, K_0, K_1, t_0, t_1;
 
-////¿¨¶ûÂüÂË²¨
-//float Kalman_Filter(float angle_m, float gyro_m)//angleAx ºÍ gyroGy
+////å¡å°”æ›¼æ»¤æ³¢
+//float Kalman_Filter(float angle_m, float gyro_m)//angleAx å’Œ gyroGy
 //{
 //        angle+=(gyro_m-q_bias) * dt;
 //        angle_err = angle_m - angle;
@@ -165,9 +165,9 @@ void ANO_DT_Send_Senser(int16_t a_x,int16_t a_y,int16_t a_z,int16_t g_x,int16_t 
 //        P[0][1] -= K_0 * t_1;
 //        P[1][0] -= K_1 * t_0;
 //        P[1][1] -= K_1 * t_1;
-//        angle += K_0 * angle_err; //×îÓÅ½Ç¶È
+//        angle += K_0 * angle_err; //æœ€ä¼˜è§’åº¦
 //        q_bias += K_1 * angle_err;
-//        angle_dot = gyro_m-q_bias;//×îÓÅ½ÇËÙ¶È
+//        angle_dot = gyro_m-q_bias;//æœ€ä¼˜è§’é€Ÿåº¦
 
 //        return angle;
 //}
@@ -180,17 +180,17 @@ void ANO_DT_Send_Senser(int16_t a_x,int16_t a_y,int16_t a_z,int16_t g_x,int16_t 
 
 int main(void)
 {
-//    ftm_pwm_init(ftm2,ftm_ch0,12500,0);//´ó£¬Õı×ª//Õı·´×ª¾ø¶ÔºÃÊ¹¹ı
+//    ftm_pwm_init(ftm2,ftm_ch0,12500,0);//å¤§ï¼Œæ­£è½¬//æ­£åè½¬ç»å¯¹å¥½ä½¿è¿‡
 //    ftm_pwm_init(ftm2,ftm_ch5,12500,300);
 //    
 //    ftm_pwm_init(ftm2,ftm_ch2,12500,0);
-//    ftm_pwm_init(ftm2,ftm_ch3,12500,300);//µÍ
+//    ftm_pwm_init(ftm2,ftm_ch3,12500,300);//ä½
     
     
-//    FTM_PWM_init(FTM_2, CH_0, 12.5, 20);   //APWM_2  PC0   FTM2_CH0   Ö÷   ×ó 
+//    FTM_PWM_init(FTM_2, CH_0, 12.5, 20);   //APWM_2  PC0   FTM2_CH0   ä¸»   å·¦ 
 //    FTM_PWM_init(FTM_2, CH_5, 12.5, 1);    //APWM_1  PB5   FTM2_CH5
 
-//    FTM_PWM_init(FTM_2, CH_2, 12.5, 20);    //BPWM_2  PC2   FTM2_CH2   Ö÷   ÓÒ
+//    FTM_PWM_init(FTM_2, CH_2, 12.5, 20);    //BPWM_2  PC2   FTM2_CH2   ä¸»   å³
 //    FTM_PWM_init(FTM_2, CH_3, 12.5, 1);    //BPWM_1  PC3   FTM2_CH3
 //    
 //    FTM_PWM_set_CnV(FTM_2, CH_0, 1);
@@ -210,15 +210,15 @@ int main(void)
     
 
 
-    OLED_Init();      //OLED³õÊ¼»¯
-    Motor_Init();     //µç»ú³õÊ¼»¯
+    OLED_Init();      //OLEDåˆå§‹åŒ–
+    Motor_Init();     //ç”µæœºåˆå§‹åŒ–
     
-    Encoder_Init();   //±àÂëÆ÷³õÊ¼»¯
+    Encoder_Init();   //ç¼–ç å™¨åˆå§‹åŒ–
     KEY_Init();
-    AD_Init();        //µç´ÅAD³õÊ¼»¯
+    AD_Init();        //ç”µç£ADåˆå§‹åŒ–
     
     kalman1_init(&AD_Kalman[0],0,10);
-    AD_Kalman[0].q = 9e-4;//³õÊ¼µ÷ÕâÁ½¸ö²ÎÊı¾Í¿ÉÒÔ
+    AD_Kalman[0].q = 9e-4;//åˆå§‹è°ƒè¿™ä¸¤ä¸ªå‚æ•°å°±å¯ä»¥
     AD_Kalman[0].r = 1e-2;//
     
     kalman1_init(&AD_Kalman[1],0,10);
@@ -235,7 +235,7 @@ int main(void)
 
 
 
-//    Pin_Output_Config(PTE, PTE0, 1);//×ó±àÂëÆ÷´¦²âÊÔÒı½Å
+//    Pin_Output_Config(PTE, PTE0, 1);//å·¦ç¼–ç å™¨å¤„æµ‹è¯•å¼•è„š
 
     
 
@@ -248,10 +248,10 @@ int main(void)
     Beep_Time(100);
     uint8_t GO = 0;
     uint8_t temp_str[30];
-    PIT_Config(PIT_CH0, 8, 0);//5msÖĞ¶Ï
+    PIT_Config(PIT_CH0, 8, 0);//5msä¸­æ–­
 //    PIT_Config(PIT_CH1, 10, 0);
 //LED_Blue_ON();
-//    Pin_Output_Config(PTE, PTE0, 1);//µçÆ½·´×ªÅäÖÃ
+//    Pin_Output_Config(PTE, PTE0, 1);//ç”µå¹³åè½¬é…ç½®
     uint8_t str[30] ;
     OLED_Clear();
 ////    Motor_Set_Back_Speed(3000, 3000);
@@ -265,8 +265,8 @@ int main(void)
 //        else
 //            LED_Green_OFF();
         
-//        MPU6050_GetData(&GYRO, &ACC);	// ¶ÁÈ¡ÍÓÂİÒÇÊı¾İ
-//        Data_Filter();					// ¶ÔÔ­Ê¼Êı¾İ»¬¶¯ÂË²¨
+//        MPU6050_GetData(&GYRO, &ACC);	// è¯»å–é™€èºä»ªæ•°æ®
+//        Data_Filter();					// å¯¹åŸå§‹æ•°æ®æ»‘åŠ¨æ»¤æ³¢
 //        
 //        
 ////        Get_Attitude();
@@ -292,9 +292,9 @@ int main(void)
 
 
 
-//     								MPU6050_GetData(&GYRO, &ACC);   //»ñÈ¡Ô­Ê¼Êı¾İ
-//								Data_Filter();     //Ô­Ê¼Êı¾İÂË²¨
-//								Get_Attitude();    //»ñÈ¡×ËÌ¬
+//     								MPU6050_GetData(&GYRO, &ACC);   //è·å–åŸå§‹æ•°æ®
+//								Data_Filter();     //åŸå§‹æ•°æ®æ»¤æ³¢
+//								Get_Attitude();    //è·å–å§¿æ€
 //        sprintf(str, "PITCH: %3.2f    ", Pitch);
 //        OLED_Show_Str(0, 20, str, 12, 1);
 //        OLED_Refresh_Gram();
@@ -338,8 +338,8 @@ int main(void)
 //LED_Blue_OFF();
 //Delay_ms(1000);
 
-//                printf("ºÃÊ¹ÁË£¡£¡\r\n");
-//        /*********while ²âÊÔ*****************/
+//                printf("å¥½ä½¿äº†ï¼ï¼\r\n");
+//        /*********while æµ‹è¯•*****************/
 //        sprintf(str, "%5d  %5d", GO,GO);
 //        GO++;
 //        OLED_Show_StrAll(0,  50, str, 1);
@@ -381,10 +381,10 @@ int main(void)
 //    
 ////    Pin_Output_Config(PTH, PTH0, 1);
 ////    
-////    Pin_Output_Config(PTE, PTE4, 1);//Í¨µÀ5 
-////    Pin_Output_Config(PTG, PTG6, 1);//Í¨µÀ5 
-////    Pin_Output_Config(PTG, PTG5, 1);//Í¨µÀ6
-//    Pin_Output_Config(PTG, PTG4, 1);//Í¨µÀ7
+////    Pin_Output_Config(PTE, PTE4, 1);//é€šé“5 
+////    Pin_Output_Config(PTG, PTG6, 1);//é€šé“5 
+////    Pin_Output_Config(PTG, PTG5, 1);//é€šé“6
+//    Pin_Output_Config(PTG, PTG4, 1);//é€šé“7
 //    
 ////    Pin_Output_Config(PTD, PTD4, 1);
 ////    Pin_Output_Config(PTD, PTD3, 1);
@@ -396,11 +396,11 @@ int main(void)
 ////    FTM_PWM_init(FTM_2,CHANNEL0,1,70); 
 ////    FTM_PWM_set_duty(FTM_2,CHANNEL0,70);
 
-////    ftm_pwm_init(FTM_2,CH_2,13000,5000);  //A0Òı½ÅÊä³ö50HZ PWM Õ¼¿Õ±ÈÎª°Ù·ÖÖ®£¨500/FTM0_PRECISON*100£©
-////    ftm_pwm_init(FTM_2,CH_3,13000,5000);//ÄÜ
+////    ftm_pwm_init(FTM_2,CH_2,13000,5000);  //A0å¼•è„šè¾“å‡º50HZ PWM å ç©ºæ¯”ä¸ºç™¾åˆ†ä¹‹ï¼ˆ500/FTM0_PRECISON*100ï¼‰
+////    ftm_pwm_init(FTM_2,CH_3,13000,5000);//èƒ½
 
 //    ftm_pwm_init(FTM_2,CH_0,13000,3000);
-////    ftm_pwm_init(FTM_2,CH_5,13000,5000);//ÄÜ
+////    ftm_pwm_init(FTM_2,CH_5,13000,5000);//èƒ½
 
 ////    Pin_Output_Config(PTC, PTC2, 1);
 ////    Pin_Output_Config(PTC, PTC3, 0);
@@ -419,7 +419,7 @@ int main(void)
 ////        Pin_Output_Toggle(PTD, PTD5);
 ////        Pin_Output_Toggle(PTH, PTH0);
 ////        Pin_Output_Toggle(PTH, PTH1);
-////            printf("¹ş¹ş¹ş¹ş¹ş\r\n");
+////            printf("å“ˆå“ˆå“ˆå“ˆå“ˆ\r\n");
 
 //        
 ////        Delay_1us;
@@ -430,35 +430,35 @@ int main(void)
 ////        OLED_Refresh_Gram();
 //        
 //        
-////        printf("ÕâÊÇÎÂ¶È£º%d \r\n", Read_Temperature());
+////        printf("è¿™æ˜¯æ¸©åº¦ï¼š%d \r\n", Read_Temperature());
 ////        Read_DMP();
-////        printf("ÕâÊÇ¸©Ñö½Ç£º%f \r\n", Pitch);
-////        printf("ÕâÊÇºá¹ö½Ç£º%f \r\n", Roll);
+////        printf("è¿™æ˜¯ä¿¯ä»°è§’ï¼š%f \r\n", Pitch);
+////        printf("è¿™æ˜¯æ¨ªæ»šè§’ï¼š%f \r\n", Roll);
 //        
 ////        Get_MPU_G();
-////        printf("½ÇËÙ¶ÈX£º%f \r\n", Gyro_X);
-////        printf("½ÇËÙ¶ÈY£º%f \r\n", Gyro_Y);
-////        printf("½ÇËÙ¶ÈZ£º%f \r\n", Gyro_Z);
+////        printf("è§’é€Ÿåº¦Xï¼š%f \r\n", Gyro_X);
+////        printf("è§’é€Ÿåº¦Yï¼š%f \r\n", Gyro_Y);
+////        printf("è§’é€Ÿåº¦Zï¼š%f \r\n", Gyro_Z);
 //        
 ////        Get_MPU_A();
-////        printf("¼ÓËÙ¶ÈX£º%f \r\n", Accel_X);
-////        printf("¼ÓËÙ¶ÈY£º%f \r\n", Accel_Y);
-////        printf("¼ÓËÙ¶ÈZ£º%f \r\n", Accel_Z);
+////        printf("åŠ é€Ÿåº¦Xï¼š%f \r\n", Accel_X);
+////        printf("åŠ é€Ÿåº¦Yï¼š%f \r\n", Accel_Y);
+////        printf("åŠ é€Ÿåº¦Zï¼š%f \r\n", Accel_Z);
 
 
     return 0;
 }
 
 /********************************************************************************************
-1¡¢GPIO¿âÅªºÃ£¬OLEDÅªºÃ¡£(17.11.18  20£º03)
-2¡¢Ê±ÖÓÄªÃûÆæÃî
-3¡¢´®¿ÚÖØ¶¨ÒåÅªºÃ¡£(11.18  21£º39)
-4¡¢pitÍêÈ«²»ĞĞ£¬ÖĞ¶ÏÒ»Ö±¶¼ÊÇ0.625us¡£Éú³É·½²¨Ò»Ö±ÊÇ800KHz (11.19  16£º39)
-5¡¢ÏÈÌø¹ıPWT
-6¡¢ÏµÍ³µÎ´ğ¶¨Ê±Æ÷OK£¬ÑÓÊ±º¯ÊıOK(11.19  17£º20)
-7¡¢PIT OK£¡£¡£¡(11.19  19£º32)
-8¡¢
-9¡¢OLEDÏÔÊ¾Ê±£¬sprintfÖĞÓĞ¸¡µãÊıÊ±»á»¨ÆÁ¡£²»¹´Ñ¡C/C++ÖĞOne ELF Section per Function¼´¿É½â¾ö¡££¨2017.12.7£©
+1ã€GPIOåº“å¼„å¥½ï¼ŒOLEDå¼„å¥½ã€‚(17.11.18  20ï¼š03)
+2ã€æ—¶é’Ÿè«åå¥‡å¦™
+3ã€ä¸²å£é‡å®šä¹‰å¼„å¥½ã€‚(11.18  21ï¼š39)
+4ã€pitå®Œå…¨ä¸è¡Œï¼Œä¸­æ–­ä¸€ç›´éƒ½æ˜¯0.625usã€‚ç”Ÿæˆæ–¹æ³¢ä¸€ç›´æ˜¯800KHz (11.19  16ï¼š39)
+5ã€å…ˆè·³è¿‡PWT
+6ã€ç³»ç»Ÿæ»´ç­”å®šæ—¶å™¨OKï¼Œå»¶æ—¶å‡½æ•°OK(11.19  17ï¼š20)
+7ã€PIT OKï¼ï¼ï¼(11.19  19ï¼š32)
+8ã€
+9ã€OLEDæ˜¾ç¤ºæ—¶ï¼Œsprintfä¸­æœ‰æµ®ç‚¹æ•°æ—¶ä¼šèŠ±å±ã€‚ä¸å‹¾é€‰C/C++ä¸­One ELF Section per Functionå³å¯è§£å†³ã€‚ï¼ˆ2017.12.7ï¼‰
 
 
 
