@@ -1,5 +1,5 @@
 Dependencies for Project 'NEW1', Target 'Target 1': (DO NOT MODIFY !)
-F (..\Scr\main.c)(0x5A4A28FC)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="523" -D_RTE_ -DSKEAZ128xxx4-o .\obj\main.o --omf_browse .\obj\main.crf --depend .\obj\main.d)
+F (..\Scr\main.c)(0x5A4C8AEF)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="523" -D_RTE_ -DSKEAZ128xxx4-o .\obj\main.o --omf_browse .\obj\main.crf --depend .\obj\main.d)
 I (..\Inc\includes.h)(0x5A11531B)
 I (..\Inc\common.h)(0x5A44D3EF)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5571CD64)
@@ -13,10 +13,10 @@ I (..\Drivers\delay.h)(0x5A294370)
 I (..\Drivers\pwm.h)(0x5A44A136)
 I (..\Inc\upper.h)(0x5A2BDCED)
 I (..\Inc\oled.h)(0x5A449EEA)
-I (..\Inc\LED&Buzzer.h)(0x5A449B36)
+I (..\Inc\LED&Buzzer.h)(0x5A4B6571)
 I (..\Inc\key.h)(0x5A488FE9)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
-I (..\Inc\data.h)(0x5A3C88A1)
+I (..\Inc\data.h)(0x5A4C7FC3)
 I (..\Inc\adc.h)(0x5A2694A4)
 I (..\Inc\AD.h)(0x5A44A946)
 I (..\Inc\ui.h)(0x5A268BB2)
@@ -45,10 +45,10 @@ I (..\Drivers\gpio.h)(0x5A4A28FB)
 I (..\Drivers\delay.h)(0x5A294370)
 I (..\Drivers\pwm.h)(0x5A44A136)
 I (..\Inc\upper.h)(0x5A2BDCED)
-I (..\Inc\LED&Buzzer.h)(0x5A449B36)
+I (..\Inc\LED&Buzzer.h)(0x5A4B6571)
 I (..\Inc\key.h)(0x5A488FE9)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
-I (..\Inc\data.h)(0x5A3C88A1)
+I (..\Inc\data.h)(0x5A4C7FC3)
 I (..\Inc\adc.h)(0x5A2694A4)
 I (..\Inc\AD.h)(0x5A44A946)
 I (..\Inc\ui.h)(0x5A268BB2)
@@ -77,10 +77,10 @@ I (..\Drivers\delay.h)(0x5A294370)
 I (..\Drivers\pwm.h)(0x5A44A136)
 I (..\Inc\upper.h)(0x5A2BDCED)
 I (..\Inc\oled.h)(0x5A449EEA)
-I (..\Inc\LED&Buzzer.h)(0x5A449B36)
+I (..\Inc\LED&Buzzer.h)(0x5A4B6571)
 I (..\Inc\key.h)(0x5A488FE9)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
-I (..\Inc\data.h)(0x5A3C88A1)
+I (..\Inc\data.h)(0x5A4C7FC3)
 I (..\Inc\adc.h)(0x5A2694A4)
 I (..\Inc\AD.h)(0x5A44A946)
 I (..\Inc\ui.h)(0x5A268BB2)
@@ -94,7 +94,7 @@ I (..\Inc\control.h)(0x5A4B1A20)
 I (..\Scr\12.12_agine\MPU6050.h)(0x5A30EC7A)
 I (..\Scr\12.12_agine\My_I2C.h)(0x5A2F75AA)
 F (..\Scr\LED&Buzzer.c)(0x5A2F8206)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="523" -D_RTE_ -DSKEAZ128xxx4-o .\obj\led&buzzer.o --omf_browse .\obj\led&buzzer.crf --depend .\obj\led&buzzer.d)
-I (..\Inc\LED&Buzzer.h)(0x5A449B36)
+I (..\Inc\LED&Buzzer.h)(0x5A4B6571)
 I (..\Inc\common.h)(0x5A44D3EF)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5571CD64)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A2BDCCB)
@@ -109,7 +109,7 @@ I (..\Inc\upper.h)(0x5A2BDCED)
 I (..\Inc\oled.h)(0x5A449EEA)
 I (..\Inc\key.h)(0x5A488FE9)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
-I (..\Inc\data.h)(0x5A3C88A1)
+I (..\Inc\data.h)(0x5A4C7FC3)
 I (..\Inc\adc.h)(0x5A2694A4)
 I (..\Inc\AD.h)(0x5A44A946)
 I (..\Inc\ui.h)(0x5A268BB2)
@@ -137,9 +137,9 @@ I (..\Drivers\delay.h)(0x5A294370)
 I (..\Drivers\pwm.h)(0x5A44A136)
 I (..\Inc\upper.h)(0x5A2BDCED)
 I (..\Inc\oled.h)(0x5A449EEA)
-I (..\Inc\LED&Buzzer.h)(0x5A449B36)
+I (..\Inc\LED&Buzzer.h)(0x5A4B6571)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
-I (..\Inc\data.h)(0x5A3C88A1)
+I (..\Inc\data.h)(0x5A4C7FC3)
 I (..\Inc\adc.h)(0x5A2694A4)
 I (..\Inc\AD.h)(0x5A44A946)
 I (..\Inc\ui.h)(0x5A268BB2)
@@ -153,8 +153,8 @@ I (..\Inc\control.h)(0x5A4B1A20)
 I (..\Inc\motor.h)(0x5A488CB8)
 I (..\Scr\12.12_agine\MPU6050.h)(0x5A30EC7A)
 I (..\Scr\12.12_agine\My_I2C.h)(0x5A2F75AA)
-F (..\Scr\data.c)(0x5A4A2CBC)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="523" -D_RTE_ -DSKEAZ128xxx4-o .\obj\data.o --omf_browse .\obj\data.crf --depend .\obj\data.d)
-I (..\Inc\data.h)(0x5A3C88A1)
+F (..\Scr\data.c)(0x5A4C7254)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="523" -D_RTE_ -DSKEAZ128xxx4-o .\obj\data.o --omf_browse .\obj\data.crf --depend .\obj\data.d)
+I (..\Inc\data.h)(0x5A4C7FC3)
 I (..\Inc\common.h)(0x5A44D3EF)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5571CD64)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A2BDCCB)
@@ -167,7 +167,7 @@ I (..\Drivers\delay.h)(0x5A294370)
 I (..\Drivers\pwm.h)(0x5A44A136)
 I (..\Inc\upper.h)(0x5A2BDCED)
 I (..\Inc\oled.h)(0x5A449EEA)
-I (..\Inc\LED&Buzzer.h)(0x5A449B36)
+I (..\Inc\LED&Buzzer.h)(0x5A4B6571)
 I (..\Inc\key.h)(0x5A488FE9)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
 I (..\Inc\adc.h)(0x5A2694A4)
@@ -183,7 +183,7 @@ I (..\Inc\control.h)(0x5A4B1A20)
 I (..\Inc\motor.h)(0x5A488CB8)
 I (..\Scr\12.12_agine\MPU6050.h)(0x5A30EC7A)
 I (..\Scr\12.12_agine\My_I2C.h)(0x5A2F75AA)
-F (..\Scr\ui.c)(0x5A4B1A38)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="523" -D_RTE_ -DSKEAZ128xxx4-o .\obj\ui.o --omf_browse .\obj\ui.crf --depend .\obj\ui.d)
+F (..\Scr\ui.c)(0x5A4C5AE8)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="523" -D_RTE_ -DSKEAZ128xxx4-o .\obj\ui.o --omf_browse .\obj\ui.crf --depend .\obj\ui.d)
 I (..\Inc\ui.h)(0x5A268BB2)
 I (..\Inc\common.h)(0x5A44D3EF)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5571CD64)
@@ -197,10 +197,10 @@ I (..\Drivers\delay.h)(0x5A294370)
 I (..\Drivers\pwm.h)(0x5A44A136)
 I (..\Inc\upper.h)(0x5A2BDCED)
 I (..\Inc\oled.h)(0x5A449EEA)
-I (..\Inc\LED&Buzzer.h)(0x5A449B36)
+I (..\Inc\LED&Buzzer.h)(0x5A4B6571)
 I (..\Inc\key.h)(0x5A488FE9)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
-I (..\Inc\data.h)(0x5A3C88A1)
+I (..\Inc\data.h)(0x5A4C7FC3)
 I (..\Inc\adc.h)(0x5A2694A4)
 I (..\Inc\AD.h)(0x5A44A946)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x57F606B8)
@@ -227,10 +227,10 @@ I (..\Drivers\delay.h)(0x5A294370)
 I (..\Drivers\pwm.h)(0x5A44A136)
 I (..\Inc\upper.h)(0x5A2BDCED)
 I (..\Inc\oled.h)(0x5A449EEA)
-I (..\Inc\LED&Buzzer.h)(0x5A449B36)
+I (..\Inc\LED&Buzzer.h)(0x5A4B6571)
 I (..\Inc\key.h)(0x5A488FE9)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
-I (..\Inc\data.h)(0x5A3C88A1)
+I (..\Inc\data.h)(0x5A4C7FC3)
 I (..\Inc\adc.h)(0x5A2694A4)
 I (..\Inc\ui.h)(0x5A268BB2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x57F606B8)
@@ -258,10 +258,10 @@ I (..\Drivers\delay.h)(0x5A294370)
 I (..\Drivers\pwm.h)(0x5A44A136)
 I (..\Inc\upper.h)(0x5A2BDCED)
 I (..\Inc\oled.h)(0x5A449EEA)
-I (..\Inc\LED&Buzzer.h)(0x5A449B36)
+I (..\Inc\LED&Buzzer.h)(0x5A4B6571)
 I (..\Inc\key.h)(0x5A488FE9)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
-I (..\Inc\data.h)(0x5A3C88A1)
+I (..\Inc\data.h)(0x5A4C7FC3)
 I (..\Inc\adc.h)(0x5A2694A4)
 I (..\Inc\AD.h)(0x5A44A946)
 I (..\Inc\ui.h)(0x5A268BB2)
@@ -275,7 +275,7 @@ I (..\Inc\motor.h)(0x5A488CB8)
 I (..\Scr\12.12_agine\MPU6050.h)(0x5A30EC7A)
 I (..\Scr\12.12_agine\My_I2C.h)(0x5A2F75AA)
 F (..\Inc\Encoder.h)(0x5A44D6FE)()
-F (..\Scr\control.c)(0x5A4A31D5)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="523" -D_RTE_ -DSKEAZ128xxx4-o .\obj\control.o --omf_browse .\obj\control.crf --depend .\obj\control.d)
+F (..\Scr\control.c)(0x5A4C8800)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="523" -D_RTE_ -DSKEAZ128xxx4-o .\obj\control.o --omf_browse .\obj\control.crf --depend .\obj\control.d)
 I (..\Inc\control.h)(0x5A4B1A20)
 I (..\Inc\common.h)(0x5A44D3EF)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5571CD64)
@@ -289,10 +289,10 @@ I (..\Drivers\delay.h)(0x5A294370)
 I (..\Drivers\pwm.h)(0x5A44A136)
 I (..\Inc\upper.h)(0x5A2BDCED)
 I (..\Inc\oled.h)(0x5A449EEA)
-I (..\Inc\LED&Buzzer.h)(0x5A449B36)
+I (..\Inc\LED&Buzzer.h)(0x5A4B6571)
 I (..\Inc\key.h)(0x5A488FE9)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
-I (..\Inc\data.h)(0x5A3C88A1)
+I (..\Inc\data.h)(0x5A4C7FC3)
 I (..\Inc\adc.h)(0x5A2694A4)
 I (..\Inc\AD.h)(0x5A44A946)
 I (..\Inc\ui.h)(0x5A268BB2)
@@ -319,10 +319,10 @@ I (..\Drivers\delay.h)(0x5A294370)
 I (..\Drivers\pwm.h)(0x5A44A136)
 I (..\Inc\upper.h)(0x5A2BDCED)
 I (..\Inc\oled.h)(0x5A449EEA)
-I (..\Inc\LED&Buzzer.h)(0x5A449B36)
+I (..\Inc\LED&Buzzer.h)(0x5A4B6571)
 I (..\Inc\key.h)(0x5A488FE9)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
-I (..\Inc\data.h)(0x5A3C88A1)
+I (..\Inc\data.h)(0x5A4C7FC3)
 I (..\Inc\adc.h)(0x5A2694A4)
 I (..\Inc\AD.h)(0x5A44A946)
 I (..\Inc\ui.h)(0x5A268BB2)
@@ -350,10 +350,10 @@ I (..\Drivers\delay.h)(0x5A294370)
 I (..\Drivers\pwm.h)(0x5A44A136)
 I (..\Inc\upper.h)(0x5A2BDCED)
 I (..\Inc\oled.h)(0x5A449EEA)
-I (..\Inc\LED&Buzzer.h)(0x5A449B36)
+I (..\Inc\LED&Buzzer.h)(0x5A4B6571)
 I (..\Inc\key.h)(0x5A488FE9)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
-I (..\Inc\data.h)(0x5A3C88A1)
+I (..\Inc\data.h)(0x5A4C7FC3)
 I (..\Inc\adc.h)(0x5A2694A4)
 I (..\Inc\AD.h)(0x5A44A946)
 I (..\Inc\ui.h)(0x5A268BB2)
@@ -381,10 +381,10 @@ I (..\Drivers\gpio.h)(0x5A4A28FB)
 I (..\Drivers\pwm.h)(0x5A44A136)
 I (..\Inc\upper.h)(0x5A2BDCED)
 I (..\Inc\oled.h)(0x5A449EEA)
-I (..\Inc\LED&Buzzer.h)(0x5A449B36)
+I (..\Inc\LED&Buzzer.h)(0x5A4B6571)
 I (..\Inc\key.h)(0x5A488FE9)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
-I (..\Inc\data.h)(0x5A3C88A1)
+I (..\Inc\data.h)(0x5A4C7FC3)
 I (..\Inc\adc.h)(0x5A2694A4)
 I (..\Inc\AD.h)(0x5A44A946)
 I (..\Inc\ui.h)(0x5A268BB2)
@@ -412,10 +412,10 @@ I (..\Drivers\delay.h)(0x5A294370)
 I (..\Drivers\pwm.h)(0x5A44A136)
 I (..\Inc\upper.h)(0x5A2BDCED)
 I (..\Inc\oled.h)(0x5A449EEA)
-I (..\Inc\LED&Buzzer.h)(0x5A449B36)
+I (..\Inc\LED&Buzzer.h)(0x5A4B6571)
 I (..\Inc\key.h)(0x5A488FE9)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
-I (..\Inc\data.h)(0x5A3C88A1)
+I (..\Inc\data.h)(0x5A4C7FC3)
 I (..\Inc\adc.h)(0x5A2694A4)
 I (..\Inc\AD.h)(0x5A44A946)
 I (..\Inc\ui.h)(0x5A268BB2)
@@ -441,10 +441,10 @@ I (..\Drivers\gpio.h)(0x5A4A28FB)
 I (..\Drivers\delay.h)(0x5A294370)
 I (..\Inc\upper.h)(0x5A2BDCED)
 I (..\Inc\oled.h)(0x5A449EEA)
-I (..\Inc\LED&Buzzer.h)(0x5A449B36)
+I (..\Inc\LED&Buzzer.h)(0x5A4B6571)
 I (..\Inc\key.h)(0x5A488FE9)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
-I (..\Inc\data.h)(0x5A3C88A1)
+I (..\Inc\data.h)(0x5A4C7FC3)
 I (..\Inc\adc.h)(0x5A2694A4)
 I (..\Inc\AD.h)(0x5A44A946)
 I (..\Inc\ui.h)(0x5A268BB2)
@@ -458,7 +458,7 @@ I (..\Inc\control.h)(0x5A4B1A20)
 I (..\Inc\motor.h)(0x5A488CB8)
 I (..\Scr\12.12_agine\MPU6050.h)(0x5A30EC7A)
 I (..\Scr\12.12_agine\My_I2C.h)(0x5A2F75AA)
-F (..\Scr\upper.c)(0x5A2FAAC6)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="523" -D_RTE_ -DSKEAZ128xxx4-o .\obj\upper.o --omf_browse .\obj\upper.crf --depend .\obj\upper.d)
+F (..\Scr\upper.c)(0x5A4C5870)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="523" -D_RTE_ -DSKEAZ128xxx4-o .\obj\upper.o --omf_browse .\obj\upper.crf --depend .\obj\upper.d)
 I (..\Inc\upper.h)(0x5A2BDCED)
 I (..\Inc\common.h)(0x5A44D3EF)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5571CD64)
@@ -471,10 +471,10 @@ I (..\Drivers\gpio.h)(0x5A4A28FB)
 I (..\Drivers\delay.h)(0x5A294370)
 I (..\Drivers\pwm.h)(0x5A44A136)
 I (..\Inc\oled.h)(0x5A449EEA)
-I (..\Inc\LED&Buzzer.h)(0x5A449B36)
+I (..\Inc\LED&Buzzer.h)(0x5A4B6571)
 I (..\Inc\key.h)(0x5A488FE9)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
-I (..\Inc\data.h)(0x5A3C88A1)
+I (..\Inc\data.h)(0x5A4C7FC3)
 I (..\Inc\adc.h)(0x5A2694A4)
 I (..\Inc\AD.h)(0x5A44A946)
 I (..\Inc\ui.h)(0x5A268BB2)
@@ -503,10 +503,10 @@ I (..\Drivers\delay.h)(0x5A294370)
 I (..\Drivers\pwm.h)(0x5A44A136)
 I (..\Inc\upper.h)(0x5A2BDCED)
 I (..\Inc\oled.h)(0x5A449EEA)
-I (..\Inc\LED&Buzzer.h)(0x5A449B36)
+I (..\Inc\LED&Buzzer.h)(0x5A4B6571)
 I (..\Inc\key.h)(0x5A488FE9)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
-I (..\Inc\data.h)(0x5A3C88A1)
+I (..\Inc\data.h)(0x5A4C7FC3)
 I (..\Inc\AD.h)(0x5A44A946)
 I (..\Inc\ui.h)(0x5A268BB2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x57F606B8)
@@ -519,7 +519,7 @@ I (..\Inc\control.h)(0x5A4B1A20)
 I (..\Inc\motor.h)(0x5A488CB8)
 I (..\Scr\12.12_agine\MPU6050.h)(0x5A30EC7A)
 I (..\Scr\12.12_agine\My_I2C.h)(0x5A2F75AA)
-F (..\Scr\12.12_agine\MPU6050.c)(0x5A3886E2)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="523" -D_RTE_ -DSKEAZ128xxx4-o .\obj\mpu6050.o --omf_browse .\obj\mpu6050.crf --depend .\obj\mpu6050.d)
+F (..\Scr\12.12_agine\MPU6050.c)(0x5A4C62BC)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="523" -D_RTE_ -DSKEAZ128xxx4-o .\obj\mpu6050.o --omf_browse .\obj\mpu6050.crf --depend .\obj\mpu6050.d)
 I (..\Scr\12.12_agine\MPU6050.h)(0x5A30EC7A)
 I (..\Inc\common.h)(0x5A44D3EF)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5571CD64)
@@ -533,10 +533,10 @@ I (..\Drivers\delay.h)(0x5A294370)
 I (..\Drivers\pwm.h)(0x5A44A136)
 I (..\Inc\upper.h)(0x5A2BDCED)
 I (..\Inc\oled.h)(0x5A449EEA)
-I (..\Inc\LED&Buzzer.h)(0x5A449B36)
+I (..\Inc\LED&Buzzer.h)(0x5A4B6571)
 I (..\Inc\key.h)(0x5A488FE9)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
-I (..\Inc\data.h)(0x5A3C88A1)
+I (..\Inc\data.h)(0x5A4C7FC3)
 I (..\Inc\adc.h)(0x5A2694A4)
 I (..\Inc\AD.h)(0x5A44A946)
 I (..\Inc\ui.h)(0x5A268BB2)
@@ -563,10 +563,10 @@ I (..\Drivers\delay.h)(0x5A294370)
 I (..\Drivers\pwm.h)(0x5A44A136)
 I (..\Inc\upper.h)(0x5A2BDCED)
 I (..\Inc\oled.h)(0x5A449EEA)
-I (..\Inc\LED&Buzzer.h)(0x5A449B36)
+I (..\Inc\LED&Buzzer.h)(0x5A4B6571)
 I (..\Inc\key.h)(0x5A488FE9)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
-I (..\Inc\data.h)(0x5A3C88A1)
+I (..\Inc\data.h)(0x5A4C7FC3)
 I (..\Inc\adc.h)(0x5A2694A4)
 I (..\Inc\AD.h)(0x5A44A946)
 I (..\Inc\ui.h)(0x5A268BB2)

@@ -224,7 +224,7 @@ uint8_t UI_Plan(void)
                     case  7:	Chang_Value(UI_Case, Frame_Min, &Plan1.Turn.P,    1);  break;
                     case  8:	Chang_Value(UI_Case, Frame_Min, &Plan1.Turn.D,  1);  break;
                     case  9:	Chang_Value(UI_Case, Frame_Min, &Plan1.Turn.tp,  1);  break;
-					          case  10:	Chang_Value(UI_Case, Frame_Min, &Plan1.Turn.td,  1);  break;
+                    case  10:	Chang_Value(UI_Case, Frame_Min, &Plan1.Turn.td,  1);  break;
 //                    case  9:	Chang_Value(UI_Case, Frame_Min, &Plan1.Turn.I,  100); break;
 //                    case 10:	Chang_Value(UI_Case, Frame_Min, &Plan1.Turn.I,  100); break;
 //                    case 11:	Chang_Value(UI_Case, Frame_Min, &Plan1.Turn.I,  100); break;
@@ -527,11 +527,11 @@ uint8_t UI_Read_Ind(void)
         
         
             uint8_t str[32];
-            sprintf(str, "AD_1:%4d  AD_2:%4d", Value_Inductor_L, Value_Inductor_R);
+            sprintf(str, "AD_L:%4d  AD_R:%4d", Value_Inductor_L, Value_Inductor_R);
             OLED_Show_Str(0, 12, str, 12, 1);
 //            sprintf(str, "AD1-2  :%4d ", Value_Inductor_L-Value_Inductor_R);
 //            OLED_Show_Str(0, 25, str, 12, 1);
-		    sprintf(str, "AD_1:%4d  AD_2:%4d", Error_Ind, 1111);
+		    sprintf(str, "AD_3:%4d  AD_4:%4d", Get_Ind_V(AD_3), Get_Ind_V(AD_4));
             OLED_Show_Str(0, 25, str, 12, 1);
         
         
@@ -615,6 +615,9 @@ uint8_t UI_MPU6050(void)
         OLED_Show_Str(0, 20, str, 12, 1);
         sprintf(str, "G_Y: %5d    ", GYRO.Y);
         OLED_Show_Str(0, 33, str, 12, 1);
+        sprintf(str, "Yaw: %3.2f    ", Yaw);
+        OLED_Show_Str(0, 46, str, 12, 1);
+        
         OLED_Refresh_Gram();
     }
 }

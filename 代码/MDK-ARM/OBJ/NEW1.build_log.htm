@@ -27,7 +27,40 @@ Project File Date:  12/23/2017
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 4 (build 422)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Target 1'
-".\OBJ\NEW1.axf" - 0 Error(s), 0 Warning(s).
+compiling main.c...
+..\Drivers\kalman.h(47): warning:  #1-D: last line of file ends without a newline
+  #endif  /*_KALMAN_FILTER_H*/
+..\Inc\control.h(17): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\Inc\motor.h(33): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\Scr\main.c(17): warning:  #188-D: enumerated type mixed with another type
+  	NVIC_ClearPendingIRQ(vector_number); 		/* Clear pending interrupt register */
+..\Scr\main.c(18): warning:  #188-D: enumerated type mixed with another type
+  	NVIC_EnableIRQ(vector_number); 				/* Enable required Interrupt */
+..\Scr\main.c(37): warning:  #167-D: argument of type "uint8_t *" is incompatible with parameter of type "const char *restrict"
+      printf(dataToSend);
+..\Scr\main.c(216): warning:  #223-D: function "Encoder_Init" declared implicitly
+      Encoder_Init();   //±àÂëÆ÷³õÊ¼»¯
+..\Scr\main.c(316): warning:  #223-D: function "UI_MPU6050" declared implicitly
+              case 31:   GO = UI_MPU6050();   break;          
+..\Scr\main.c(317): warning:  #223-D: function "UI_Read_Ind" declared implicitly
+              case 32:   GO = UI_Read_Ind();  break;
+..\Scr\main.c(318): warning:  #223-D: function "UI_Read_End" declared implicitly
+              case 33:   GO = UI_Read_End();  break;
+..\Scr\main.c(449): warning:  #111-D: statement is unreachable
+      return 0;
+..\Scr\main.c(250): warning:  #177-D: variable "temp_str"  was declared but never referenced
+      uint8_t temp_str[30];
+..\Scr\main.c(255): warning:  #177-D: variable "str"  was declared but never referenced
+      uint8_t str[30] ;
+..\Scr\main.c(476): warning:  #1-D: last line of file ends without a newline
+  ********************************************************************************************/
+..\Scr\main.c: 14 warnings, 0 errors
+linking...
+Program Size: Code=23540 RO-data=57812 RW-data=280 ZI-data=5400  
+FromELF: creating hex file...
+".\OBJ\NEW1.axf" - 0 Error(s), 14 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -55,7 +88,7 @@ Package Vendor: Keil
    * Component: Keil::Device:Startup:1.0.0
       Source file:   Device\Source\ARM\startup_SKEAZ1284.s
       Source file:   Device\Source\system_SKEAZ1284.c
-Build Time Elapsed:  00:00:00
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

@@ -248,7 +248,7 @@ int main(void)
     Beep_Time(100);
     uint8_t GO = 0;
     uint8_t temp_str[30];
-    PIT_Config(PIT_CH0, 10, 0);//5ms中断
+    PIT_Config(PIT_CH0, 8, 0);//5ms中断
 //    PIT_Config(PIT_CH1, 10, 0);
 //LED_Blue_ON();
 //    Pin_Output_Config(PTE, PTE0, 1);//电平反转配置

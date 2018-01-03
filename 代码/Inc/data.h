@@ -59,7 +59,7 @@ extern uint8_t Bluetooth;
 
 extern volatile int16_t Value_End;
 
-
+uint32_t ABS(int32_t Num);//È¡¾ø¶ÔÖµ
 
 #endif
 

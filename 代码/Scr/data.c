@@ -6,16 +6,16 @@ struct PLAN Plan1 =
         .Target.Angle = -30,
         .Target.Speed = 130,//200
         
-        .Angle.P  = 400,//220
-        .Angle.D  = 10,//60
+        .Angle.P  = 640,//220
+        .Angle.D  = 15,//60
         
-        .Speed.P  = 22,//-400...-22
+        .Speed.P  = 0,//-400...-22
         .Speed.I  = 0,//-5
          
-        .Turn.P   = 60,//50
-        .Turn.D   = 32,//0.1
+        .Turn.P   = 140,//50
+        .Turn.D   = 30,//0.1
 			
-        .Turn.tp   = 2,//50  增大向右偏减小向左偏   -20向左最大   20右拐最大  
+        .Turn.tp   = 15,//50  增大向右偏减小向左偏   -20向左最大   20右拐最大  
         .Turn.td   = 1,//0  保持不变
         .Safe_Angle = 38,
     };
@@ -63,8 +63,11 @@ uint8_t Set_Beep = 1;
 uint8_t Bluetooth = 0;
     
 volatile int16_t Value_End = 0;
-   
 
+uint32_t ABS(int32_t Num)
+{
+    return Num<0?-Num:Num;
+}
 //struct PLAN Plan1 = 
 //    {
 //        .Target.Angle = 13,

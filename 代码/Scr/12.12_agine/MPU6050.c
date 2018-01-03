@@ -96,7 +96,7 @@ uint8_t MPU6050_Init(void)
  */
 void MPU6050_Offset(void)
 {
-	uint8_t i, Count = 50;
+	uint8_t i, Count = 250;
 	int32_t temp[3] = {0};
 	
 	GYRO_Offset.X = 0;
@@ -352,7 +352,9 @@ void IMUupdate(float gx, float gy, float gz, float ax, float ay, float az)
 	
 	Pitch = asin(-2*q1*q3 + 2*q0*q2) * 57.3; // pitch
 //	Roll = atan2(2*q2*q3 + 2*q0*q1, -2*q1*q1 - 2*q2*q2 + 1)*57.3; // roll
-//	Yaw = atan2(2*q1*q2 + 2*q0*q3, -2*q2*q2 - 2*q3*q3 + 1)*57.3; // yaw
+	Yaw = atan2(2*q1*q2 + 2*q0*q3, -2*q2*q2 - 2*q3*q3 + 1)*57.3; // yaw
+
+        Yaw = Yaw<0 ? 360 + Yaw : Yaw;
 //	Attitude_Angle.Z = 0;
 }
 

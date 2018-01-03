@@ -26,7 +26,13 @@ int32_t End_Integral = 0;
 float x=0;  
 uint8_t Do_it = 1;
 
-uint8_t Huan_Count = 0;
+uint8_t Huan_Count_Flag = 0;
+uint16_t Huan_Count = 0;
+float Yaw_Huan = 0.00001;
+#define OUT 0
+#define IN 1
+uint8_t Huan_Flag = OUT;
+
 void PIT_CH0_IRQHandler(void)
 {
 								PIT_CLR_Flag(PIT_CH0);  //清除中断标志位 
@@ -98,8 +104,9 @@ void PIT_CH0_IRQHandler(void)
     
 								//    Value_Inductor_R = Get_Ind_V(AD_1);
 								//    Value_Inductor_L = Get_Ind_V(AD_2);
-								Value_Inductor_R = kalman1_filter(&AD_Kalman[0], Get_Ind_V(AD_1));
-								Value_Inductor_L = kalman1_filter(&AD_Kalman[1], Get_Ind_V(AD_2));
+                                Value_Inductor_L = kalman1_filter(&AD_Kalman[1], Get_Ind_V(AD_3));
+								Value_Inductor_R = kalman1_filter(&AD_Kalman[0], Get_Ind_V(AD_4));
+								
 //								Value_Inductor_R = Get_Ind_V(AD_1);
 //								Value_Inductor_L = Get_Ind_V(AD_2);
 								
@@ -115,8 +122,47 @@ void PIT_CH0_IRQHandler(void)
 //                                    Huan_Count=0;
 //                                Value_Ind_L_Old = Value_Inductor_L;
 //                                Value_Ind_R_Old = Value_Inductor_R;
+                                Beep_OFF();
+//                                if(Yaw - Yaw_Huan > 100)//已入环岛
+//                                    Huan_Flag = OUT;//出环岛标志
+//                                else 
+//                                    Huan_Flag = IN; //入环岛标志
+                                if(Huan_Count_Flag)
+                                    Huan_Count++;
+//                                if(Huan_Count > 500 || Huan_Count == 0)//初步入环条件
+//                                {
+                                    
+                                    if(Value_Inductor_R>1050//具体入环条件:在环、1S以内
+                                        &&Pitch<-18
+                                        &&Value_Inductor_L>1050
+                                       && Huan_Count <80
+//                                        &&100<Yaw
+//                                        &&Yaw<160
+    //                                    && Huan_Flag!=OUT
+                                    )
+                                    {
+                                        Huan_Count_Flag = 1;
+//                                        Huan_Count = 1;
+                                        Yaw_Huan = Yaw;
+                                        Beep_ON();
+                                        Value_Inductor_L = Value_Inductor_L*Plan1.Turn.tp/10;
+                                    }
+                                    else if(Huan_Count > 200) //2S之后
+                                    {
+                                        Huan_Count_Flag = 0;
+                                        Huan_Count = 0;
+                                    }
+//                                }
+//                                else//出环或正常
+//                                {
+////                                    Huan_Count = 0;
+//                                    Huan_Count_Flag = 0;
+//                                }
+                                
+                                
+                                
 								Eroor_Ind_Old = Error_Ind;
-								Error_Ind = Value_Inductor_L - Value_Inductor_R;
+								Error_Ind = Value_Inductor_R - Value_Inductor_L;
                                 
 //		       f(x) = p1*x^3 + p2*x^2 + p3*x + p4
 //Coefficients (with 95% confidence bounds):
@@ -124,7 +170,7 @@ void PIT_CH0_IRQHandler(void)
 //       p2 =   -2.85e-06  (-3.911e-06, -1.788e-06)
 //       p3 =     0.01201  (0.01121, 0.01282)rrb
 //       p4 =   -0.006396  (-0.1843, 0.1716)
-								x =(5.043e-09) *Error_Ind*Error_Ind*Error_Ind +(-2.85e-6)*Error_Ind*Error_Ind + 0.01201*Error_Ind  -0.006396 ;  //角度18.8
+                                x =(5.043e-09) *(float)Error_Ind * (float)Error_Ind*Error_Ind +(-2.85e-06)*(float)Error_Ind*Error_Ind + 0.01201*(float)Error_Ind  -0.006396;  //角度18.8
 //								x<-20?x=-20:x;
 //								x>20?x=20:x;
                                 
@@ -133,6 +179,7 @@ void PIT_CH0_IRQHandler(void)
 								if(Value_Inductor_L>400&&Value_Inductor_L<920&&Value_Inductor_R<400)
 									x=13;
 		              
+
 //          Turn_PWM = Error_Ind*Plan1.Turn.P/10 + (Error_Ind - Eroor_Ind_Old)*Plan1.Turn.D;
 								Turn_PWM = x*Plan1.Turn.P + (Error_Ind - Eroor_Ind_Old)*Plan1.Turn.D;
 								
@@ -179,7 +226,7 @@ void PIT_CH0_IRQHandler(void)
 								
 								
 								
-								LED_Green_OFF();
+                                LED_White_OFF();
 //    Pin_Output_Toggle(LED_Blue_Port, LED_Blue_Pin);
 //    Pin_Output_Toggle(PTE, PTE0);
 
@@ -192,7 +239,7 @@ uint8_t Just_Do_It(void)
 {
     uint8_t str[25];
     
-    NVIC_EnableIRQ(PIT_CH0_IRQn);
+//    NVIC_EnableIRQ(PIT_CH0_IRQn);
 //    NVIC->ISER[0] = (1 << ((uint32_t)(PIT_CH0_IRQn) & 0x1F));
     OLED_Clear();
     
@@ -200,35 +247,55 @@ uint8_t Just_Do_It(void)
     Motor_L_EN(Enable);
     Motor_R_EN(Enable);
     
+    uint8_t LED_Count = 0;
+    OLED_Display_Off();//关OLED
     while(1)
     {
+        {//彩虹灯
+            LED_Count = LED_Count==7 ? 0:LED_Count;
+            switch(LED_Count)
+            {
+                case 0: LED_White_OFF();  LED_Orange_ON();  break;
+                case 1: LED_Orange_OFF();  LED_Red_ON();    break;
+                case 2: LED_Red_OFF();     LED_Green_ON();  break;
+                case 3: LED_Green_OFF();   LED_Blue_ON();   break;
+                case 4: LED_Blue_OFF();    LED_Indigo_ON(); break;
+                case 5: LED_Indigo_OFF();  LED_Purple_ON(); break;
+                case 6: LED_Purple_OFF();  LED_White_ON();  break;
+            }
+            LED_Count++;
+        }  
+//        LED_Purple_ON();
         
-        LED_Green_ON();
-        
-            
-        switch(Get_Key()|(Value_End_L>450)|(Value_End_L<-450))
+        switch(Get_Key()||(Value_End_L>350)||(Value_End_L<-350)
+               ||Pitch<-50
+               ||(Value_Inductor_L<200&&Value_Inductor_R<200)
+                )
         {
             case Press_NULL:  break;
             
             default:        
-                            FTM_PWM_set_CnV(ftm2, ftm_ch0, 0);
-                            FTM_PWM_set_CnV(ftm2, ftm_ch5, 0);
-                            
-                            FTM_PWM_set_CnV(ftm2, ftm_ch2, 0);
-                            FTM_PWM_set_CnV(ftm2, ftm_ch3, 0);
+//                            FTM_PWM_set_CnV(ftm2, ftm_ch0, 0);
+//                            FTM_PWM_set_CnV(ftm2, ftm_ch5, 0);
+//                            
+//                            FTM_PWM_set_CnV(ftm2, ftm_ch2, 0);
+//                            FTM_PWM_set_CnV(ftm2, ftm_ch3, 0);
 //                        Do_it = 0;
                             Motor_L_EN(Disable);
                             Motor_R_EN(Disable);
-                        PIT_CLR_Flag(PIT_CH0);
+//                        PIT_CLR_Flag(PIT_CH0);
+//                        LED_White_OFF();   //关LED
+                        OLED_Display_On();//开OLED
 //                        NVIC_DisableIRQ(PIT_CH0_IRQn);
                         return 0;
         }
-    Variable[0] = Value_End_L;  
-    Variable[1] = Value_End_R; 
-    Variable[2] = Pitch;
-    Variable[3] = Value_Inductor_L;
-    Variable[4] = Value_Inductor_R;
-    Variable[5] = Value_Inductor_L - Value_Inductor_R;
+    Variable[0] = Value_End_L;  //左编码器
+    Variable[1] = Value_End_R;  //右编码器
+    Variable[2] = Pitch;  //俯仰角
+    Variable[3] = Value_Inductor_L;  //左电磁
+    Variable[4] = Value_Inductor_R;  //右电磁
+    Variable[5] = Value_Inductor_R - Value_Inductor_L;
+    Variable[6] = Yaw;  //航向角
         
     Send_Begin();
     Send_Variable();
