@@ -268,7 +268,7 @@ uint8_t Just_Do_It(void)
 //        LED_Purple_ON();
         
         switch(Get_Key()||(Value_End_L>350)||(Value_End_L<-350)
-               ||Pitch<-50
+//               ||Pitch<-50
                ||Value_Inductor_L<200||Value_Inductor_R<200
                 )
         {

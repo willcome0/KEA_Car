@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\OBJ\NEW1.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\OBJ\NEW1.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Wed Jan 03 20:17:27 2018
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Wed Jan 03 20:24:41 2018
 <BR><P>
 <H3>Maximum Stack Usage =        888 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -375,7 +375,6 @@ Global Symbols
 
 <P><STRONG><a name="[71]"></a>__aeabi_cfcmple</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, cfcmple.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_CH0_IRQHandler
-<LI><a href="#[72]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Just_Do_It
 <LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IMUupdate
 </UL>
 
@@ -845,11 +844,10 @@ Global Symbols
 <LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Chang_State
 </UL>
 
-<P><STRONG><a name="[72]"></a>Just_Do_It</STRONG> (Thumb, 674 bytes, Stack size 8 bytes, control.o(i.Just_Do_It))
+<P><STRONG><a name="[72]"></a>Just_Do_It</STRONG> (Thumb, 662 bytes, Stack size 8 bytes, control.o(i.Just_Do_It))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = Just_Do_It &rArr; Get_Key &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; __aeabi_llsr
 </UL>
-<BR>[Calls]<UL><LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cfcmple
-<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Send_Variable
+<BR>[Calls]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Send_Variable
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Send_Begin
 <LI><a href="#[39]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
 <LI><a href="#[38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
