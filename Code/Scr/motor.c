@@ -1,30 +1,30 @@
 #include "motor.h"
 
-//ç”µæœºé¢‘ç‡ä¸º12.5KHzï¼Œ è‡ªåŠ¨è£…è½½å€¼1600
+//µç»úÆµÂÊÎª12.5KHz£¬ ×Ô¶¯×°ÔØÖµ1600
 void Motor_Init(void)
 {
-    //æ³¨æ„ï¼šä»åº“é‡Œé¢å°±æŠŠé¢‘ç‡å’Œå ç©ºç»™å®šäº†ï¼ˆ12.5K Hz  0å ç©ºï¼‰
-    ftm_pwm_init(ftm2,ftm_ch3,12500,0);//å³è½® //æ­£è½¬
+    //×¢Òâ£º´Ó¿âÀïÃæ¾Í°ÑÆµÂÊºÍÕ¼¿Õ¸ø¶¨ÁË£¨12.5K Hz  0Õ¼¿Õ£©
+    ftm_pwm_init(ftm2,ftm_ch3,12500,0);//ÓÒÂÖ //Õı×ª
     ftm_pwm_init(ftm2,ftm_ch2,12500,0);
     Pin_Output_Config(Motor_L_EN_Port, Motor_L_EN_Pin, 0);
     
-    ftm_pwm_init(ftm2,ftm_ch0,12500,0);//å·¦è½® //æ­£è½¬
-    ftm_pwm_init(ftm2,ftm_ch5,12500,0);//è¿™è¾¹åºŸäº†ï¼Œè·³çº¿åˆ°PB5  1
+    ftm_pwm_init(ftm2,ftm_ch0,12500,0);//×óÂÖ //Õı×ª
+    ftm_pwm_init(ftm2,ftm_ch5,12500,0);//Õâ±ß·ÏÁË£¬ÌøÏßµ½PB5  1
     Pin_Output_Config(Motor_R_EN_Port, Motor_R_EN_Pin, 0);
     
-//    ftm_pwm_init(FTM_2,CH_5,13000,3000);  //APWM_1  PB5   FTM2_CH5   ä¸»
+//    ftm_pwm_init(FTM_2,CH_5,13000,3000);  //APWM_1  PB5   FTM2_CH5   Ö÷
 //    ftm_pwm_init(FTM_2,CH_0,13000,3000);  //APWM_2  PC0   FTM2_CH0
-//    ftm_pwm_init(FTM_2,CH_3,13000,3000);  //BPWM_1  PC3   FTM2_CH3   ä¸»
+//    ftm_pwm_init(FTM_2,CH_3,13000,3000);  //BPWM_1  PC3   FTM2_CH3   Ö÷
 //    ftm_pwm_init(FTM_2,CH_2,13000,3000);  //BPWM_2  PC2   FTM2_CH2 
 
-//    FTM_PWM_init(FTM_2, CH_0, 12.5, 1);   //APWM_2  PC0   FTM2_CH0   ä¸»   å·¦ 
+//    FTM_PWM_init(FTM_2, CH_0, 12.5, 1);   //APWM_2  PC0   FTM2_CH0   Ö÷   ×ó 
 //    FTM_PWM_init(FTM_2, CH_5, 12.5, 1);    //APWM_1  PB5   FTM2_CH5
 
-//    FTM_PWM_init(FTM_2, CH_2, 12.5, 1);    //BPWM_2  PC2   FTM2_CH2   ä¸»   å³
+//    FTM_PWM_init(FTM_2, CH_2, 12.5, 1);    //BPWM_2  PC2   FTM2_CH2   Ö÷   ÓÒ
 //    FTM_PWM_init(FTM_2, CH_3, 12.5, 1);    //BPWM_1  PC3   FTM2_CH3
     
     
-//    FTM_PWM_set_CnV(ftm2, ftm_ch0, 100);  //ä¸»
+//    FTM_PWM_set_CnV(ftm2, ftm_ch0, 100);  //Ö÷
 ////    Pin_Output_Config(PTC, PTC0, 0);
 //    FTM_PWM_set_CnV(ftm2, ftm_ch5, 800);
 //    

@@ -19,7 +19,7 @@ int16_t Error_End = 0;
 int16_t PreError[5] = {0,0,0,0,0,};
 
 int AlllastError=0;
-int Speed_Slide[3]={0};//ÈÄüÂ∫¶Âπ≥ÊªëÂèÇÊï∞
+int Speed_Slide[3]={0};//ÀŸ∂»∆Ωª¨≤Œ ˝
 
 int SpeedOUT;
 int32_t End_Integral = 0;    
@@ -35,25 +35,25 @@ uint8_t Huan_Flag = OUT;
 
 void PIT_CH0_IRQHandler(void)
 {
-								PIT_CLR_Flag(PIT_CH0);  //Ê∏ÖÈô§‰∏≠Êñ≠Ê†áÂøó‰Ωç 
+								PIT_CLR_Flag(PIT_CH0);  //«Â≥˝÷–∂œ±Í÷æŒª 
 							//    Disable_PIT_CH0();
-									/*‰∏≠Êñ≠ÂÜÖÂÆπ--ÂºÄÂßã*/
+									/*÷–∂œƒ⁄»›--ø™ º*/
 									
 
     
-								MPU6050_GetData(&GYRO, &ACC);   //Ëé∑ÂèñÂéüÂßãÊï∞ÊçÆ
-								Data_Filter();     //ÂéüÂßãÊï∞ÊçÆÊª§Ê≥¢
-								Get_Attitude();    //Ëé∑ÂèñÂßøÊÄÅ
+								MPU6050_GetData(&GYRO, &ACC);   //ªÒ»°‘≠ º ˝æ›
+								Data_Filter();     //‘≠ º ˝æ›¬À≤®
+								Get_Attitude();    //ªÒ»°◊ÀÃ¨
 								
 
 
   
-								Angle_PWM = Plan1.Angle.P*(Pitch - Plan1.Target.Angle) + Plan1.Angle.D/10*GYRO_Real.Y;   //Áõ¥Á´ãÁéØ
+								Angle_PWM = Plan1.Angle.P*(Pitch - Plan1.Target.Angle) + Plan1.Angle.D/10*GYRO_Real.Y;   //÷±¡¢ª∑
 
     
 
 
-								Value_End_L = Read_Input_State(Dir_End_L_Port, Dir_End_L_Pin)==0? -ftm_count_get(ftm0) :  ftm_count_get(ftm0); //ÁºñÁ†ÅÂô®ÈááÈõÜ
+								Value_End_L = Read_Input_State(Dir_End_L_Port, Dir_End_L_Pin)==0? -ftm_count_get(ftm0) :  ftm_count_get(ftm0); //±‡¬Î∆˜≤…ºØ
 								Value_End_R = Read_Input_State(Dir_End_R_Port, Dir_End_R_Pin)==0?  ftm_count_get(ftm1) : -ftm_count_get(ftm1);
 
 
@@ -61,7 +61,7 @@ void PIT_CH0_IRQHandler(void)
 //                Error_End = Value_End_L + Value_End_R - Plan1.Target.Speed*2;     
 					      Error_End =   Plan1.Target.Speed-(Value_End_L + Value_End_R)/2;   
 //                Value_End_L =0; 
-//								Value_End_R =0;		//‰øùÈô©Ëµ∑ËßÅ
+//								Value_End_R =0;		//±£œ’∆º˚
 								
                 End_Integral = 0;
 								
@@ -77,25 +77,25 @@ void PIT_CH0_IRQHandler(void)
                 PreError[3]=PreError[2];
                 PreError[2]=PreError[1];
                 PreError[1]=PreError[0];
-                PreError[0]=Error_End;//ÂÖ•ÈÄüÂ∫¶ËØØÂ∑ÆÁßØÂàÜÈòüÂàó
+                PreError[0]=Error_End;//»ÎÀŸ∂»ŒÛ≤Óª˝∑÷∂”¡–
 								AlllastError=(int)(PreError[0]+PreError[1]+PreError[2]+PreError[3]+PreError[4]);
-								Speed_PWM = -Error_End*Plan1.Speed.P + AlllastError*Plan1.Speed.I/100;    //ÈÄüÂ∫¶ÁéØ
+								Speed_PWM = -Error_End*Plan1.Speed.P + AlllastError*Plan1.Speed.I/100;    //ÀŸ∂»ª∑
 //								PreError[4]=PreError[3];
 //                PreError[3]=PreError[2];
 //                PreError[2]=PreError[1];
 //                PreError[1]=PreError[0];
-//                PreError[0]=Error_End;//ÂÖ•ÈÄüÂ∫¶ËØØÂ∑ÆÁßØÂàÜÈòüÂàó
+//                PreError[0]=Error_End;//»ÎÀŸ∂»ŒÛ≤Óª˝∑÷∂”¡–
 								
 //								AlllastError=(int)(PreError[0]+PreError[1]+PreError[2]+PreError[3]+PreError[4]);
 //								SpeedOUT =(int)(((Error_End)*Plan1.Speed.P * 0.1  +  AlllastError*Plan1.Speed.I*0.01));
 								
 								
 //								Speed_Slide[1]=Speed_Slide[0];
-//                Speed_Slide[0]=(int)(Speed_Slide[1]*0.6+Speed_PWM*0.4);//(Êúâ‰∏ÄÁÇπÂª∂Êó∂Â§ÑÁêÜÔºåÈúÄË¶ÅÊõ¥Êîπ)
+//                Speed_Slide[0]=(int)(Speed_Slide[1]*0.6+Speed_PWM*0.4);//(”–“ªµ„—” ±¥¶¿Ì£¨–Ë“™∏¸∏ƒ)
 //                Speed_PWM=(int)((Speed_Slide[0]-Speed_Slide[1])*10 +Speed_Slide[1]);
 								
 								
-								ftm_count_clean(ftm0);  //Ê∏ÖÈô§ÁºñÁ†ÅÂô®ËÆ°Êï∞
+								ftm_count_clean(ftm0);  //«Â≥˝±‡¬Î∆˜º∆ ˝
 								ftm_count_clean(ftm1);
 								
 								
@@ -123,16 +123,16 @@ void PIT_CH0_IRQHandler(void)
 //                                Value_Ind_L_Old = Value_Inductor_L;
 //                                Value_Ind_R_Old = Value_Inductor_R;
                                 Beep_OFF();
-//                                if(Yaw - Yaw_Huan > 100)//Â∑≤ÂÖ•ÁéØÂ≤õ
-//                                    Huan_Flag = OUT;//Âá∫ÁéØÂ≤õÊ†áÂøó
+//                                if(Yaw - Yaw_Huan > 100)//“—»Îª∑µ∫
+//                                    Huan_Flag = OUT;//≥ˆª∑µ∫±Í÷æ
 //                                else 
-//                                    Huan_Flag = IN; //ÂÖ•ÁéØÂ≤õÊ†áÂøó
+//                                    Huan_Flag = IN; //»Îª∑µ∫±Í÷æ
                                 if(Huan_Count_Flag)
                                     Huan_Count++;
-//                                if(Huan_Count > 500 || Huan_Count == 0)//ÂàùÊ≠•ÂÖ•ÁéØÊù°‰ª∂
+//                                if(Huan_Count > 500 || Huan_Count == 0)//≥ı≤Ω»Îª∑Ãıº˛
 //                                {
                                     
-                                    if(Value_Inductor_R>1050//ÂÖ∑‰ΩìÂÖ•ÁéØÊù°‰ª∂:Âú®ÁéØ„ÄÅ1S‰ª•ÂÜÖ
+                                    if(Value_Inductor_R>1050//æﬂÃÂ»Îª∑Ãıº˛:‘⁄ª∑°¢1S“‘ƒ⁄
                                         &&Pitch<-18
                                         &&Value_Inductor_L>1050
                                        && Huan_Count <80
@@ -147,13 +147,13 @@ void PIT_CH0_IRQHandler(void)
                                         Beep_ON();
                                         Value_Inductor_L = Value_Inductor_L*Plan1.Turn.tp/10;
                                     }
-                                    else if(Huan_Count > 200) //2S‰πãÂêé
+                                    else if(Huan_Count > 200) //2S÷Æ∫Û
                                     {
                                         Huan_Count_Flag = 0;
                                         Huan_Count = 0;
                                     }
 //                                }
-//                                else//Âá∫ÁéØÊàñÊ≠£Â∏∏
+//                                else//≥ˆª∑ªÚ’˝≥£
 //                                {
 ////                                    Huan_Count = 0;
 //                                    Huan_Count_Flag = 0;
@@ -170,11 +170,11 @@ void PIT_CH0_IRQHandler(void)
 //       p2 =   -2.85e-06  (-3.911e-06, -1.788e-06)
 //       p3 =     0.01201  (0.01121, 0.01282)rrb
 //       p4 =   -0.006396  (-0.1843, 0.1716)
-                                x =(5.043e-09) *(float)Error_Ind * (float)Error_Ind*Error_Ind +(-2.85e-06)*(float)Error_Ind*Error_Ind + 0.01201*(float)Error_Ind  -0.006396;  //ËßíÂ∫¶18.8
+                                x =(5.043e-09) *(float)Error_Ind * (float)Error_Ind*Error_Ind +(-2.85e-06)*(float)Error_Ind*Error_Ind + 0.01201*(float)Error_Ind  -0.006396;  //Ω«∂»18.8
 //								x<-20?x=-20:x;
 //								x>20?x=20:x;
                                 
-								if(Value_Inductor_L<250&&Value_Inductor_R<920&&Value_Inductor_R>250) //Âè≥‰∏¢
+								if(Value_Inductor_L<250&&Value_Inductor_R<920&&Value_Inductor_R>250) //”“∂™
 									x=-13;
 								if(Value_Inductor_L>400&&Value_Inductor_L<920&&Value_Inductor_R<400)
 									x=13;
@@ -230,7 +230,7 @@ void PIT_CH0_IRQHandler(void)
 //    Pin_Output_Toggle(LED_Blue_Port, LED_Blue_Pin);
 //    Pin_Output_Toggle(PTE, PTE0);
 
-    /*‰∏≠Êñ≠ÂÜÖÂÆπ--ÁªìÊùü*/
+    /*÷–∂œƒ⁄»›--Ω· ¯*/
 //    Enable_PIT_CH0();
 }
 
@@ -248,10 +248,10 @@ uint8_t Just_Do_It(void)
     Motor_R_EN(Enable);
     
     uint8_t LED_Count = 0;
-    OLED_Display_Off();//ÂÖ≥OLED
+    OLED_Display_Off();//πÿOLED
     while(1)
     {
-        {//ÂΩ©ËôπÁÅØ
+        {//≤ ∫Áµ∆
             LED_Count = LED_Count==7 ? 0:LED_Count;
             switch(LED_Count)
             {
@@ -284,18 +284,18 @@ uint8_t Just_Do_It(void)
                             Motor_L_EN(Disable);
                             Motor_R_EN(Disable);
 //                        PIT_CLR_Flag(PIT_CH0);
-//                        LED_White_OFF();   //ÂÖ≥LED
-                        OLED_Display_On();//ÂºÄOLED
+//                        LED_White_OFF();   //πÿLED
+                        OLED_Display_On();//ø™OLED
 //                        NVIC_DisableIRQ(PIT_CH0_IRQn);
                         return 0;
         }
-    Variable[0] = Value_End_L;  //Â∑¶ÁºñÁ†ÅÂô®
-    Variable[1] = Value_End_R;  //Âè≥ÁºñÁ†ÅÂô®
-    Variable[2] = Pitch;  //‰øØ‰ª∞Ëßí
-    Variable[3] = Value_Inductor_L;  //Â∑¶ÁîµÁ£Å
-    Variable[4] = Value_Inductor_R;  //Âè≥ÁîµÁ£Å
+    Variable[0] = Value_End_L;  //◊Û±‡¬Î∆˜
+    Variable[1] = Value_End_R;  //”“±‡¬Î∆˜
+    Variable[2] = Pitch;  //∏©—ˆΩ«
+    Variable[3] = Value_Inductor_L;  //◊ÛµÁ¥≈
+    Variable[4] = Value_Inductor_R;  //”“µÁ¥≈
     Variable[5] = Value_Inductor_R - Value_Inductor_L;
-    Variable[6] = Yaw;  //Ëà™ÂêëËßí
+    Variable[6] = Yaw;  //∫ΩœÚΩ«
         
     Send_Begin();
     Send_Variable();
