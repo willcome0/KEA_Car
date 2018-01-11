@@ -1,6 +1,5 @@
 //说明见工程文件夹下的Doc文件夹内Readme.txt文件
 #define GLOBLE_VAR  //只需在main.c中定义一次，用来防止全局变量的重复定义
-
 #include "includes.h"
 #include "common.h"
 #include "uart.h"
@@ -248,7 +247,7 @@ int main(void)
     Beep_Time(100);
     uint8_t GO = 0;
     uint8_t temp_str[30];
-//    PIT_Config(PIT_CH0, 8, 0);//5ms中断
+    PIT_Config(PIT_CH0, 8, 0);//8ms中断
 //    PIT_Config(PIT_CH1, 10, 0);
 //LED_Blue_ON();
 //    Pin_Output_Config(PTE, PTE0, 1);//电平反转配置

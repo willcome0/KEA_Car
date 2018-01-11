@@ -15,8 +15,8 @@ struct PLAN Plan1 =
         .Turn.P   = 140,//50
         .Turn.D   = 30,//0.1
 			
-        .Turn.tp   = 15,//50  å¢å¤§å‘å³åå‡å°å‘å·¦å   -20å‘å·¦æœ€å¤§   20å³æ‹æœ€å¤§  
-        .Turn.td   = 1,//0  ä¿æŒä¸å˜
+        .Turn.tp   = 10,//50  Ôö´óÏòÓÒÆ«¼õĞ¡Ïò×óÆ«   -20Ïò×ó×î´ó   20ÓÒ¹Õ×î´ó  
+        .Turn.td   = 1,//0  ±£³Ö²»±ä
         .Safe_Angle = 38,
     };
 //struct PLAN Plan1 = 
@@ -33,8 +33,8 @@ struct PLAN Plan1 =
 //        .Turn.P   = 642,//50
 //        .Turn.D   = 20,//0.1
 //			
-//        .Turn.tp   = 2,//50  å¢å¤§å‘å³åå‡å°å‘å·¦å   -20å‘å·¦æœ€å¤§   20å³æ‹æœ€å¤§  
-//        .Turn.td   = 1,//0  ä¿æŒä¸å˜
+//        .Turn.tp   = 2,//50  Ôö´óÏòÓÒÆ«¼õĞ¡Ïò×óÆ«   -20Ïò×ó×î´ó   20ÓÒ¹Õ×î´ó  
+//        .Turn.td   = 1,//0  ±£³Ö²»±ä
 //        .Safe_Angle = 38,
 //    };
 struct PLAN Blue = 
@@ -42,7 +42,7 @@ struct PLAN Blue =
         .Target.Angle = 1,
         .Target.Speed = 1,
         
-        .Angle.P  = 1,//ç›´ç«‹èµ·æ¥570//862
+        .Angle.P  = 1,//Ö±Á¢ÆğÀ´570//862
         .Angle.D  = 1,//180//201
         
         .Speed.P  = 1,
@@ -57,7 +57,7 @@ struct PLAN Blue =
 int16_t Add_L = -50;
 
 
-/*è®¾ç½®èœå•æ•°æ®*/
+/*ÉèÖÃ²Ëµ¥Êı¾İ*/
 uint8_t Set_LED = 1;
 uint8_t Set_Beep = 1;
 uint8_t Bluetooth = 0;
@@ -84,7 +84,7 @@ uint32_t ABS(int32_t Num)
 //        
 //        .Safe_Angle = 38,
 //    };    
-//æŒºå¿«ï¼Œç”µç£é‡‡å€¼æ­ª  
+//Í¦¿ì£¬µç´Å²ÉÖµÍá  
 //    struct PLAN Plan1 = 
 //    {
 //        .Target.Angle = 16,
@@ -102,7 +102,7 @@ uint32_t ABS(int32_t Num)
 //        .Safe_Angle = 38,
 //    };
 
-//å…‰ç›´ç«‹
+//¹âÖ±Á¢
 //    struct PLAN Plan1 = 
 //    {
 //        .Target.Angle = 23,
@@ -168,12 +168,3 @@ uint32_t ABS(int32_t Num)
 //        
 
 //    };
-
-
-
-
-
-
-
-
-
