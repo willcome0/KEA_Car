@@ -2,10 +2,10 @@
 *.uvoptx
 *.ini
 
+*.uvoptx
 
-Code/MDK-ARM/Listings/
+*.txt
+
+Code/MDK-ARM/Listings
+/
 Code/MDK-ARM/OBJ/
-
-
-
-Code/MDK-ARM/JLinkLog.txt
