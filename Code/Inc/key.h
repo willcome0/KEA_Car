@@ -3,25 +3,57 @@
 
 #include "common.h"
 
-/***********************************************************
- * 
- * 引脚重命名
- * 
- **********************************************************/
-#define KEY_Up_Port     PTA
-#define KEY_Up_Pin      PTA7
+/*********************各板子的兼容代码**************************/
 
-#define KEY_Down_Port   PTA  
-#define KEY_Down_Pin    PTA6
+#if (PCB_VERSION == 20)    //兼容PCB V2.0 宏定义
+    #define KEY_Up_Port     PTE
+    #define KEY_Up_Pin      PTE4
 
-#define KEY_Mid_Port    PTE
-#define KEY_Mid_Pin     PTE4
+    #define KEY_Down_Port   PTD  
+    #define KEY_Down_Pin    PTD3
 
-#define KEY_Left_Port   PTF
-#define KEY_Left_Pin    PTF2
+    #define KEY_Mid_Port    PTF
+    #define KEY_Mid_Pin     PTF1
 
-#define KEY_Right_Port  PTF
-#define KEY_Right_Pin   PTF1
+    #define KEY_Left_Port   PTF
+    #define KEY_Left_Pin    PTF0
+
+    #define KEY_Right_Port  PTD
+    #define KEY_Right_Pin   PTD4
+    
+#elif (PCB_VERSION == 30)  //兼容PCB V3.0 宏定义
+    #define KEY_Up_Port     PTA
+    #define KEY_Up_Pin      PTA7
+
+    #define KEY_Down_Port   PTA  
+    #define KEY_Down_Pin    PTA6
+
+    #define KEY_Mid_Port    PTE
+    #define KEY_Mid_Pin     PTE4
+
+    #define KEY_Left_Port   PTF
+    #define KEY_Left_Pin    PTF2
+
+    #define KEY_Right_Port  PTF
+    #define KEY_Right_Pin   PTF1
+    
+#elif (PCB_VERSION == 0)  //兼容开发板 宏定义
+    #define KEY_Up_Port     PTA
+    #define KEY_Up_Pin      PTA7
+
+    #define KEY_Down_Port   PTA  
+    #define KEY_Down_Pin    PTA6
+
+    #define KEY_Mid_Port    PTE
+    #define KEY_Mid_Pin     PTE4
+
+    #define KEY_Left_Port   PTF
+    #define KEY_Left_Pin    PTF2
+
+    #define KEY_Right_Port  PTF
+    #define KEY_Right_Pin   PTF1
+#endif
+/**************************************************************/
 
 /***********************************************************
  * 

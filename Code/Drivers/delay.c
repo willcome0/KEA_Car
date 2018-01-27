@@ -111,9 +111,9 @@ void SysTick_Handler(void)
 **************************************************************************/
 void Delay_us(uint32_t us)
 {
-#if CLOCK_SETUP == 1 //80M主频的方案
+#if (CLOCK_SETUP == 1) //80M主频延时方案
     for(uint16_t i=0; i<us*2; i++)
-#elif CLOCK_SETUP == 2 && CLOCK_SETUP == 0 //40M
+#elif (CLOCK_SETUP == 2 && CLOCK_SETUP == 0) //40M主频延时方案
     for(uint16_t i=0; i<us; i++)
 #endif
     {

@@ -4,35 +4,54 @@
 #include "SKEAZ1284.h" 
 #include "common.h"
 
-/*官方板*/
-//#define OLED_D0_Port     PTI
-//#define OLED_D0_Pin      PTI3
+/*********************各板子的兼容代码**************************/
 
-//#define OLED_D1_Port     PTI
-//#define OLED_D1_Pin      PTI2
+#if (PCB_VERSION == 20)    //兼容PCB V2.0 宏定义
+    #define OLED_D0_Port     PTB
+    #define OLED_D0_Pin      PTB0
 
-//#define OLED_RST_Port    PTF
-//#define OLED_RST_Pin     PTF3
+    #define OLED_D1_Port     PTB
+    #define OLED_D1_Pin      PTB1
 
-//#define OLED_DC_Port     PTF
-//#define OLED_DC_Pin      PTF2
+    #define OLED_RST_Port    PTF
+    #define OLED_RST_Pin     PTF2
 
-/*自己板*/
-#define OLED_D0_Port     PTD
-#define OLED_D0_Pin      PTD3
+    #define OLED_DC_Port     PTF
+    #define OLED_DC_Pin      PTF3
+    
+#elif (PCB_VERSION == 30)  //兼容PCB V3.0 宏定义
+    #define OLED_D0_Port     PTD
+    #define OLED_D0_Pin      PTD3
 
-#define OLED_D1_Port     PTD
-#define OLED_D1_Pin      PTD2
+    #define OLED_D1_Port     PTD
+    #define OLED_D1_Pin      PTD2
 
-#define OLED_RST_Port    PTF
-#define OLED_RST_Pin     PTF0
+    #define OLED_RST_Port    PTF
+    #define OLED_RST_Pin     PTF0
 
-#define OLED_DC_Port     PTD
-#define OLED_DC_Pin      PTD4
+    #define OLED_DC_Port     PTD
+    #define OLED_DC_Pin      PTD4
+    
+#elif (PCB_VERSION == 0)  //兼容开发板 宏定义
+    #define OLED_D0_Port     PTI
+    #define OLED_D0_Pin      PTI3
+
+    #define OLED_D1_Port     PTI
+    #define OLED_D1_Pin      PTI2
+
+    #define OLED_RST_Port    PTF
+    #define OLED_RST_Pin     PTF3
+
+    #define OLED_DC_Port     PTF
+    #define OLED_DC_Pin      PTF2
+#endif
+/**************************************************************/
 
 #define  OLED_X_MAX		128		//定义液晶x轴的像素数
 #define  OLED_Y_MAX		64 		//定义液晶y轴的像素数
-//---------------------------OLED端口定义--------------------------
+
+
+/**********************模拟SPI 定义****************************/
 
 #define OLED_SCL_HIGH()		Pin_Output_Set(OLED_D0_Port,  OLED_D0_Pin,  SET)  //D0
 #define OLED_SCL_LOW()		Pin_Output_Set(OLED_D0_Port,  OLED_D0_Pin,  RESET)
@@ -46,9 +65,11 @@
 #define OLED_DC_HIGH()		Pin_Output_Set(OLED_DC_Port,  OLED_DC_Pin,  SET)  //DC
 #define OLED_DC_LOW()		Pin_Output_Set(OLED_DC_Port,  OLED_DC_Pin,  RESET)
 
-
 #define Wirte_CMD  0	//写命令
 #define Wirte_DATA 1	//写数据
+
+/**************************************************************/
+
 
 extern volatile uint8_t OLED_GRAM[OLED_X_MAX][8];
 

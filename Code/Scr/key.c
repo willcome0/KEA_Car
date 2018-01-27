@@ -2,20 +2,19 @@
 
 void KEY_Init(void)
 {
-//    ADC_APCTL1 = 1;
     Pin_Input_Config(KEY_Up_Port,    KEY_Up_Pin,    1);
     Pin_Input_Config(KEY_Down_Port,  KEY_Down_Pin,  1);
     Pin_Input_Config(KEY_Mid_Port,   KEY_Mid_Pin,   1);
     Pin_Input_Config(KEY_Left_Port,  KEY_Left_Pin,  1);
     Pin_Input_Config(KEY_Right_Port, KEY_Right_Pin, 1);
-//    ADC_APCTL1 = 1;
 }
 
 
 uint8_t Get_Key(void)
 {
+//    #define Key_Delay_Time 50;
     static uint16_t Key_Keep = 0;
-    static uint8_t Key_Delay = 1;
+    static uint8_t Key_Delay = 60;
     
     volatile uint8_t temp_return = 0;
     
@@ -86,11 +85,11 @@ uint8_t Get_Key(void)
 	
 	else if(0 == Read_Input_State(KEY_Right_Port, KEY_Right_Pin))
 	{
-		Delay_ms(Key_Delay);
+		Delay_ms(100);  /*****/
 		if(0 == Read_Input_State(KEY_Right_Port, KEY_Right_Pin))
 		{
 			Beep_Time(2);
-            temp_return = Press_Right ;
+            temp_return = Press_Mid ;  //右键也改为中键
 		}
 		return temp_return;
 	}
