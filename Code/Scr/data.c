@@ -59,7 +59,7 @@ int16_t Add_L = -50;
 
 /*设置菜单数据*/
 uint8_t Set_LED = 1;
-uint8_t Set_Beep = 1;
+uint8_t Set_Beep = 0;
 uint8_t Bluetooth = 0;
     
 volatile int16_t Value_End = 0;

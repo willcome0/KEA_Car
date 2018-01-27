@@ -116,7 +116,11 @@ void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t Div
         }
         else
         {
-            sprintf(ch, "%1.2f", (float)temp_value/Div_Num);
+            if(10  == Div_Num)
+                sprintf(ch, "%2.1f", (float)temp_value/Div_Num);
+            else if(100 == Div_Num)
+                sprintf(ch, "%1.2f", (float)temp_value/Div_Num);
+            
             OLED_Show_Str(102, (UI_Case-Frame_Min+1)*13, ch, 12, 0);
         }
         uint8_t value_ok_flag = 0;
@@ -150,7 +154,11 @@ void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t Div
             }
             else
             {
-                sprintf(ch, "%1.2f", (float)temp_value/Div_Num);
+                if(10  == Div_Num)
+                    sprintf(ch, "%2.1f", (float)temp_value/Div_Num);
+                else if(100 == Div_Num)
+                    sprintf(ch, "%1.2f", (float)temp_value/Div_Num);
+            
                 OLED_Show_Str(102, (UI_Case-Frame_Min+1)*13, ch, 12, 1);
             }
             OLED_Refresh_Gram();
@@ -161,54 +169,43 @@ void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t Div
 }
 
 #define DATA_1      Plan1.Target.Angle
-#define DATA_P_1    1
 #define DATA_2      Plan1.Target.Speed
-#define DATA_P_2    1
 #define DATA_3      Plan1.Angle.P
-#define DATA_P_3    1
 #define DATA_4      Plan1.Angle.D
-#define DATA_P_4    10
 #define DATA_5      Plan1.Speed.P
-#define DATA_P_5    1
 #define DATA_6      Plan1.Speed.I
-#define DATA_P_6    100
 #define DATA_7      Plan1.Turn.P
-#define DATA_P_7    1
 #define DATA_8      Plan1.Turn.D
-#define DATA_P_8    100
-#define DATA_9
-#define DATA_P_9
-#define DATA_10
-#define DATA_P_10
-#define DATA_11
-#define DATA_P_11
+#define DATA_9      Plan1.Turn.td
+#define DATA_10     Plan1.Turn.tp
+#define DATA_11     0
+#define DATA_12     0
+#define DATA_13     0
+#define DATA_14     0
+#define DATA_15     0
+#define DATA_16     0
 
-#define P1_A_D      Plan1.Angle.D  //角度
-#define P1_A_D__p   10                  //除以系数
 
 void Write_Value(uint8_t in_ch[][30])
 {
 //                       "123456789012345678901"
-    sprintf(in_ch [0], "  <     方  案       ");
-    sprintf(in_ch [1], "   1.  目标角度  %4d  ", DATA_1);
-    sprintf(in_ch [2], "   2.  目标速度  %4d  ", Plan1.Target.Speed);
-    sprintf(in_ch [3], "   3.  角 度 P   %4d  ", Plan1.Angle.P);
-    sprintf(in_ch [4], "   4.  角 度 D   %2.1f  ", (float)P1_A_D/P1_A_D__p);
-    sprintf(in_ch [5], "   5.  速 度 P   %4d  ", Plan1.Speed.P);
-    sprintf(in_ch [6], "   6.  速 度 I   %2.1f  ", (float)Plan1.Speed.I/100);
-    sprintf(in_ch [7], "   7.  转 向 P   %4d  ", Plan1.Turn.P);
-    sprintf(in_ch [8], "   8.  转 向 D   %4d  ", Plan1.Turn.D);
-    sprintf(in_ch [9], "   9.  tp        %4d  ", Plan1.Turn.tp);
-    sprintf(in_ch[10], "   10. td        %4d  ", Plan1.Turn.td);
-    sprintf(in_ch[11], "   11. XXXXXXX   %4d  ", 0);
-    sprintf(in_ch[12], "   12. XXXXXXX   %4d  ", 0);
-    sprintf(in_ch[13], "   13. XXXXXXX   %4d  ", 0);
-    sprintf(in_ch[14], "   14. XXXXXXX   %4d  ", 0);
-    sprintf(in_ch[15], "   15. XXXXXXX   %4d  ", 0);
-    sprintf(in_ch[16], "   16. XXXXXXX   %4d  ", 0);
-
-//    Judge_State(Judge_ch, Set_XXXX);
-//    sprintf(in_ch[2], "     2. XXXX     %s", Judge_ch);
+    sprintf(in_ch [0], "  <     方  案        ");
+    sprintf(in_ch [1], "   1.  目标角度  %4d  ",    DATA_1);
+    sprintf(in_ch [2], "   2.  目标速度  %4d  ",    DATA_2);
+    sprintf(in_ch [3], "   3.  角 度 P   %4d  ",    DATA_3);
+    sprintf(in_ch [4], "   4.  角 度 D   %4d  ",    DATA_4);
+    sprintf(in_ch [5], "   5.  速 度 P   %4d  ",    DATA_5);
+    sprintf(in_ch [6], "   6.  速 度 I   %4d  ",    DATA_6);
+    sprintf(in_ch [7], "   7.  转 向 P   %4d  ",    DATA_7);
+    sprintf(in_ch [8], "   8.  转 向 D   %4d  ",    DATA_8);
+    sprintf(in_ch [9], "   9.  tp        %4d  ",    DATA_9);
+    sprintf(in_ch[10], "   10. td        %4d  ",    DATA_10);
+    sprintf(in_ch[11], "   11. XXXXXXX   %4d  ",    DATA_11);
+    sprintf(in_ch[12], "   12. XXXXXXX   %4d  ",    DATA_12);
+    sprintf(in_ch[13], "   13. XXXXXXX   %4d  ",    DATA_13);
+    sprintf(in_ch[14], "   14. XXXXXXX   %4d  ",    DATA_14);
+    sprintf(in_ch[15], "   15. XXXXXXX   %4d  ",    DATA_15);
+    sprintf(in_ch[16], "   16. XXXXXXX   %4d  ",    DATA_16);
 }
 
 uint8_t UI_Plan(void)
@@ -242,25 +239,22 @@ uint8_t UI_Plan(void)
 			case Press_Mid:		//按中
 				switch(UI_Case)
 				{
-					case  1:	Chang_Value(UI_Case, Frame_Min, &P1_T_A,  P1_T_A__p);  break;
-					case  2:	Chang_Value(UI_Case, Frame_Min, &Plan1.Target.Speed,  1);  break;
-					case  3:	Chang_Value(UI_Case, Frame_Min, &Plan1.Angle.P,   1);  break;
-					case  4:	Chang_Value(UI_Case, Frame_Min, &Plan1.Angle.D, 10);  break;
-                    case  5:	Chang_Value(UI_Case, Frame_Min, &Plan1.Speed.P,   1);  break;
-                    case  6:	Chang_Value(UI_Case, Frame_Min, &Plan1.Speed.I, 100);  break;
-                    case  7:	Chang_Value(UI_Case, Frame_Min, &Plan1.Turn.P,    1);  break;
-                    case  8:	Chang_Value(UI_Case, Frame_Min, &Plan1.Turn.D,  1);  break;
-                    case  9:	Chang_Value(UI_Case, Frame_Min, &Plan1.Turn.tp,  1);  break;
-                    case  10:	Chang_Value(UI_Case, Frame_Min, &Plan1.Turn.td,  1);  break;
-//                    case  9:	Chang_Value(UI_Case, Frame_Min, &Plan1.Turn.I,  100); break;
-//                    case 10:	Chang_Value(UI_Case, Frame_Min, &Plan1.Turn.I,  100); break;
-//                    case 11:	Chang_Value(UI_Case, Frame_Min, &Plan1.Turn.I,  100); break;
-//                    case 12:	Chang_Value(UI_Case, Frame_Min, &Plan1.Turn.I,  100); break;
-//                    case 13:	Chang_Value(UI_Case, Frame_Min, &Plan1.Turn.I,  100); break;
-//                    case 14:	Chang_Value(UI_Case, Frame_Min, &Plan1.Turn.I,  100); break;
-//                    case 15:	Chang_Value(UI_Case, Frame_Min, &Plan1.Turn.I,  100); break;
-//                    case 16:	Chang_Value(UI_Case, Frame_Min, &Plan1.Turn.I,  100); break;
-
+					case  1:	Chang_Value(UI_Case, Frame_Min, &DATA_1,  1);   break;
+					case  2:	Chang_Value(UI_Case, Frame_Min, &DATA_2,  1);   break;
+					case  3:	Chang_Value(UI_Case, Frame_Min, &DATA_3,  1);   break;
+					case  4:	Chang_Value(UI_Case, Frame_Min, &DATA_4,  1);   break;
+                    case  5:	Chang_Value(UI_Case, Frame_Min, &DATA_5,  1);   break;
+                    case  6:	Chang_Value(UI_Case, Frame_Min, &DATA_6,  1);   break;
+                    case  7:	Chang_Value(UI_Case, Frame_Min, &DATA_7,  1);   break;
+                    case  8:	Chang_Value(UI_Case, Frame_Min, &DATA_8,  1);   break;
+                    case  9:	Chang_Value(UI_Case, Frame_Min, &DATA_9,  1);   break;
+                    case  10:	Chang_Value(UI_Case, Frame_Min, &DATA_10, 1);  break;
+//                    case  11:   Chang_Value(UI_Case, Frame_Min, &DATA_11, DATA_P_11);  break;
+//                    case  12:   Chang_Value(UI_Case, Frame_Min, &DATA_12, DATA_P_12);  break;
+//                    case  13:   Chang_Value(UI_Case, Frame_Min, &DATA_13, DATA_P_13);  break;
+//                    case  14:   Chang_Value(UI_Case, Frame_Min, &DATA_14, DATA_P_14);  break;
+//                    case  15:   Chang_Value(UI_Case, Frame_Min, &DATA_15, DATA_P_15);  break;
+//                    case  16:   Chang_Value(UI_Case, Frame_Min, &DATA_16, DATA_P_16);  break;
 				}
 		}
         UI_Case=UI_Case<1?16:UI_Case;
