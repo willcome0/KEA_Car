@@ -48,7 +48,7 @@ void PIT_CH0_IRQHandler(void)
 
 
   
-								Angle_PWM = Plan1.Angle.P*(Pitch + Plan1.Target.Angle) + Plan1.Angle.D/10*GYRO_Real.Y;   //直立环
+								Angle_PWM = Plan1.Angle.P*(Pitch - Plan1.Target.Angle) + Plan1.Angle.D/10*GYRO_Real.Y;   //直立环
 
     
 
