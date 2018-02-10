@@ -3,7 +3,7 @@
 
 struct PLAN Plan1 = 
     {
-        .Target.Angle = -30,
+        .Target.Angle = 30,
         .Target.Speed = 130,//200
         
         .Angle.P  = 640,//220

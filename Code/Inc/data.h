@@ -10,16 +10,16 @@
 
 struct PID//PID结构体
 {
-    int16_t P;
-    int16_t I;
-    int16_t D;
-    int16_t tp;
-	  int16_t td;
+    uint16_t P;
+    uint16_t I;
+    uint16_t D;
+    uint16_t tp;
+	  uint16_t td;
 };
 struct TARGET//目标值结构体
 {
-    int16_t Angle;
-    int16_t Speed;   //目标速度
+    uint16_t Angle;
+    uint16_t Speed;   //目标速度
 };
 
 
@@ -32,7 +32,7 @@ struct PLAN
     
     struct TARGET Target;//各目标值
     
-    int16_t Safe_Angle;
+    uint16_t Safe_Angle;
 };
 extern struct PLAN Plan1;//要更多方案在这里加
 extern struct PLAN Blue;//蓝牙方案
