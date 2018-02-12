@@ -38,5 +38,9 @@
 .\obj\led&buzzer.o: ..\Drivers\kalman.h
 .\obj\led&buzzer.o: ..\Inc\control.h
 .\obj\led&buzzer.o: ..\Inc\motor.h
+.\obj\led&buzzer.o: ..\Inc\flash.h
+.\obj\led&buzzer.o: ..\Inc\Init.h
+.\obj\led&buzzer.o: ..\Inc\includes.h
+.\obj\led&buzzer.o: ..\Drivers\uart.h
 .\obj\led&buzzer.o: ..\Scr\12.12_agine\MPU6050.h
 .\obj\led&buzzer.o: ..\Scr\12.12_agine\My_I2C.h

@@ -38,5 +38,9 @@
 .\obj\gpio.o: ..\Drivers\kalman.h
 .\obj\gpio.o: ..\Inc\control.h
 .\obj\gpio.o: ..\Inc\motor.h
+.\obj\gpio.o: ..\Inc\flash.h
+.\obj\gpio.o: ..\Inc\Init.h
+.\obj\gpio.o: ..\Inc\includes.h
+.\obj\gpio.o: ..\Drivers\uart.h
 .\obj\gpio.o: ..\Scr\12.12_agine\MPU6050.h
 .\obj\gpio.o: ..\Scr\12.12_agine\My_I2C.h

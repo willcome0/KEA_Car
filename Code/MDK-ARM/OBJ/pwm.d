@@ -37,6 +37,10 @@
 .\obj\pwm.o: ..\Drivers\kalman.h
 .\obj\pwm.o: ..\Inc\control.h
 .\obj\pwm.o: ..\Inc\motor.h
+.\obj\pwm.o: ..\Inc\flash.h
+.\obj\pwm.o: ..\Inc\Init.h
+.\obj\pwm.o: ..\Inc\includes.h
+.\obj\pwm.o: ..\Drivers\uart.h
 .\obj\pwm.o: ..\Scr\12.12_agine\MPU6050.h
 .\obj\pwm.o: ..\Scr\12.12_agine\My_I2C.h
 .\obj\pwm.o: ..\Drivers\CMSIS\SKEAZ1284.h

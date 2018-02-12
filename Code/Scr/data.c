@@ -3,7 +3,7 @@
 
 struct PLAN Plan1 = 
     {
-        .Target.Angle = -30,
+        .Target.Angle = 30,
         .Target.Speed = 130,//200
         
         .Angle.P  = 640,//220
@@ -53,13 +53,21 @@ struct PLAN Blue =
         
         .Safe_Angle = 1,
     };
-    
+struct CON  Con;
+	
+void Data_Init(void)
+{
+	Con.Run    = flash_read(DATA_FLASH, 400, uint8_t);
+	Con.LED    = flash_read(DATA_FLASH, 401, uint8_t);
+	Con.Buzzer = flash_read(DATA_FLASH, 402, uint8_t);
+	Con.BT     = flash_read(DATA_FLASH, 403, uint8_t);
+}
 int16_t Add_L = -50;
 
 
 /*设置菜单数据*/
 uint8_t Set_LED = 1;
-uint8_t Set_Beep = 0;
+uint8_t Set_Beep = 1;
 uint8_t Bluetooth = 0;
     
 volatile int16_t Value_End = 0;

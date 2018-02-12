@@ -38,6 +38,10 @@
 .\obj\oled.o: ..\Drivers\kalman.h
 .\obj\oled.o: ..\Inc\control.h
 .\obj\oled.o: ..\Inc\motor.h
+.\obj\oled.o: ..\Inc\flash.h
+.\obj\oled.o: ..\Inc\Init.h
+.\obj\oled.o: ..\Inc\includes.h
+.\obj\oled.o: ..\Drivers\uart.h
 .\obj\oled.o: ..\Scr\12.12_agine\MPU6050.h
 .\obj\oled.o: ..\Scr\12.12_agine\My_I2C.h
 .\obj\oled.o: ..\Inc\oledfont.h

@@ -37,7 +37,10 @@
 .\obj\upper.o: ..\Drivers\kalman.h
 .\obj\upper.o: ..\Inc\control.h
 .\obj\upper.o: ..\Inc\motor.h
+.\obj\upper.o: ..\Inc\flash.h
+.\obj\upper.o: ..\Inc\Init.h
+.\obj\upper.o: ..\Inc\includes.h
+.\obj\upper.o: ..\Drivers\uart.h
 .\obj\upper.o: ..\Scr\12.12_agine\MPU6050.h
 .\obj\upper.o: ..\Scr\12.12_agine\My_I2C.h
 .\obj\upper.o: ..\Drivers\CMSIS\SKEAZ1284.h
-.\obj\upper.o: ..\Drivers\uart.h

@@ -9,6 +9,7 @@
 ".\obj\ad.o"
 ".\obj\encoder.o"
 ".\obj\control.o"
+".\obj\init.o"
 ".\obj\gpio.o"
 ".\obj\uart.o"
 ".\obj\delay.o"
@@ -19,9 +20,10 @@
 ".\obj\mpu6050.o"
 ".\obj\my_i2c.o"
 ".\obj\kalman.o"
+".\obj\flash.o"
 ".\obj\startup_skeaz1284.o"
 ".\obj\system_skeaz1284.o"
 --library_type=microlib --strict --scatter ".\OBJ\NEW1.sct"
---summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\Listings\NEW1.map" -o .\OBJ\NEW1.axf

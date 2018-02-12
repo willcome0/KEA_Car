@@ -38,5 +38,9 @@
 .\obj\data.o: ..\Drivers\kalman.h
 .\obj\data.o: ..\Inc\control.h
 .\obj\data.o: ..\Inc\motor.h
+.\obj\data.o: ..\Inc\flash.h
+.\obj\data.o: ..\Inc\Init.h
+.\obj\data.o: ..\Inc\includes.h
+.\obj\data.o: ..\Drivers\uart.h
 .\obj\data.o: ..\Scr\12.12_agine\MPU6050.h
 .\obj\data.o: ..\Scr\12.12_agine\My_I2C.h

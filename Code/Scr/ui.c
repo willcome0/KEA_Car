@@ -427,6 +427,7 @@ void Chang_State(uint8_t UI_Case, uint8_t Frame_Min, uint8_t *Value)
             case Press_Mid:
                 value_ok_flag = 1;
                 *Value = temp_value;
+				/////////
                 break;
             case Press_Left:
                 value_ok_flag = 1;
@@ -636,7 +637,7 @@ uint8_t UI_MPU6050(void)
         OLED_Show_Str(0, 20, str, 12, 1);
         sprintf(str, "G_Y: %5d    ", GYRO.Y);
         OLED_Show_Str(0, 33, str, 12, 1);
-        sprintf(str, "Yaw: %3.2f    ", Yaw);
+        sprintf(str, "Yaw: %d    ", flash_read(FLASH_SECTOR_NUM - 1,8,uint32_t));
         OLED_Show_Str(0, 46, str, 12, 1);
 
         OLED_Refresh_Gram();

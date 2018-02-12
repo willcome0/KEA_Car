@@ -2,7 +2,7 @@
 #define GLOBLE_VAR  //只需在main.c中定义一次，用来防止全局变量的重复定义
 #include "includes.h"
 #include "common.h"
-#include "uart.h"
+
 #include "pit.h"
 #include "math.h"
 
@@ -64,6 +64,14 @@
 
 int main(void)
 {
+	All_Init();
+	uint8_t Con_1[4];
+	Con_1[0] = 1;
+	Con_1[1] = 2;
+	Con_1[2] = 3;
+	Con_1[3] = 4;
+	FLASH_WriteSector(DATA_FLASH, (const uint8_t *)Con_1, 4, 400);
+	
 //    ftm_pwm_init(ftm2,ftm_ch0,12500,0);//大，正转//正反转绝对好使过
 //    ftm_pwm_init(ftm2,ftm_ch5,12500,300);
 //
@@ -88,32 +96,7 @@ int main(void)
 
 
 
-    Buzzer_Init();
-    Beep_Time(50);
-    UART_Init(UART_1, 9600);
-    LED_Init();
 
-
-
-    OLED_Init();      //OLED初始化
-    OLED_Display_Off();
-    Motor_Init();     //电机初始化
-
-//    Encoder_Init();   //编码器初始化
-    KEY_Init();
-//    AD_Init();        //电磁AD初始化
-
-    kalman1_init(&AD_Kalman[0],0,10);
-    AD_Kalman[0].q = 9e-4;//初始调这两个参数就可以
-    AD_Kalman[0].r = 1e-2;//
-
-    kalman1_init(&AD_Kalman[1],0,10);
-    AD_Kalman[1].q = 9e-4;
-    AD_Kalman[1].r = 1e-2;
-
-    Delay_ms(10);
-    IIC_init();
-    while (MPU6050_Init());
 //    IIC_init();
 //    while (MPU6050_Init());
 //        IIC_init();
@@ -131,18 +114,55 @@ int main(void)
 
 
 
-    Beep_Time(100);
-    uint8_t GO = 0;
+
 
 //    PIT_Config(PIT_CH0, 8, 0);//8ms中断
 //    PIT_Config(PIT_CH1, 10, 0);
 //LED_Blue_ON();
 //    Pin_Output_Config(PTE, PTE0, 1);//电平反转配置
 
-    OLED_Clear();
 
 
-    OLED_Display_On();
+		
+//    FLASH_EraseSector(FLASH_SECTOR_NUM - 1);
+		uint32_t write2 = 123456789;
+		
+		
+		
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 1,(const uint8_t *)&write2,4,0);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 1,(const uint8_t *)&write2,4,16);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 1,(const uint8_t *)&write2,4,32);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 1,(const uint8_t *)&write2,4,48);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 1,(const uint8_t *)&write2,4,64);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 1,(const uint8_t *)&write2,4,80);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 1,(const uint8_t *)&write2,4,496);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 1,(const uint8_t *)&write2,4,500);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 1,(const uint8_t *)&write2,4,504);		
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 1,(const uint8_t *)&write2,4,508);
+//		
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 2,(const uint8_t *)&write2,4,0);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 2,(const uint8_t *)&write2,4,16);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 2,(const uint8_t *)&write2,4,32);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 2,(const uint8_t *)&write2,4,48);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 2,(const uint8_t *)&write2,4,64);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 2,(const uint8_t *)&write2,4,80);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 2,(const uint8_t *)&write2,4,496);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 2,(const uint8_t *)&write2,4,500);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 2,(const uint8_t *)&write2,4,504);		
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 2,(const uint8_t *)&write2,4,508);
+//		
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 3,(const uint8_t *)&write2,4,0);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 3,(const uint8_t *)&write2,4,16);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 3,(const uint8_t *)&write2,4,32);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 3,(const uint8_t *)&write2,4,48);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 3,(const uint8_t *)&write2,4,64);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 3,(const uint8_t *)&write2,4,80);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 3,(const uint8_t *)&write2,4,496);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 3,(const uint8_t *)&write2,4,500);
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 3,(const uint8_t *)&write2,4,504);		
+//		FLASH_WriteSector(FLASH_SECTOR_NUM - 3,(const uint8_t *)&write2,4,508);
+		
+	uint8_t GO = 0;
     while(1)
     {
 //    UI_Read_Ind();
@@ -191,6 +211,14 @@ int main(void)
 //            LED_Green_OFF();
 //        Get_Key();
 
+
+//			uint8_t str[30];
+//				sprintf(str, "%d", flash_read(FLASH_SECTOR_NUM - 2,0,uint32_t));
+//        OLED_Show_Str(0, 46, str, 12, 1);
+//				OLED_Refresh_Gram();
+//				
+
+		
         switch(GO)
         {
             case  0:   GO = UI_Main();      break;
