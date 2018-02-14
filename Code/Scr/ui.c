@@ -365,7 +365,7 @@ uint8_t UI_Driver(void)
         OLED_Refresh_Gram();
     }
 }
-void Judge_State(uint8_t Judge_ch[], uint8_t state)
+void Judge_State(uint8_t Judge_ch[], uint16_t state)
 {
     switch(state)
     {
@@ -382,40 +382,43 @@ void Write_State(uint8_t in_ch[][30])
     uint8_t UnSet = 77;
 
     sprintf(in_ch[0], "  <     设  置       ");
-    Judge_State(Judge_ch, Set_LED);
+    Judge_State(Judge_ch, _Com_LED_);
     sprintf(in_ch[1], "   1.  L E D      %s", Judge_ch);
-    Judge_State(Judge_ch, Set_Beep);
+    Judge_State(Judge_ch, _Com_Buzzer_);
     sprintf(in_ch[2], "   2.  蜂 鸣 器   %s", Judge_ch);
-    Judge_State(Judge_ch, Bluetooth);
+    Judge_State(Judge_ch, _Com_BT_);
     sprintf(in_ch[3], "   3.  蓝  牙     %s", Judge_ch);
 
-    Judge_State(Judge_ch, UnSet);
-    sprintf(in_ch[4], "   4.  XXXXXXX    %s", Judge_ch);
-    Judge_State(Judge_ch, UnSet);
-    sprintf(in_ch[5], "   5.  XXXXXXX    %s", Judge_ch);
-    Judge_State(Judge_ch, UnSet);
-    sprintf(in_ch[6], "   6.  XXXXXXX    %s", Judge_ch);
-    Judge_State(Judge_ch, UnSet);
-    sprintf(in_ch[7], "   7.  XXXXXXX    %s", Judge_ch);
-    Judge_State(Judge_ch, UnSet);
-    sprintf(in_ch[8], "   8.  XXXXXXX    %s", Judge_ch);
-    Judge_State(Judge_ch, UnSet);
-    sprintf(in_ch[9], "   9.  XXXXXXX    %s", Judge_ch);
+    Judge_State(Judge_ch, _Com_Run_);
+    sprintf(in_ch[4], "   4.  R U N      %s", Judge_ch);
+    Judge_State(Judge_ch, _Com_XX1_);
+    sprintf(in_ch[5], "   5.  X X 1      %s", Judge_ch);
+    Judge_State(Judge_ch, _Com_XX2_);
+    sprintf(in_ch[6], "   6.  X X 2      %s", Judge_ch);
+    Judge_State(Judge_ch, _Com_XX3_);
+    sprintf(in_ch[7], "   7.  X X 3      %s", Judge_ch);
+    Judge_State(Judge_ch, _Com_XX4_);
+    sprintf(in_ch[8], "   8.  X X 4      %s", Judge_ch);
+    Judge_State(Judge_ch, _Com_XX5_);
+    sprintf(in_ch[9], "   9.  X X 5      %s", Judge_ch);
 //    Judge_State(Judge_ch, Set_XXXX);
 //    sprintf(in_ch[2], "     2. XXXX     %s", Judge_ch);
 }
 
-void Chang_State(uint8_t UI_Case, uint8_t Frame_Min, uint8_t *Value)
+//uint8_t U8_DATA[4];
+//uint32_t CLEAN_DATA = 0xFFFFFFFF;
+void Chang_State(uint8_t UI_Case, uint8_t Frame_Min, uint16_t *Value)
 {
     int8_t temp_value = *Value;
     uint8_t ch[25];
-
+	uint8_t Which_4B = (UI_Case-1)/2; 	// 判断属于哪4字节空间里，flash写数据一次至少4字节;
+										// 这里的哪是指从公共参数开始，即偏移量400开始。
     for(;;)
     {
-        Judge_State(ch, temp_value);
-        OLED_Show_Str(108, (UI_Case-Frame_Min+1)*13, ch, 12, 0);
+        Judge_State(ch, temp_value);	// 判断并写入ON/OFF
+        OLED_Show_Str(108, (UI_Case-Frame_Min+1)*13, ch, 12, Toggle);	// 显示ON/OFF
 
-        uint8_t value_ok_flag = 0;
+        uint8_t value_ok_flag = 0;	//值更改完成标志位
         switch (Get_Key())
         {
             case Press_Up:
@@ -426,10 +429,34 @@ void Chang_State(uint8_t UI_Case, uint8_t Frame_Min, uint8_t *Value)
                 break;
             case Press_Mid:
                 value_ok_flag = 1;
-                *Value = temp_value;
+                
+			
+				ALL_DATA_Change = COM_ARRAY_OFFSET + UI_Case -1;
+				ALL_DATA[ALL_DATA_Change] = *Value;
+			
+				/******************更新并保存数据***********************/
+			
+				Cache_ALL_DATA(); 			// 缓存所有flash中的数据到数组
+				*Value = temp_value; 		// 单独更新传参进的数组成员的值
+				FLASH_Erase_All_Data(); 	// 完全擦除存数据的扇叶
+				FLASH_Write_All_Data();		// 写入所有数据到存数据的扇叶
+			
+				/******************************************************/
+			
+//				U8_DATA[0] = flash_read(DATA_FLASH, COM_OFFSET+Which_4B*4+0, uint8_t);
+//				U8_DATA[1] = flash_read(DATA_FLASH, COM_OFFSET+Which_4B*4+1, uint8_t);
+//				U8_DATA[2] = flash_read(DATA_FLASH, COM_OFFSET+Which_4B*4+2, uint8_t);
+//				U8_DATA[3] = flash_read(DATA_FLASH, COM_OFFSET+Which_4B*4+3, uint8_t);
+//				
+//				U8_DATA[(UI_Case-1)%4] = *Value;//flash缓存数组中更新被修改的那个
+				
+//				FLASH_EraseSector(DATA_FLASH);
+//				FLASH_WriteSector(DATA_FLASH, (const uint8_t *)U8_DATA, 4, COM_OFFSET+Which_4B*4);// 写入前擦除
+
 				/////////
                 break;
             case Press_Left:
+				temp_value = *Value;	// 恢复之前未修改时的值
                 value_ok_flag = 1;
                 break;
         }
@@ -440,7 +467,7 @@ void Chang_State(uint8_t UI_Case, uint8_t Frame_Min, uint8_t *Value)
         if(1 == value_ok_flag)
         {
             Judge_State(ch, temp_value);
-            OLED_Show_Str(108, (UI_Case-Frame_Min+1)*13, ch, 12, 1);
+            OLED_Show_Str(108, (UI_Case-Frame_Min+1)*13, ch, 12, Normal);	// 更新状态（ON/OFF）
             OLED_Refresh_Gram();
             break;
         }
@@ -459,11 +486,11 @@ uint8_t UI_Set(void)
     OLED_Clear();
     uint8_t UI_Menu[10][30];
     Write_State(UI_Menu);
-    OLED_Show_StrAll(0,  0, UI_Menu[0],           1);
-    OLED_Show_StrAll(0, 13, UI_Menu[Frame_Min],   1);
-    OLED_Show_StrAll(0, 26, UI_Menu[Frame_Min+1], 1);
-    OLED_Show_StrAll(0, 39, UI_Menu[Frame_Min+2], 1);
-    OLED_Show_StrAll(0, 52, UI_Menu[Frame_Min+3], 1);
+    OLED_Show_StrAll(0,  0, UI_Menu[0],           Normal);
+    OLED_Show_StrAll(0, 13, UI_Menu[Frame_Min],   Normal);
+    OLED_Show_StrAll(0, 26, UI_Menu[Frame_Min+1], Normal);
+    OLED_Show_StrAll(0, 39, UI_Menu[Frame_Min+2], Normal);
+    OLED_Show_StrAll(0, 52, UI_Menu[Frame_Min+3], Normal);
     for(;;)
     {
         Case_Temp = UI_Case;
@@ -477,10 +504,17 @@ uint8_t UI_Set(void)
 			case Press_Mid:		//按中
 				switch(UI_Case)
 				{
-					case 1:  Chang_State(UI_Case, Frame_Min, &Set_LED);   break;
-					case 2:  Chang_State(UI_Case, Frame_Min, &Set_Beep);  break;
-					case 3:  Chang_State(UI_Case, Frame_Min, &Bluetooth);  break;
-					case 4:		return 0;
+					case 1:  Chang_State(UI_Case, Frame_Min, &_Com_LED_);   	break;
+					case 2:  Chang_State(UI_Case, Frame_Min, &_Com_Buzzer_); 	break;
+					case 3:  Chang_State(UI_Case, Frame_Min, &_Com_BT_);  		break;
+					case 4:	 Chang_State(UI_Case, Frame_Min, &_Com_Run_);  		break;
+					case 5:	 Chang_State(UI_Case, Frame_Min, &_Com_XX1_);  		break;
+					case 6:	 Chang_State(UI_Case, Frame_Min, &_Com_XX2_);  		break;
+					case 7:	 Chang_State(UI_Case, Frame_Min, &_Com_XX3_);  		break;
+					case 8:	 Chang_State(UI_Case, Frame_Min, &_Com_XX4_);  		break;
+					case 9:	 Chang_State(UI_Case, Frame_Min, &_Com_XX5_);  		break;
+					
+					
 					default:	return 0;//防止真出现其他情况
 				}
 		}
@@ -491,10 +525,10 @@ uint8_t UI_Set(void)
         Frame_Min = UI_Case-3>Frame_Min?UI_Case-3:Frame_Min;
         if(Case_Temp != UI_Case || Should_Refresh == 1)
         {
-            OLED_Show_Char(6, 12, ' ', 12, 1);
-            OLED_Show_Char(6, 25, ' ', 12, 1);
-            OLED_Show_Char(6, 38, ' ', 12, 1);
-            OLED_Show_Char(6, 50, ' ', 12, 1);
+            OLED_Show_Char(6, 12, ' ', 12, Normal);
+            OLED_Show_Char(6, 25, ' ', 12, Normal);
+            OLED_Show_Char(6, 38, ' ', 12, Normal);
+            OLED_Show_Char(6, 50, ' ', 12, Normal);
             /*状态写入UI_Menu里*/
             Write_State(UI_Menu);
             Should_Refresh == 0;
@@ -503,16 +537,16 @@ uint8_t UI_Set(void)
         if(Frame_Temp != Frame_Min)
         {
             /*显示菜单*/
-            OLED_Show_StrAll(0, 13, UI_Menu[Frame_Min],   1);
-            OLED_Show_StrAll(0, 26, UI_Menu[Frame_Min+1], 1);
-            OLED_Show_StrAll(0, 39, UI_Menu[Frame_Min+2], 1);
-            OLED_Show_StrAll(0, 52, UI_Menu[Frame_Min+3], 1);
+            OLED_Show_StrAll(0, 13, UI_Menu[Frame_Min],   Normal);
+            OLED_Show_StrAll(0, 26, UI_Menu[Frame_Min+1], Normal);
+            OLED_Show_StrAll(0, 39, UI_Menu[Frame_Min+2], Normal);
+            OLED_Show_StrAll(0, 52, UI_Menu[Frame_Min+3], Normal);
         }
         /*显示指示器*/
-        if(UI_Case == Frame_Min)          OLED_Show_Char(6, 12, '@', 12, 1);
-        else if(UI_Case == Frame_Min+1)   OLED_Show_Char(6, 25, '@', 12, 1);
-        else if(UI_Case == Frame_Min+2)   OLED_Show_Char(6, 38, '@', 12, 1);
-        else if(UI_Case == Frame_Min+3)   OLED_Show_Char(6, 50, '@', 12, 1);
+        if(UI_Case == Frame_Min)          OLED_Show_Char(6, 12, '@', 12, Normal);
+        else if(UI_Case == Frame_Min+1)   OLED_Show_Char(6, 25, '@', 12, Normal);
+        else if(UI_Case == Frame_Min+2)   OLED_Show_Char(6, 38, '@', 12, Normal);
+        else if(UI_Case == Frame_Min+3)   OLED_Show_Char(6, 50, '@', 12, Normal);
         OLED_Refresh_Gram();
     }
 }
@@ -637,7 +671,7 @@ uint8_t UI_MPU6050(void)
         OLED_Show_Str(0, 20, str, 12, 1);
         sprintf(str, "G_Y: %5d    ", GYRO.Y);
         OLED_Show_Str(0, 33, str, 12, 1);
-        sprintf(str, "Yaw: %d    ", flash_read(FLASH_SECTOR_NUM - 1,8,uint32_t));
+        sprintf(str, "Yaw: %d    ", Yaw);
         OLED_Show_Str(0, 46, str, 12, 1);
 
         OLED_Refresh_Gram();

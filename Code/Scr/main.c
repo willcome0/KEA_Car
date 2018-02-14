@@ -65,12 +65,12 @@
 int main(void)
 {
 	All_Init();
-	uint8_t Con_1[4];
-	Con_1[0] = 1;
-	Con_1[1] = 2;
-	Con_1[2] = 3;
-	Con_1[3] = 4;
-	FLASH_WriteSector(DATA_FLASH, (const uint8_t *)Con_1, 4, 400);
+//	uint8_t Con_1[4];
+//	Con_1[0] = 1;
+//	Con_1[1] = 2;
+//	Con_1[2] = 3;
+//	Con_1[3] = 4;
+//	FLASH_WriteSector(DATA_FLASH, (const uint8_t *)Con_1, 4, 400);
 	
 //    ftm_pwm_init(ftm2,ftm_ch0,12500,0);//大，正转//正反转绝对好使过
 //    ftm_pwm_init(ftm2,ftm_ch5,12500,300);

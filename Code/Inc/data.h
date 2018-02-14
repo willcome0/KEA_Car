@@ -4,7 +4,13 @@
 #include "common.h"
 
 
-
+//各部分参数在数组中的下标偏移量
+#define PLAN1_ARRAY_OFFSET		0
+#define PLAN2_ARRAY_OFFSET		40
+#define PLAN3_ARRAY_OFFSET		80
+#define PLAN4_ARRAY_OFFSET		120
+#define PLAN5_ARRAY_OFFSET		160
+#define COM_ARRAY_OFFSET		200
 
 
 
@@ -36,14 +42,43 @@ struct PLAN
 };
 struct CON
 {
-	uint8_t Run;
-	uint8_t LED;
-	uint8_t Buzzer;
-	uint8_t BT;
+
+	uint16_t LED;
+	uint16_t Buzzer;
+	uint16_t BT;
+	uint16_t Run;
+	
+	uint16_t XX1;
+	uint16_t XX2;
+	uint16_t XX3;
+	uint16_t XX4;
+	uint16_t XX5;
 
 };
 
+/////////////////////////////////////////////////////////////////
 
+#define _P1_Target_Angle_		ALL_DATA[0]
+#define _P1_Target_Speed_		ALL_DATA[1]
+#define _P1_AnglePID_P_			ALL_DATA[2]
+#define _P1_AnglePID_D_			ALL_DATA[3]
+#define _P1_SpeedPID_P_			ALL_DATA[4]
+#define _P1_SpeedPID_I_			ALL_DATA[5]
+#define _P1_TurnPID_P_			ALL_DATA[6]
+#define _P1_TurnPID_D_			ALL_DATA[7]
+
+#define _Com_LED_				ALL_DATA[200]
+#define _Com_Buzzer_			ALL_DATA[201]
+#define _Com_BT_				ALL_DATA[202]
+#define _Com_Run_				ALL_DATA[203]
+#define _Com_XX1_				ALL_DATA[204]
+#define _Com_XX2_				ALL_DATA[205]
+#define _Com_XX3_				ALL_DATA[206]
+#define _Com_XX4_				ALL_DATA[207]
+#define _Com_XX5_				ALL_DATA[208]
+
+//将flash中得数据缓存到数组里
+#define Cache_ALL_DATA()	{for(uint16_t i=0; i<256; i++)    ALL_DATA[i] = FLASH_Read(DATA_FLASH, i*2, uint16_t);}
 
 extern struct PLAN Plan1;//要更多方案在这里加
 extern struct PLAN Blue;//蓝牙方案

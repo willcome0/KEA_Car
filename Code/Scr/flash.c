@@ -16,6 +16,9 @@
 #define SET_FACTORY_MARGIN_LEVEL            0x0E  // 设置出厂裕量水平
 #define CONFIGURE_NVM                       0x0F  // 配置NVM
 
+
+uint16_t ALL_DATA[256];
+uint16_t ALL_DATA_Change = 999;	// 999代表没有更改
 //-------------------------------------------------------------------------------------------------------------------
 //  @brief      FLASH初始化
 //  @return     void

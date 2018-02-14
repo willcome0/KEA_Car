@@ -3,6 +3,9 @@
 void All_Init(void)
 {
     Buzzer_Init();
+	FLASH_Init();
+	Data_Init();
+	
     Beep_Time(50);
     UART_Init(UART_1, 9600);
     LED_Init();
@@ -31,7 +34,7 @@ void All_Init(void)
 	
 	Beep_Time(100);
     
-	FLASH_Init();
+
 	
 	OLED_Clear();
 	

@@ -4,6 +4,21 @@
 #include "common.h"
 
 
+//各部分参数在flash中的偏移量
+#define PLAN1_FLASH_OFFSET		0
+#define PLAN2_FLASH_OFFSET		80
+#define PLAN3_FLASH_OFFSET		160
+#define PLAN4_FLASH_OFFSET		240
+#define PLAN5_FLASH_OFFSET		320
+#define COM_FLASH_OFFSET		400
+
+extern uint16_t ALL_DATA[256];	// 储存所有参数
+extern uint16_t ALL_DATA_Change;
+
+#define FLASH_Erase_All_Data()	FLASH_EraseSector(DATA_FLASH)
+#define FLASH_Write_All_Data()	FLASH_WriteSector(DATA_FLASH, (const uint8_t *)ALL_DATA, 512, 0)
+
+
 
 
 #define FTF									FTMRE
@@ -23,7 +38,7 @@ typedef uint32_t						FLASH_WRITE_TYPE;       //flash_write 函数写入 的数据类型
 //  @since      v1.0
 //  Sample usage:               flash_read(20,0,uint32);//读取20号扇区偏移0数据类型为uint32
 //-------------------------------------------------------------------------------------------------------------------
-#define     flash_read(SectorNum,offset,type)        (*(type *)((uint32_t)(((SectorNum)*SECTOR_SIZE) + (offset))))
+#define     FLASH_Read(SectorNum,offset,type)        (*(type *)((uint32_t)(((SectorNum)*SECTOR_SIZE) + (offset))))
 
 
 void FLASH_Init(void);
