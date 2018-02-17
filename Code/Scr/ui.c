@@ -1,6 +1,17 @@
 #include "ui.h"
 
-
+void Show_Plan(void)	// 更新显示 方案几
+{
+	switch(_Com_Plan_)
+	{
+		case 1:	OLED_Show_StrAll(0, 26, "        案 一         ", 1);	break;
+		case 2:	OLED_Show_StrAll(0, 26, "        案 二         ", 1);	break;
+		case 3:	OLED_Show_StrAll(0, 26, "        案 三         ", 1);	break;
+		case 4:	OLED_Show_StrAll(0, 26, "        案 四         ", 1);	break;
+		case 5:	OLED_Show_StrAll(0, 26, "        案 五         ", 1);	break;
+		default: 														break;
+	}
+}
 uint8_t UI_Main(void)
 {
     volatile uint8_t UI_Case = 1;
@@ -8,7 +19,11 @@ uint8_t UI_Main(void)
 	OLED_Clear();
     OLED_Show_StrAll(0,  0, "      主  菜  单      ", 1);
 	OLED_Show_StrAll(0, 13, "        发 车         ", 1);
-	OLED_Show_StrAll(0, 26, "        方 案         ", 1);
+	
+	_Com_Plan_ = _Com_Plan_<1?5:_Com_Plan_;
+	_Com_Plan_ = _Com_Plan_>5?1:_Com_Plan_;
+	Show_Plan();
+	
 	OLED_Show_StrAll(0, 39, "        外 设         ", 1);
 	OLED_Show_StrAll(0, 52, "        设 置         ", 1);
 //    OLED_Show_StrZH12_12(0, 20, "。主菜单发车方案设置", 0);
@@ -18,21 +33,52 @@ uint8_t UI_Main(void)
 		switch (Get_Key())
 		{
 
-			case Press_Up:   UI_Case--;  break;
-			case Press_Down: UI_Case++;  break;
+			case Press_Up:   	UI_Case--;  	break;
+			case Press_Down: 	UI_Case++;  	break;
 			case Press_Mid:
-				switch(UI_Case)
-				{
-					case 1:		return 1;
-					case 2:		return 2;
-					case 3:		return 3;
-					case 4:		return 4;
-					default:	return 0;//防止真出现其他情况
-				}
-                break;
-                    default: break;
-		}
+								switch(UI_Case)
+								{
+									case 1:		return 1;
+									case 2:		return 2;
+									case 3:		return 3;
+									case 4:		return 4;
+									default:	return 0;//防止真出现其他情况
+								}
+			case Press_Left:	if(UI_Case==2)
+								{
+									_Com_Plan_--;
+									_Com_Plan_ = _Com_Plan_<1?5:_Com_Plan_;
+									/******************更新并保存数据***********************/
 
+									uint16_TMEP = _Com_Plan_;	
+									Cache_ALL_DATA(); 			// 缓存所有flash中的数据到数组
+									_Com_Plan_ = uint16_TMEP; 	// 更新该数组成员的值
+									FLASH_Erase_All_Data(); 	// 完全擦除存数据的扇叶
+									FLASH_Write_All_Data();		// 写入所有数据到存数据的扇叶
+									
+									/******************************************************/
+									Show_Plan();
+								}
+								break;
+			case Press_Right:	if(UI_Case==2)
+								{
+									_Com_Plan_++;
+									_Com_Plan_ = _Com_Plan_>5?1:_Com_Plan_;
+									/******************更新并保存数据***********************/
+
+									uint16_TMEP = _Com_Plan_;
+									Cache_ALL_DATA(); 			// 缓存所有flash中的数据到数组
+									_Com_Plan_ = uint16_TMEP; 	// 更新该数组成员的值
+									FLASH_Erase_All_Data(); 	// 完全擦除存数据的扇叶
+									FLASH_Write_All_Data();		// 写入所有数据到存数据的扇叶
+
+									/******************************************************/
+									Show_Plan();
+								}
+								break;
+			default: break;
+		}
+		
         UI_Case=UI_Case<1?4:UI_Case;
         UI_Case=UI_Case>4?1:UI_Case;
 
@@ -134,10 +180,18 @@ void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t Div
                 break;
             case Press_Mid:
                 value_ok_flag = 1;
-                *Value = temp_value;
+				/******************更新并保存数据***********************/
+			
+				Cache_ALL_DATA(); 			// 缓存所有flash中的数据到数组
+				*Value = temp_value; 		// 单独更新传参进的数组成员的值
+				FLASH_Erase_All_Data(); 	// 完全擦除存数据的扇叶
+				FLASH_Write_All_Data();		// 写入所有数据到存数据的扇叶
+			
+				/******************************************************/
                 break;
             case Press_Left:
                 value_ok_flag = 1;
+				temp_value = *Value;
                 break;
         }
         temp_value = temp_value> 9999? 9999:temp_value;
@@ -185,27 +239,36 @@ void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t Div
 #define DATA_15     0
 #define DATA_16     0
 
+#define _INDEX_Target_Angle_	0
+#define _INDEX_Target_Speed_	1
+#define _INDEX_AnglePID_P_		2
+#define _INDEX_AnglePID_D_		3
+#define _INDEX_SpeedPID_P_ 		4
+#define _INDEX_SpeedPID_I_ 		5
+#define _INDEX_TurnPID_P_ 		6
+#define _INDEX_TurnPID_D_ 		7
 
 void Write_Value(uint8_t in_ch[][30])
 {
 //                       "123456789012345678901"
+	uint16_t Index_Plan_Offset = (_Com_Plan_-1)*40;
     sprintf(in_ch [0], "  <     方  案        ");
-    sprintf(in_ch [1], "   1.  目标角度  %4d  ",    DATA_1);
-    sprintf(in_ch [2], "   2.  目标速度  %4d  ",    DATA_2);
-    sprintf(in_ch [3], "   3.  角 度 P   %4d  ",    DATA_3);
-    sprintf(in_ch [4], "   4.  角 度 D   %4d  ",    DATA_4);
-    sprintf(in_ch [5], "   5.  速 度 P   %4d  ",    DATA_5);
-    sprintf(in_ch [6], "   6.  速 度 I   %4d  ",    DATA_6);
-    sprintf(in_ch [7], "   7.  转 向 P   %4d  ",    DATA_7);
-    sprintf(in_ch [8], "   8.  转 向 D   %4d  ",    DATA_8);
-    sprintf(in_ch [9], "   9.  tp        %4d  ",    DATA_9);
-    sprintf(in_ch[10], "   10. td        %4d  ",    DATA_10);
-    sprintf(in_ch[11], "   11. XXXXXXX   %4d  ",    DATA_11);
-    sprintf(in_ch[12], "   12. XXXXXXX   %4d  ",    DATA_12);
-    sprintf(in_ch[13], "   13. XXXXXXX   %4d  ",    DATA_13);
-    sprintf(in_ch[14], "   14. XXXXXXX   %4d  ",    DATA_14);
-    sprintf(in_ch[15], "   15. XXXXXXX   %4d  ",    DATA_15);
-    sprintf(in_ch[16], "   16. XXXXXXX   %4d  ",    DATA_16);
+    sprintf(in_ch [1], "   1.  目标角度  %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_	]);
+    sprintf(in_ch [2], "   2.  目标速度  %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_Target_Speed_	]);
+    sprintf(in_ch [3], "   3.  角 度 P   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_AnglePID_P_		]);
+    sprintf(in_ch [4], "   4.  角 度 D   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_AnglePID_D_		]);
+    sprintf(in_ch [5], "   5.  速 度 P   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_SpeedPID_P_		]);
+    sprintf(in_ch [6], "   6.  速 度 I   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_SpeedPID_I_		]);
+    sprintf(in_ch [7], "   7.  转 向 P   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_TurnPID_P_		]);
+    sprintf(in_ch [8], "   8.  转 向 D   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_TurnPID_D_   	]);
+    sprintf(in_ch [9], "   9.  tp        %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_]);
+    sprintf(in_ch[10], "   10. td        %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_]);
+    sprintf(in_ch[11], "   11. XXXXXXX   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_]);
+    sprintf(in_ch[12], "   12. XXXXXXX   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_]);
+    sprintf(in_ch[13], "   13. XXXXXXX   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_]);
+    sprintf(in_ch[14], "   14. XXXXXXX   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_]);
+    sprintf(in_ch[15], "   15. XXXXXXX   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_]);
+    sprintf(in_ch[16], "   16. XXXXXXX   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_]);
 }
 
 uint8_t UI_Plan(void)
@@ -216,7 +279,8 @@ uint8_t UI_Plan(void)
     uint8_t Frame_Temp = 0;
     uint8_t Should_Refresh = 0;//用于更改值后刷新
     uint8_t ch[25];
-
+	uint16_t Index_Plan_Offset = (_Com_Plan_-1)*100;
+	
     OLED_Clear();
     uint8_t UI_Menu[20][30];
 
@@ -239,16 +303,16 @@ uint8_t UI_Plan(void)
 			case Press_Mid:		//按中
 				switch(UI_Case)
 				{
-					case  1:	Chang_Value(UI_Case, Frame_Min, &DATA_1,  1);   break;
-					case  2:	Chang_Value(UI_Case, Frame_Min, &DATA_2,  1);   break;
-					case  3:	Chang_Value(UI_Case, Frame_Min, &DATA_3,  1);   break;
-					case  4:	Chang_Value(UI_Case, Frame_Min, &DATA_4,  1);   break;
-                    case  5:	Chang_Value(UI_Case, Frame_Min, &DATA_5,  1);   break;
-                    case  6:	Chang_Value(UI_Case, Frame_Min, &DATA_6,  1);   break;
-                    case  7:	Chang_Value(UI_Case, Frame_Min, &DATA_7,  1);   break;
-                    case  8:	Chang_Value(UI_Case, Frame_Min, &DATA_8,  1);   break;
-                    case  9:	Chang_Value(UI_Case, Frame_Min, &DATA_9,  1);   break;
-                    case  10:	Chang_Value(UI_Case, Frame_Min, &DATA_10, 1);  break;
+					case  1:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_	],  1);   break;
+					case  2:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Speed_	],  1);   break;
+					case  3:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_AnglePID_P_	],  1);   break;
+					case  4:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_AnglePID_D_	],  1);   break;
+                    case  5:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_SpeedPID_P_	],  1);   break;
+                    case  6:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_SpeedPID_I_	],  1);   break;
+                    case  7:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_TurnPID_P_		],  1);   break;
+                    case  8:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_TurnPID_D_		],  1);   break;
+                    case  9:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_],  1);   break;
+                    case  10:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_], 1);  break;
 //                    case  11:   Chang_Value(UI_Case, Frame_Min, &DATA_11, DATA_P_11);  break;
 //                    case  12:   Chang_Value(UI_Case, Frame_Min, &DATA_12, DATA_P_12);  break;
 //                    case  13:   Chang_Value(UI_Case, Frame_Min, &DATA_13, DATA_P_13);  break;

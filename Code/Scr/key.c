@@ -89,7 +89,7 @@ uint8_t Get_Key(void)
 		if(0 == Read_Input_State(KEY_Right_Port, KEY_Right_Pin))
 		{
 			Beep_Time(2);
-            temp_return = Press_Mid ;  //右键也改为中键
+            temp_return = Press_Right;  //右键也改为中键
 		}
 		return temp_return;
 	}

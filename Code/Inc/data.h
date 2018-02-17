@@ -12,7 +12,7 @@
 #define PLAN5_ARRAY_OFFSET		160
 #define COM_ARRAY_OFFSET		200
 
-
+extern uint16_t uint16_TMEP;
 
 struct PID//PID结构体
 {
@@ -76,6 +76,11 @@ struct CON
 #define _Com_XX3_				ALL_DATA[206]
 #define _Com_XX4_				ALL_DATA[207]
 #define _Com_XX5_				ALL_DATA[208]
+
+#define _Com_Plan_				ALL_DATA[209]	// 使用范围为1~5，代表方案一到方案五
+
+
+
 
 //将flash中得数据缓存到数组里
 #define Cache_ALL_DATA()	{for(uint16_t i=0; i<256; i++)    ALL_DATA[i] = FLASH_Read(DATA_FLASH, i*2, uint16_t);}
