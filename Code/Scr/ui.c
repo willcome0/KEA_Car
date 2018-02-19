@@ -1,40 +1,47 @@
 #include "ui.h"
 
-void Show_Plan(void)	// 更新显示 方案几
+/*更新显示方案几，本文件内部使用*/
+void Show_Plan(void)
 {
 	switch(_Com_Plan_)
 	{
-		case 1:	OLED_Show_StrAll(0, 26, "        案 一         ", 1);	break;
-		case 2:	OLED_Show_StrAll(0, 26, "        案 二         ", 1);	break;
-		case 3:	OLED_Show_StrAll(0, 26, "        案 三         ", 1);	break;
-		case 4:	OLED_Show_StrAll(0, 26, "        案 四         ", 1);	break;
-		case 5:	OLED_Show_StrAll(0, 26, "        案 五         ", 1);	break;
-		default: 														break;
+		case 1:	OLED_Show_StrAll(0, 19, "        案 一         ", Normal);	break;
+		case 2:	OLED_Show_StrAll(0, 19, "        案 二         ", Normal);	break;
+		case 3:	OLED_Show_StrAll(0, 19, "        案 三         ", Normal);	break;
+		case 4:	OLED_Show_StrAll(0, 19, "        案 四         ", Normal);	break;
+		case 5:	OLED_Show_StrAll(0, 19, "        案 五         ", Normal);	break;
+		default: 														    break;
 	}
 }
+
 uint8_t UI_Main(void)
 {
-    volatile uint8_t UI_Case = 1;
+    uint8_t UI_Case = 1;
     uint8_t Case_Temp = 0;
 	OLED_Clear();
-    OLED_Show_StrAll(0,  0, "      主  菜  单      ", 1);
-	OLED_Show_StrAll(0, 13, "        发 车         ", 1);
-	
+//    OLED_Show_StrAll(0,  0, "      主  菜  单      ", Normal);
+	OLED_Show_StrAll(0, 3, "        发 车         ", Normal);
+
 	_Com_Plan_ = _Com_Plan_<1?5:_Com_Plan_;
 	_Com_Plan_ = _Com_Plan_>5?1:_Com_Plan_;
 	Show_Plan();
-	
-	OLED_Show_StrAll(0, 39, "        外 设         ", 1);
-	OLED_Show_StrAll(0, 52, "        设 置         ", 1);
-//    OLED_Show_StrZH12_12(0, 20, "。主菜单发车方案设置", 0);
+
+	OLED_Show_StrAll(0, 35, "        外 设         ", Normal);
+	OLED_Show_StrAll(0, 51, "        设 置         ", Normal);
+
 	for(;;)
 	{
 		Case_Temp = UI_Case;
 		switch (Get_Key())
 		{
+			case Press_Up:   	UI_Case--;
+                                UI_Case = UI_Case<1 ? 4:UI_Case;
+                                break;
 
-			case Press_Up:   	UI_Case--;  	break;
-			case Press_Down: 	UI_Case++;  	break;
+			case Press_Down: 	UI_Case++;
+                                UI_Case=UI_Case>4?1:UI_Case;
+                                break;
+
 			case Press_Mid:
 								switch(UI_Case)
 								{
@@ -42,24 +49,26 @@ uint8_t UI_Main(void)
 									case 2:		return 2;
 									case 3:		return 3;
 									case 4:		return 4;
-									default:	return 0;//防止真出现其他情况
+									default:	return 0;// 防止出现其他情况
 								}
+
 			case Press_Left:	if(UI_Case==2)
 								{
 									_Com_Plan_--;
-									_Com_Plan_ = _Com_Plan_<1?5:_Com_Plan_;
+									_Com_Plan_ = _Com_Plan_<1 ? 5:_Com_Plan_;
 									/******************更新并保存数据***********************/
 
-									uint16_TMEP = _Com_Plan_;	
+									uint16_TMEP = _Com_Plan_;
 									Cache_ALL_DATA(); 			// 缓存所有flash中的数据到数组
 									_Com_Plan_ = uint16_TMEP; 	// 更新该数组成员的值
 									FLASH_Erase_All_Data(); 	// 完全擦除存数据的扇叶
 									FLASH_Write_All_Data();		// 写入所有数据到存数据的扇叶
-									
+
 									/******************************************************/
 									Show_Plan();
 								}
 								break;
+
 			case Press_Right:	if(UI_Case==2)
 								{
 									_Com_Plan_++;
@@ -76,38 +85,37 @@ uint8_t UI_Main(void)
 									Show_Plan();
 								}
 								break;
-			default: break;
-		}
-		
-        UI_Case=UI_Case<1?4:UI_Case;
-        UI_Case=UI_Case>4?1:UI_Case;
 
-		if(Case_Temp != UI_Case)
-		{
-			OLED_Show_Char(32, 12, ' ', 12, 1);
-            OLED_Show_Char(32, 25, ' ', 12, 1);
-            OLED_Show_Char(32, 38, ' ', 12, 1);
-            OLED_Show_Char(32, 50, ' ', 12, 1);
+			default:            break;
 		}
-		switch (UI_Case)//判断所处菜单号，显示对应指示
+
+		if(Case_Temp != UI_Case)  // 菜单号有改动时，清楚指示
 		{
-            case 1: OLED_Show_Char(32, 12, '@', 12, 1);  break;
-            case 2: OLED_Show_Char(32, 25, '@', 12, 1);  break;
-            case 3: OLED_Show_Char(32, 38, '@', 12, 1);  break;
-            case 4: OLED_Show_Char(32, 50, '@', 12, 1);  break;
+			OLED_Show_Char(32,  3, ' ', 12, Normal);
+            OLED_Show_Char(32, 19, ' ', 12, Normal);
+            OLED_Show_Char(32, 35, ' ', 12, Normal);
+            OLED_Show_Char(32, 51, ' ', 12, Normal);
+		}
+		switch (UI_Case)  // 判断所处菜单号，显示对应指示
+		{
+            case 1: OLED_Show_Char(32,  3, '@', 12, Normal);  break;
+            case 2: OLED_Show_Char(32, 19, '@', 12, Normal);  break;
+            case 3: OLED_Show_Char(32, 35, '@', 12, Normal);  break;
+            case 4: OLED_Show_Char(32, 51, '@', 12, Normal);  break;
 		}
 		OLED_Refresh_Gram();
 	}
 }
-/*倒计时函数，只用于发车菜单中*/
-void CountDown(uint8_t time)
+
+/*倒计时函数，本文件内部使用*/
+void CountDown(uint16_t time)
 {
     OLED_Clear();
 
     for(uint8_t i=time; i!=0; i--)
     {
         Beep_Time(50);
-        OLED_Show_Char48_64(40, 0, i+'0', 1);
+        OLED_Show_Char48_64(40, 0, i+'0', Normal);
         OLED_Refresh_Gram();
         //考虑到最后一秒蜂鸣器时常
         if(1 == i)
@@ -118,11 +126,10 @@ void CountDown(uint8_t time)
         Delay_ms(950);
 
     }
-//    Logo_CarGo();
-    Beep_Time(300);
+    Beep_Time(200);
     OLED_Refresh_Gram();
-    Pin_Output_Toggle(PTE, PTE0);
 }
+
 uint8_t UI_Go(void)
 {
     int8_t GO_Time = 1;
@@ -130,18 +137,46 @@ uint8_t UI_Go(void)
 
     for(;;)
     {
-        OLED_Show_Str(6,  0, "<", 12, 1);
-        OLED_Show_Char48_64(40, 0, GO_Time+'0', 1);
+        OLED_Show_Str(6,  0, "<", 12, Normal);
+        OLED_Show_Char48_64(40, 0, _Com_CountDown_+'0', Normal);
         switch (Get_Key())
         {
-            case Press_Up:   GO_Time++;  break;
-            case Press_Down: GO_Time--;  break;
-            case Press_Mid:  CountDown(GO_Time);  Just_Do_It();
-            case Press_Left: return 0;
-            case Press_Right:break;
+            case Press_Up:      _Com_CountDown_++;
+                                _Com_CountDown_ = _Com_CountDown_>=5?5:_Com_CountDown_;
+                                /******************更新并保存数据***********************/
+
+                                uint16_TMEP = _Com_CountDown_;
+                                Cache_ALL_DATA();           // 缓存所有flash中的数据到数组
+                                _Com_CountDown_ = uint16_TMEP;   // 更新该数组成员的值
+                                FLASH_Erase_All_Data();     // 完全擦除存数据的扇叶
+                                FLASH_Write_All_Data();     // 写入所有数据到存数据的扇叶
+
+                                /******************************************************/
+                                break;
+
+            case Press_Down:    _Com_CountDown_ = _Com_CountDown_==0?1:_Com_CountDown_;
+								_Com_CountDown_--;
+                                
+                                /******************更新并保存数据***********************/
+
+                                uint16_TMEP = _Com_CountDown_;
+                                Cache_ALL_DATA();           // 缓存所有flash中的数据到数组
+                                _Com_CountDown_ = uint16_TMEP;   // 更新该数组成员的值
+                                FLASH_Erase_All_Data();     // 完全擦除存数据的扇叶
+                                FLASH_Write_All_Data();     // 写入所有数据到存数据的扇叶
+
+                                /******************************************************/
+                                break;
+
+            case Press_Mid:     CountDown(_Com_CountDown_);
+                                Just_Do_It();
+                                break;
+
+            case Press_Left:    return 0;
+
+            case Press_Right:   break;
         }
-        GO_Time = GO_Time>=5?5:GO_Time;
-        GO_Time = GO_Time<=0?0:GO_Time;
+
         OLED_Refresh_Gram();
     }
 }
@@ -149,7 +184,9 @@ uint8_t UI_Go(void)
 
 void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t Div_Num)
 {
-    int16_t temp_value = *Value;
+    uint16_t temp_value = *Value;
+    temp_value = temp_value>9999 ? 9999:temp_value;
+	temp_value = temp_value<1 ? 1:temp_value;
     uint8_t ch[25];
 
     for(;;)
@@ -166,37 +203,40 @@ void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t Div
                 sprintf(ch, "%2.1f", (float)temp_value/Div_Num);
             else if(100 == Div_Num)
                 sprintf(ch, "%1.2f", (float)temp_value/Div_Num);
-            
-            OLED_Show_Str(102, (UI_Case-Frame_Min+1)*13, ch, 12, 0);
+
+            OLED_Show_Str(102, (UI_Case-Frame_Min+1)*13, ch, 12, Toggle);
         }
         uint8_t value_ok_flag = 0;
         switch (Get_Key())
         {
-            case Press_Up:
-                temp_value++;
-                break;
-            case Press_Down:
-                temp_value--;
-                break;
-            case Press_Mid:
-                value_ok_flag = 1;
-				/******************更新并保存数据***********************/
-			
-				Cache_ALL_DATA(); 			// 缓存所有flash中的数据到数组
-				*Value = temp_value; 		// 单独更新传参进的数组成员的值
-				FLASH_Erase_All_Data(); 	// 完全擦除存数据的扇叶
-				FLASH_Write_All_Data();		// 写入所有数据到存数据的扇叶
-			
-				/******************************************************/
-                break;
-            case Press_Left:
-                value_ok_flag = 1;
-				temp_value = *Value;
-                break;
+            case Press_Up:      temp_value++;
+                                temp_value = temp_value>9999 ? 9999:temp_value;
+                                break;
+
+            case Press_Down:    temp_value--;
+                                temp_value = temp_value<1? 1:temp_value;
+                                break;
+
+            case Press_Mid:     value_ok_flag = 1;
+                				/******************更新并保存数据***********************/
+
+                				Cache_ALL_DATA(); 			// 缓存所有flash中的数据到数组
+                				*Value = temp_value; 		// 单独更新传参进的数组成员的值
+                				FLASH_Erase_All_Data(); 	// 完全擦除存数据的扇叶
+                				FLASH_Write_All_Data();		// 写入所有数据到存数据的扇叶
+
+                				/******************************************************/
+                                break;
+
+            case Press_Left:    value_ok_flag = 1;
+				                temp_value = *Value;
+                                break;
+
+            case Press_Right:   break;
         }
-        temp_value = temp_value> 9999? 9999:temp_value;
+
         //调试阶段先不管好不好看
-        temp_value = temp_value<-9999?-9999:temp_value;
+        // temp_value = temp_value<-9999?-9999:temp_value;
 
 
         if(1 == value_ok_flag)
@@ -204,7 +244,7 @@ void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t Div
             if(1 == Div_Num)
             {
                 sprintf(ch, "%4d", temp_value);
-                OLED_Show_Str(102, (UI_Case-Frame_Min+1)*13, ch, 12, 1);
+                OLED_Show_Str(102, (UI_Case-Frame_Min+1)*13, ch, 12, Normal);
             }
             else
             {
@@ -212,8 +252,8 @@ void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t Div
                     sprintf(ch, "%2.1f", (float)temp_value/Div_Num);
                 else if(100 == Div_Num)
                     sprintf(ch, "%1.2f", (float)temp_value/Div_Num);
-            
-                OLED_Show_Str(102, (UI_Case-Frame_Min+1)*13, ch, 12, 1);
+
+                OLED_Show_Str(102, (UI_Case-Frame_Min+1)*13, ch, 12, Normal);
             }
             OLED_Refresh_Gram();
             break;
@@ -221,23 +261,6 @@ void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t Div
         OLED_Refresh_Gram();
     }
 }
-
-#define DATA_1      Plan1.Target.Angle
-#define DATA_2      Plan1.Target.Speed
-#define DATA_3      Plan1.Angle.P
-#define DATA_4      Plan1.Angle.D
-#define DATA_5      Plan1.Speed.P
-#define DATA_6      Plan1.Speed.I
-#define DATA_7      Plan1.Turn.P
-#define DATA_8      Plan1.Turn.D
-#define DATA_9      Plan1.Turn.td
-#define DATA_10     Plan1.Turn.tp
-#define DATA_11     0
-#define DATA_12     0
-#define DATA_13     0
-#define DATA_14     0
-#define DATA_15     0
-#define DATA_16     0
 
 #define _INDEX_Target_Angle_	0
 #define _INDEX_Target_Speed_	1
@@ -251,24 +274,32 @@ void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t Div
 void Write_Value(uint8_t in_ch[][30])
 {
 //                       "123456789012345678901"
-	uint16_t Index_Plan_Offset = (_Com_Plan_-1)*40;
-    sprintf(in_ch [0], "  <     方  案        ");
-    sprintf(in_ch [1], "   1.  目标角度  %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_	]);
-    sprintf(in_ch [2], "   2.  目标速度  %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_Target_Speed_	]);
-    sprintf(in_ch [3], "   3.  角 度 P   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_AnglePID_P_		]);
-    sprintf(in_ch [4], "   4.  角 度 D   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_AnglePID_D_		]);
-    sprintf(in_ch [5], "   5.  速 度 P   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_SpeedPID_P_		]);
-    sprintf(in_ch [6], "   6.  速 度 I   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_SpeedPID_I_		]);
-    sprintf(in_ch [7], "   7.  转 向 P   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_TurnPID_P_		]);
-    sprintf(in_ch [8], "   8.  转 向 D   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_TurnPID_D_   	]);
-    sprintf(in_ch [9], "   9.  tp        %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_]);
-    sprintf(in_ch[10], "   10. td        %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_]);
-    sprintf(in_ch[11], "   11. XXXXXXX   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_]);
-    sprintf(in_ch[12], "   12. XXXXXXX   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_]);
-    sprintf(in_ch[13], "   13. XXXXXXX   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_]);
-    sprintf(in_ch[14], "   14. XXXXXXX   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_]);
-    sprintf(in_ch[15], "   15. XXXXXXX   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_]);
-    sprintf(in_ch[16], "   16. XXXXXXX   %4d  ",    ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_]);
+//	uint16_t Index_Plan_Offset = (_Com_Plan_-1)*40;
+	switch(_Com_Plan_)
+	{
+		case 1:	sprintf(in_ch [0], "  <    方  案  一     ");	break;
+		case 2:	sprintf(in_ch [0], "  <    方  案  二     ");	break;
+		case 3:	sprintf(in_ch [0], "  <    方  案  三     ");	break;
+		case 4:	sprintf(in_ch [0], "  <    方  案  四     ");	break;
+		case 5:	sprintf(in_ch [0], "  <    方  案  五     ");	break;
+		default: 												break;
+	}
+    sprintf(in_ch [1], "   1.  目标角度  %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_	]);
+    sprintf(in_ch [2], "   2.  目标速度  %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Speed_	]);
+    sprintf(in_ch [3], "   3.  角 度 P   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_AnglePID_P_		]);
+    sprintf(in_ch [4], "   4.  角 度 D   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_AnglePID_D_		]);
+    sprintf(in_ch [5], "   5.  速 度 P   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_SpeedPID_P_		]);
+    sprintf(in_ch [6], "   6.  速 度 I   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_SpeedPID_I_		]);
+    sprintf(in_ch [7], "   7.  转 向 P   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_TurnPID_P_		]);
+    sprintf(in_ch [8], "   8.  转 向 D   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_TurnPID_D_   	]);
+    sprintf(in_ch [9], "   9.  tp        %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
+    sprintf(in_ch[10], "   10. td        %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
+    sprintf(in_ch[11], "   11. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
+    sprintf(in_ch[12], "   12. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
+    sprintf(in_ch[13], "   13. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
+    sprintf(in_ch[14], "   14. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
+    sprintf(in_ch[15], "   15. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
+    sprintf(in_ch[16], "   16. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
 }
 
 uint8_t UI_Plan(void)
@@ -279,40 +310,247 @@ uint8_t UI_Plan(void)
     uint8_t Frame_Temp = 0;
     uint8_t Should_Refresh = 0;//用于更改值后刷新
     uint8_t ch[25];
-	uint16_t Index_Plan_Offset = (_Com_Plan_-1)*100;
-	
-    OLED_Clear();
+	uint16_t Index_Plan_Offset = (_Com_Plan_-1)*40;
+
     uint8_t UI_Menu[20][30];
 
+	back: ;
+	OLED_Clear();
     Write_Value(UI_Menu);
-    OLED_Show_StrAll(0,  0, UI_Menu[0],           1);
-    OLED_Show_StrAll(0, 13, UI_Menu[Frame_Min],   1);
-    OLED_Show_StrAll(0, 26, UI_Menu[Frame_Min+1], 1);
-    OLED_Show_StrAll(0, 39, UI_Menu[Frame_Min+2], 1);
-    OLED_Show_StrAll(0, 52, UI_Menu[Frame_Min+3], 1);
-    for(;;)
+    OLED_Show_StrAll(0,  0, UI_Menu[0],           Normal);
+    OLED_Show_StrAll(0, 13, UI_Menu[Frame_Min],   Normal);
+    OLED_Show_StrAll(0, 26, UI_Menu[Frame_Min+1], Normal);
+    OLED_Show_StrAll(0, 39, UI_Menu[Frame_Min+2], Normal);
+    OLED_Show_StrAll(0, 52, UI_Menu[Frame_Min+3], Normal);
+    for(;;)	// 第一层循环
     {
         Case_Temp = UI_Case;
         Frame_Temp = Frame_Min;
 
 		switch (Get_Key())
 		{
-			case Press_Up:   UI_Case--;  break;
-			case Press_Down: UI_Case++;  break;
-			case Press_Left: return 0;
+			case Press_Up:   	UI_Case--;
+								UI_Case=UI_Case<1?16:UI_Case;
+								break;
+			
+			case Press_Down: 	UI_Case++;
+								UI_Case=UI_Case>16?1:UI_Case;
+								break;
+			
+			case Press_Left:	return 0;
+			
+			case Press_Right:	uint8_t TEMP_GRAM_1[OLED_X_MAX][8];
+								for(uint8_t i=0; i<OLED_X_MAX; i++)
+									for(uint8_t j=0; j<8; j++)
+										TEMP_GRAM_1[i][j] = OLED_GRAM[i][j];
+			
+								uint8_t UI_Case_1 = 1;
+								uint8_t Break_Flag = 0;
+								for(; Break_Flag != 1 ;)	// 第二层循环
+								{
+									OLED_Fill(30, 23, 71, 56, 1);	// 白色背景
+									switch(UI_Case_1)				// 菜单显示
+									{
+										case 1:	OLED_Show_StrAll(33, 26, " 清空 ",   Normal);
+												OLED_Fill(33, 25, 68, 25, 0);
+												OLED_Fill(33, 38, 68, 38, 0);
+												OLED_Show_StrAll(33, 41, " 复制 ",   Toggle);
+												break;
+												
+										
+										case 2:	OLED_Show_StrAll(33, 26, " 清空 ",   Toggle);
+												OLED_Show_StrAll(33, 41, " 复制 ",   Normal);
+												OLED_Fill(33, 40, 68, 40, 0);
+												OLED_Fill(33, 53, 68, 53, 0);
+									}
+									
+									switch (Get_Key())				//功能选择
+									{
+										case Press_Up:		UI_Case_1 = 1;	break;
+										case Press_Down:	UI_Case_1 = 2;	break;
+										
+										case Press_Mid:		
+										case Press_Right:	uint8_t TEMP_GRAM_2[OLED_X_MAX][8];
+															for(uint8_t i=0; i<OLED_X_MAX; i++)
+																for(uint8_t j=0; j<8; j++)
+																	TEMP_GRAM_2[i][j] = OLED_GRAM[i][j];
+										
+															uint8_t UI_Case_2 = 1;
+															uint8_t Break_Flag_1 = 0;
+															for(; Break_Flag_1 != 1 ;)	// 第三层循环
+															{
+																if(UI_Case_1 == 1)				
+																{
+																	OLED_Fill(69, 14, 110, 47, 1);	// 白色背景
+																	switch(UI_Case_2)				// 菜单显示				
+																	{
+																		case 1:	OLED_Show_StrAll(72, 17, " 当前 ", Normal);
+																				OLED_Fill(72, 16, 107, 16, 0);
+																				OLED_Fill(72, 29, 107, 29, 0);
+																				OLED_Show_StrAll(72, 32, " 所有 ", Toggle);
+																				break;
+
+																		case 2:	OLED_Show_StrAll(72, 17, " 当前 ", Toggle);
+																				OLED_Show_StrAll(72, 32, " 所有 ", Normal);
+																				OLED_Fill(72, 31, 107, 31, 0);
+																				OLED_Fill(72, 44, 107, 44, 0);
+																	}
+																}
+																else if(UI_Case_1 == 2)	
+																{
+																	OLED_Fill(69, 1, 122, 63, 1);	// 白色背景
+																	uint8_t Temp_Str[4][9];
+																	switch(_Com_Plan_)
+																	{
+																		case 1:	sprintf(Temp_Str[0], " 方案二 ");
+																				sprintf(Temp_Str[1], " 方案三 ");
+																				sprintf(Temp_Str[2], " 方案四 ");
+																				sprintf(Temp_Str[3], " 方案五 ");
+																				break;
+																		case 2:	sprintf(Temp_Str[0], " 方案一 ");
+																				sprintf(Temp_Str[1], " 方案三 ");
+																				sprintf(Temp_Str[2], " 方案四 ");
+																				sprintf(Temp_Str[3], " 方案五 ");
+																				break;
+																		case 3:	sprintf(Temp_Str[0], " 方案一 ");
+																				sprintf(Temp_Str[1], " 方案二 ");
+																				sprintf(Temp_Str[2], " 方案四 ");
+																				sprintf(Temp_Str[3], " 方案五 ");
+																				break;
+																		case 4:	sprintf(Temp_Str[0], " 方案一 ");
+																				sprintf(Temp_Str[1], " 方案二 ");
+																				sprintf(Temp_Str[2], " 方案三 ");
+																				sprintf(Temp_Str[3], " 方案五 ");
+																				break;
+																		case 5:	sprintf(Temp_Str[0], " 方案一 ");
+																				sprintf(Temp_Str[1], " 方案二 ");
+																				sprintf(Temp_Str[2], " 方案三 ");
+																				sprintf(Temp_Str[3], " 方案四 ");
+																				break;
+																	}
+																	OLED_Show_StrAll(72,  4, Temp_Str[0], Toggle);
+																	OLED_Show_StrAll(72, 19, Temp_Str[1], Toggle);
+																	OLED_Show_StrAll(72, 34, Temp_Str[2], Toggle);
+																	OLED_Show_StrAll(72, 49, Temp_Str[3], Toggle);
+																	switch(UI_Case_2)				// 菜单显示
+																	{
+																		case 1:	OLED_Show_StrAll(72,  4, Temp_Str[0], Normal);
+																				OLED_Fill(72,  3, 119,  3, 0);
+																				OLED_Fill(72, 16, 119, 16, 0);
+																				break;
+																		case 2:	OLED_Show_StrAll(72, 19, Temp_Str[1], Normal);
+																				OLED_Fill(72, 18, 119, 18, 0);
+																				OLED_Fill(72, 31, 119, 31, 0);
+																				break;
+																		case 3:	OLED_Show_StrAll(72, 34, Temp_Str[2], Normal);
+																				OLED_Fill(72, 33, 119, 33, 0);
+																				OLED_Fill(72, 46, 119, 46, 0);
+																				break;
+																		case 4:	OLED_Show_StrAll(72, 49, Temp_Str[3], Normal);
+																				OLED_Fill(72, 48, 119, 48, 0);
+																				OLED_Fill(72, 61, 119, 61, 0);
+																				break;	
+																	}
+																}	// 菜单显示结束
+																
+																switch (Get_Key())
+																{
+																	case Press_Up:		if(UI_Case_1 == 1)
+																						{
+																							UI_Case_2 = 1;
+																						}
+																						else
+																						{
+																							UI_Case_2--;
+																							UI_Case_2 = UI_Case_2<1 ? 1:UI_Case_2;
+																						}
+																						break;
+																	
+																	case Press_Down:	if(UI_Case_1 == 1)
+																						{
+																							UI_Case_2 = 2;
+																						}
+																						else
+																						{
+																							UI_Case_2++;
+																							UI_Case_2 = UI_Case_2>4 ? 4:UI_Case_2;
+																						}
+																						break;
+																						
+																	case Press_Left:	Break_Flag_1 = 1;
+																						break;
+																						
+																	case Press_Mid:		/*********计算实际指向的是方案几*********/
+																						uint8_t Real_Plan;
+																						if(UI_Case_2 < _Com_Plan_)
+																							Real_Plan = UI_Case_2;
+																						else
+																							Real_Plan = UI_Case_2 + 1;
+																						/****************************************/
+																						switch(UI_Case_1*10 + UI_Case_2)
+																						{
+																							case 11:	Cache_ALL_DATA();
+																										ALL_DATA[Index_Plan_Offset + (UI_Case-1)] = 0;
+																										FLASH_Erase_All_Data(); 	// 完全擦除存数据的扇叶
+																										FLASH_Write_All_Data();		// 写入所有数据到存数据的扇叶
+																										break;
+																							
+																							case 12:	Cache_ALL_DATA();
+																										for(uint8_t i=0; i<40; i++)
+																											ALL_DATA[Index_Plan_Offset + i] = 0;
+																										FLASH_Erase_All_Data(); 	// 完全擦除存数据的扇叶
+																										FLASH_Write_All_Data();		// 写入所有数据到存数据的扇叶
+																										break;
+																							
+																							case 21:	//这儿贼巧妙
+																							case 22:
+																							case 23:
+																							case 24:	Cache_ALL_DATA();
+																										for(uint8_t i=0; i<40; i++)
+																											ALL_DATA[Index_Plan_Offset + i] = ALL_DATA[(Real_Plan-1)*40 + i];
+																										FLASH_Erase_All_Data(); 	// 完全擦除存数据的扇叶
+																										FLASH_Write_All_Data();		// 写入所有数据到存数据的扇叶
+																										break;
+																						}
+																						goto back;
+																						break;
+																						
+																	case Press_Right:	
+																						break;
+																}
+																OLED_Refresh_Gram();
+															}	// 第三层循环结束
+															for(uint8_t i=0; i<OLED_X_MAX; i++)
+																for(uint8_t j=0; j<8; j++)
+																	OLED_GRAM[i][j] = TEMP_GRAM_2[i][j];
+															break;
+											
+										case Press_Left:	Break_Flag = 1;	break;
+									}
+									
+								
+					
+									
+									OLED_Refresh_Gram();
+								}	// 第二层循环结束
+								for(uint8_t i=0; i<OLED_X_MAX; i++)
+									for(uint8_t j=0; j<8; j++)
+										OLED_GRAM[i][j] = TEMP_GRAM_1[i][j];
+								break;
+								
 			case Press_Mid:		//按中
 				switch(UI_Case)
 				{
-					case  1:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_	],  1);   break;
-					case  2:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Speed_	],  1);   break;
-					case  3:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_AnglePID_P_	],  1);   break;
-					case  4:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_AnglePID_D_	],  1);   break;
-                    case  5:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_SpeedPID_P_	],  1);   break;
-                    case  6:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_SpeedPID_I_	],  1);   break;
-                    case  7:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_TurnPID_P_		],  1);   break;
-                    case  8:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_TurnPID_D_		],  1);   break;
-                    case  9:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_],  1);   break;
-                    case  10:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_], 1);  break;
+					case  1:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_	],  Normal);   break;
+					case  2:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_Target_Speed_	],  Normal);   break;
+					case  3:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_AnglePID_P_	],  Normal);   break;
+					case  4:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_AnglePID_D_	],  Normal);   break;
+                    case  5:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_SpeedPID_P_	],  Normal);   break;
+                    case  6:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_SpeedPID_I_	],  Normal);   break;
+                    case  7:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_TurnPID_P_		],  Normal);   break;
+                    case  8:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_TurnPID_D_		],  Normal);   break;
+                    case  9:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_],  Normal);   break;
+                    case  10:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_], Normal);  break;
 //                    case  11:   Chang_Value(UI_Case, Frame_Min, &DATA_11, DATA_P_11);  break;
 //                    case  12:   Chang_Value(UI_Case, Frame_Min, &DATA_12, DATA_P_12);  break;
 //                    case  13:   Chang_Value(UI_Case, Frame_Min, &DATA_13, DATA_P_13);  break;
@@ -321,17 +559,16 @@ uint8_t UI_Plan(void)
 //                    case  16:   Chang_Value(UI_Case, Frame_Min, &DATA_16, DATA_P_16);  break;
 				}
 		}
-        UI_Case=UI_Case<1?16:UI_Case;
-        UI_Case=UI_Case>16?1:UI_Case;
+        
         /*判断框的范围*/
         Frame_Min = UI_Case<Frame_Min?UI_Case:Frame_Min;
         Frame_Min = UI_Case-3>Frame_Min?UI_Case-3:Frame_Min;
         if(Case_Temp != UI_Case || Should_Refresh == 1)
         {
-            OLED_Show_Char(6, 12, ' ', 12, 1);
-            OLED_Show_Char(6, 25, ' ', 12, 1);
-            OLED_Show_Char(6, 38, ' ', 12, 1);
-            OLED_Show_Char(6, 50, ' ', 12, 1);
+            OLED_Show_Char(6, 12, ' ', 12, Normal);
+            OLED_Show_Char(6, 25, ' ', 12, Normal);
+            OLED_Show_Char(6, 38, ' ', 12, Normal);
+            OLED_Show_Char(6, 50, ' ', 12, Normal);
             /*状态写入UI_Menu里*/
             Write_Value(UI_Menu);
             Should_Refresh == 0;
@@ -340,18 +577,18 @@ uint8_t UI_Plan(void)
         if(Frame_Temp != Frame_Min)
         {
             /*显示菜单*/
-            OLED_Show_StrAll(0, 13, UI_Menu[Frame_Min],   1);
-            OLED_Show_StrAll(0, 26, UI_Menu[Frame_Min+1], 1);
-            OLED_Show_StrAll(0, 39, UI_Menu[Frame_Min+2], 1);
-            OLED_Show_StrAll(0, 52, UI_Menu[Frame_Min+3], 1);
+            OLED_Show_StrAll(0, 13, UI_Menu[Frame_Min],   Normal);
+            OLED_Show_StrAll(0, 26, UI_Menu[Frame_Min+1], Normal);
+            OLED_Show_StrAll(0, 39, UI_Menu[Frame_Min+2], Normal);
+            OLED_Show_StrAll(0, 52, UI_Menu[Frame_Min+3], Normal);
         }
         /*显示指示器*/
-        if(UI_Case == Frame_Min)          OLED_Show_Char(6, 12, '@', 12, 1);
-        else if(UI_Case == Frame_Min+1)   OLED_Show_Char(6, 25, '@', 12, 1);
-        else if(UI_Case == Frame_Min+2)   OLED_Show_Char(6, 38, '@', 12, 1);
-        else if(UI_Case == Frame_Min+3)   OLED_Show_Char(6, 50, '@', 12, 1);
+        if(UI_Case == Frame_Min)          OLED_Show_Char(6, 12, '@', 12, Normal);
+        else if(UI_Case == Frame_Min+1)   OLED_Show_Char(6, 25, '@', 12, Normal);
+        else if(UI_Case == Frame_Min+2)   OLED_Show_Char(6, 38, '@', 12, Normal);
+        else if(UI_Case == Frame_Min+3)   OLED_Show_Char(6, 50, '@', 12, Normal);
         OLED_Refresh_Gram();
-    }
+    }// 第一层循环结束
 }
 
 
@@ -376,11 +613,11 @@ uint8_t UI_Driver(void)
                     "    8.  XXXXXXX      ",
                     "    9.  XXXXXXX      "
                   };
-    OLED_Show_StrAll(0,  0, UI_Menu[0], 1);
-    OLED_Show_StrAll(0, 13, UI_Menu[Frame_Min],   1);
-    OLED_Show_StrAll(0, 26, UI_Menu[Frame_Min+1], 1);
-    OLED_Show_StrAll(0, 39, UI_Menu[Frame_Min+2], 1);
-    OLED_Show_StrAll(0, 52, UI_Menu[Frame_Min+3], 1);
+    OLED_Show_StrAll(0,  0, UI_Menu[0]          , Normal);
+    OLED_Show_StrAll(0, 13, UI_Menu[Frame_Min]  , Normal);
+    OLED_Show_StrAll(0, 26, UI_Menu[Frame_Min+1], Normal);
+    OLED_Show_StrAll(0, 39, UI_Menu[Frame_Min+2], Normal);
+    OLED_Show_StrAll(0, 52, UI_Menu[Frame_Min+3], Normal);
     for(;;)
     {
         Case_Temp = UI_Case;
@@ -408,24 +645,24 @@ uint8_t UI_Driver(void)
         Frame_Min = UI_Case-3>Frame_Min?UI_Case-3:Frame_Min;
         if(Case_Temp != UI_Case)
         {
-            OLED_Show_Char(12, 12, ' ', 12, 1);
-            OLED_Show_Char(12, 25, ' ', 12, 1);
-            OLED_Show_Char(12, 38, ' ', 12, 1);
-            OLED_Show_Char(12, 50, ' ', 12, 1);
+            OLED_Show_Char(12, 12, ' ', 12, Normal);
+            OLED_Show_Char(12, 25, ' ', 12, Normal);
+            OLED_Show_Char(12, 38, ' ', 12, Normal);
+            OLED_Show_Char(12, 50, ' ', 12, Normal);
         }
         if(Frame_Temp != Frame_Min)
         {
             /*显示菜单*/
-            OLED_Show_StrAll(0, 13, UI_Menu[Frame_Min], 1);
-            OLED_Show_StrAll(0, 26, UI_Menu[Frame_Min+1], 1);
-            OLED_Show_StrAll(0, 39, UI_Menu[Frame_Min+2], 1);
-            OLED_Show_StrAll(0, 52, UI_Menu[Frame_Min+3], 1);
+            OLED_Show_StrAll(0, 13, UI_Menu[Frame_Min]  , Normal);
+            OLED_Show_StrAll(0, 26, UI_Menu[Frame_Min+1], Normal);
+            OLED_Show_StrAll(0, 39, UI_Menu[Frame_Min+2], Normal);
+            OLED_Show_StrAll(0, 52, UI_Menu[Frame_Min+3], Normal);
         }
         /*显示指示器*/
-        if(UI_Case == Frame_Min)          OLED_Show_Char(12, 12, '@', 12, 1);
-        else if(UI_Case == Frame_Min+1)   OLED_Show_Char(12, 25, '@', 12, 1);
-        else if(UI_Case == Frame_Min+2)   OLED_Show_Char(12, 38, '@', 12, 1);
-        else if(UI_Case == Frame_Min+3)   OLED_Show_Char(12, 50, '@', 12, 1);
+        if(UI_Case == Frame_Min)          OLED_Show_Char(12, 12, '@', 12, Normal);
+        else if(UI_Case == Frame_Min+1)   OLED_Show_Char(12, 25, '@', 12, Normal);
+        else if(UI_Case == Frame_Min+2)   OLED_Show_Char(12, 38, '@', 12, Normal);
+        else if(UI_Case == Frame_Min+3)   OLED_Show_Char(12, 50, '@', 12, Normal);
         OLED_Refresh_Gram();
     }
 }
@@ -493,27 +730,27 @@ void Chang_State(uint8_t UI_Case, uint8_t Frame_Min, uint16_t *Value)
                 break;
             case Press_Mid:
                 value_ok_flag = 1;
-                
-			
+
+
 				ALL_DATA_Change = COM_ARRAY_OFFSET + UI_Case -1;
 				ALL_DATA[ALL_DATA_Change] = *Value;
-			
+
 				/******************更新并保存数据***********************/
-			
+
 				Cache_ALL_DATA(); 			// 缓存所有flash中的数据到数组
 				*Value = temp_value; 		// 单独更新传参进的数组成员的值
 				FLASH_Erase_All_Data(); 	// 完全擦除存数据的扇叶
 				FLASH_Write_All_Data();		// 写入所有数据到存数据的扇叶
-			
+
 				/******************************************************/
-			
+
 //				U8_DATA[0] = flash_read(DATA_FLASH, COM_OFFSET+Which_4B*4+0, uint8_t);
 //				U8_DATA[1] = flash_read(DATA_FLASH, COM_OFFSET+Which_4B*4+1, uint8_t);
 //				U8_DATA[2] = flash_read(DATA_FLASH, COM_OFFSET+Which_4B*4+2, uint8_t);
 //				U8_DATA[3] = flash_read(DATA_FLASH, COM_OFFSET+Which_4B*4+3, uint8_t);
-//				
+//
 //				U8_DATA[(UI_Case-1)%4] = *Value;//flash缓存数组中更新被修改的那个
-				
+
 //				FLASH_EraseSector(DATA_FLASH);
 //				FLASH_WriteSector(DATA_FLASH, (const uint8_t *)U8_DATA, 4, COM_OFFSET+Which_4B*4);// 写入前擦除
 
@@ -577,8 +814,8 @@ uint8_t UI_Set(void)
 					case 7:	 Chang_State(UI_Case, Frame_Min, &_Com_XX3_);  		break;
 					case 8:	 Chang_State(UI_Case, Frame_Min, &_Com_XX4_);  		break;
 					case 9:	 Chang_State(UI_Case, Frame_Min, &_Com_XX5_);  		break;
-					
-					
+
+
 					default:	return 0;//防止真出现其他情况
 				}
 		}

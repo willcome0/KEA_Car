@@ -127,8 +127,7 @@ void SystemInit(void)
 #elif (CLOCK_SETUP == 1)
 	/* Update system prescalers */
 	/* SIM->CLKDIV: OUTDIV1=0,OUTDIV2=1,OUTDIV3=1 */
-        int a = (SIM_CLKDIV_OUTDIV2_MASK | SIM_CLKDIV_OUTDIV3_MASK);
-        
+	
     /*   SIM->CLKDIV = 0001 0001 0000 0000 0000 0000 0000
         4:   IREFSTEN = 1;    FLL 在旁路模式下禁用（除非调试有效）
         24-25: FTM0CLKPS = 01;   选择 TCLK1 用于 FTM0 模块。

@@ -45,6 +45,7 @@
     #define OLED_DC_Port     PTF
     #define OLED_DC_Pin      PTF2
 #endif
+
 /**************************************************************/
 
 #define  OLED_X_MAX		128		//¶¨ÒåÒº¾§xÖáµÄÏñËØÊý
@@ -73,9 +74,26 @@
 #define Normal 1	//ºÚµ×°××Ö
 #define Toggle 0	//°×µ×ºÚ×Ö
 
-/***************************************************************/
-extern volatile uint8_t OLED_GRAM[OLED_X_MAX][8];
+/*********************ÏÔ´æ²Ù×÷  ¶¨Òå****************************/
 
+/*  »Ö¸´ÏÔ´æ  */
+#define Recover_Gram()		{													\
+								for(uint8_t i=0; i<OLED_X_MAX; i++)				\
+									for(uint8_t j=0; j<8; j++)					\
+										OLED_GRAM[i][j] = TEMP_OLED_GRAM[i][j];	\
+							}
+/*  ÔÙ´Î»º´æÏÔ´æ  */								
+#define Cache_Gram()		{													\
+								for(uint8_t i=0; i<OLED_X_MAX; i++)				\
+									for(uint8_t j=0; j<8; j++)					\
+										TEMP_OLED_GRAM[i][j] = OLED_GRAM[i][j];	\
+							}
+
+/***************************************************************/
+							
+							
+extern volatile uint8_t OLED_GRAM[OLED_X_MAX][8];
+extern uint8_t TEMP_OLED_GRAM[OLED_X_MAX][8];
 
 void OLED_Refresh_Gram(void);
 void OLED_Init(void);

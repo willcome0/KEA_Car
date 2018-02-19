@@ -23,6 +23,7 @@
 
 
 volatile uint8_t OLED_GRAM[OLED_X_MAX][8];
+uint8_t TEMP_OLED_GRAM[OLED_X_MAX][8];
 //uint8_t  oled[OLED_X_MAX][8] = {0};
 
 //void PicChange(void)

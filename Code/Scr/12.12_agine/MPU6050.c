@@ -56,7 +56,7 @@ char Offset_OK = 0;
  */
 uint8_t MPU6050_Init(void)
 { 
-	uint8_t res;
+//	uint8_t res;
 	
     Delay_ms(10);
 	MPU6050_WR(MPU_PWR_MGMT1_REG,0X80);		// 复位MPU6050
@@ -179,8 +179,8 @@ int16_t GetData(uint8_t REG_Address)
 #define AcceRatio 	16384.0f
 #define GyroRatio 	16.4f
 #define Gyro_Gr		0.0010653	// 角速度变成弧度	此参数对应陀螺2000度每秒
-#define ACC_FILTER_NUM 1		// 加速度计滤波深度
-#define GYRO_FILTER_NUM 1		// 陀螺仪滤波深度
+#define ACC_FILTER_NUM 2		// 加速度计滤波深度
+#define GYRO_FILTER_NUM 2		// 陀螺仪滤波深度
 
 /*
  * 函数名：Data_Filter

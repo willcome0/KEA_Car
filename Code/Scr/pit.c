@@ -39,7 +39,7 @@ void PIT_Config(uint8_t PIT_CHX, uint32_t ms, uint8_t priority)
 
 void PIT_CH1_IRQHandler(void)
 {
-    uint8_t ch[30];
+//    uint8_t ch[30];
     PIT_CLR_Flag(PIT_CH1);  //清除中断标志位
 //    Disable_PIT_CH1();
     /*中断内容--开始*/

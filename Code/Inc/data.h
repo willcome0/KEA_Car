@@ -35,9 +35,9 @@ struct PLAN
     struct PID Angle; //角度环值
     struct PID Speed; //速度环值
     struct PID Turn;  //转弯环值
-    
+
     struct TARGET Target;//各目标值
-    
+
     uint16_t Safe_Angle;
 };
 struct CON
@@ -47,7 +47,7 @@ struct CON
 	uint16_t Buzzer;
 	uint16_t BT;
 	uint16_t Run;
-	
+
 	uint16_t XX1;
 	uint16_t XX2;
 	uint16_t XX3;
@@ -78,7 +78,7 @@ struct CON
 #define _Com_XX5_				ALL_DATA[208]
 
 #define _Com_Plan_				ALL_DATA[209]	// 使用范围为1~5，代表方案一到方案五
-
+#define _Com_CountDown_         ALL_DATA[210]   // 发车倒计时时间
 
 
 
