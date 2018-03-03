@@ -727,6 +727,7 @@ void Chang_State(uint8_t UI_Case, uint8_t Frame_Min, uint16_t *Value)
                 break;
             case Press_Down:
                 temp_value--;
+			
                 break;
             case Press_Mid:
                 value_ok_flag = 1;

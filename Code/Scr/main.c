@@ -125,7 +125,7 @@ int main(void)
 
 		
 //    FLASH_EraseSector(FLASH_SECTOR_NUM - 1);
-		uint32_t write2 = 123456789;
+//		uint32_t write2 = 123456789;
 		
 		
 		

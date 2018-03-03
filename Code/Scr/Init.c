@@ -2,11 +2,11 @@
 
 void All_Init(void)
 {
-    Buzzer_Init();
-	FLASH_Init();
-	Data_Init();
-	
-    Beep_Time(50);
+    Buzzer_Init();	// 蜂鸣器初始化
+	FLASH_Init();	// flash存储初始化
+	Data_Init();	// 系统变量初始化
+	Beep_Time(50);
+    	
     UART_Init(UART_1, 9600);
     LED_Init();
 
@@ -19,6 +19,8 @@ void All_Init(void)
 //    Encoder_Init();   //编码器初始化
     KEY_Init();
 //    AD_Init();        //电磁AD初始化
+
+
 
     kalman1_init(&AD_Kalman[0],0,10);
     AD_Kalman[0].q = 9e-4;//初始调这两个参数就可以
