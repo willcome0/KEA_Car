@@ -32,23 +32,32 @@ float Yaw_Huan = 0.00001;
 #define OUT 0
 #define IN 1
 uint8_t Huan_Flag = OUT;
+uint8_t Run_Time_Flag = 0;
+uint32_t Run_Time = 0;
+uint32_t Run_Distance = 0;
+
+uint16_t CONTROL_Target_Angle = 0;
+uint16_t CONTROL_Target_Speed = 0;
+uint16_t CONTROL_AnglePID_P	 = 0;
+uint16_t CONTROL_AnglePID_D   = 0;
+uint16_t CONTROL_SpeedPID_P   = 0;
+uint16_t CONTROL_SpeedPID_I   = 0;
+uint16_t CONTROL_TurnPID_P    = 0;
+uint16_t CONTROL_TurnPID_D    = 0;
+uint16_t CONTROL_Huan_Add     = 0;
 
 void PIT_CH0_IRQHandler(void)
 {
 								PIT_CLR_Flag(PIT_CH0);  //清除中断标志位 
 							//    Disable_PIT_CH0();
 									/*中断内容--开始*/
-									
-
     
 								MPU6050_GetData(&GYRO, &ACC);   //获取原始数据
 								Data_Filter();     //原始数据滤波
 								Get_Attitude();    //获取姿态
-								
-
-
+							
   
-								Angle_PWM = Plan1.Angle.P*(Pitch + Plan1.Target.Angle) + Plan1.Angle.D/10*GYRO_Real.Y;   //直立环
+								Angle_PWM = CONTROL_AnglePID_P*(Pitch + CONTROL_Target_Angle) + CONTROL_AnglePID_D/10*GYRO_Real.Y;   //直立环
 
     
 
@@ -56,10 +65,17 @@ void PIT_CH0_IRQHandler(void)
 								Value_End_L = Read_Input_State(Dir_End_L_Port, Dir_End_L_Pin)==0? -ftm_count_get(ftm0) :  ftm_count_get(ftm0); //编码器采集
 								Value_End_R = Read_Input_State(Dir_End_R_Port, Dir_End_R_Pin)==0?  ftm_count_get(ftm1) : -ftm_count_get(ftm1);
 
-
+								int16_t Ave_End = (Value_End_L + Value_End_R)/2;
+								
+								if(Run_Time_Flag)
+								{
+									Run_Time++;								// 计时	
+									Run_Distance = Run_Distance + Ave_End;	// 记路程
+								}									
+								
     
 //                Error_End = Value_End_L + Value_End_R - Plan1.Target.Speed*2;     
-					      Error_End =   Plan1.Target.Speed-(Value_End_L + Value_End_R)/2;   
+					      Error_End =   CONTROL_Target_Speed - Ave_End;   
 //                Value_End_L =0; 
 //								Value_End_R =0;		//保险起见
 								
@@ -79,7 +95,7 @@ void PIT_CH0_IRQHandler(void)
                 PreError[1]=PreError[0];
                 PreError[0]=Error_End;//入速度误差积分队列
 								AlllastError=(int)(PreError[0]+PreError[1]+PreError[2]+PreError[3]+PreError[4]);
-								Speed_PWM = -Error_End*Plan1.Speed.P + AlllastError*Plan1.Speed.I/100;    //速度环
+								Speed_PWM = -Error_End*CONTROL_SpeedPID_P + AlllastError*CONTROL_SpeedPID_I/100;    //速度环
 //								PreError[4]=PreError[3];
 //                PreError[3]=PreError[2];
 //                PreError[2]=PreError[1];
@@ -98,9 +114,9 @@ void PIT_CH0_IRQHandler(void)
 								ftm_count_clean(ftm0);  //清除编码器计数
 								ftm_count_clean(ftm1);
 								
-								
-								if(Pitch>Plan1.Target.Angle+3 && Pitch<Plan1.Target.Angle-3)
-										Speed_PWM = 0;
+								//保护
+//								if(Pitch>CONTROL_Target_Angle+3 && Pitch<CONTROL_Target_Angle-3)
+//										Speed_PWM = 0;
     
 								//    Value_Inductor_R = Get_Ind_V(AD_1);
 								//    Value_Inductor_L = Get_Ind_V(AD_2);
@@ -145,7 +161,7 @@ void PIT_CH0_IRQHandler(void)
 //                                        Huan_Count = 1;
                                         Yaw_Huan = Yaw;
                                         Beep_ON();
-                                        Value_Inductor_L = Value_Inductor_L*Plan1.Turn.tp/10;
+                                        Value_Inductor_L = Value_Inductor_L*CONTROL_Huan_Add/10;
                                     }
                                     else if(Huan_Count > 200) //2S之后
                                     {
@@ -181,7 +197,7 @@ void PIT_CH0_IRQHandler(void)
 		              
 
 //          Turn_PWM = Error_Ind*Plan1.Turn.P/10 + (Error_Ind - Eroor_Ind_Old)*Plan1.Turn.D;
-								Turn_PWM = x*Plan1.Turn.P + (Error_Ind - Eroor_Ind_Old)*Plan1.Turn.D;
+								Turn_PWM = x*CONTROL_TurnPID_P + (Error_Ind - Eroor_Ind_Old)*CONTROL_TurnPID_D;
 								
 								L_Final_PWM = Angle_PWM + Speed_PWM - Turn_PWM;
 								R_Final_PWM = Angle_PWM + Speed_PWM + Turn_PWM;
@@ -244,11 +260,40 @@ uint8_t Just_Do_It(void)
     OLED_Clear();
     
 //    Do_it = 1;
+	/********开电机********/
     Motor_L_EN(Enable);
     Motor_R_EN(Enable);
-    
+	Run_Time_Flag = 1;
+	Run_Time = 0;
+	Run_Distance = 0;
+    /**********************/
+	
     uint8_t LED_Count = 0;
-    OLED_Display_Off();//关OLED
+    OLED_Display_Off();	//关OLED
+	
+
+	uint16_t Index_Plan_Offset_1 = (_Com_Plan_-1)*40;
+	
+	CONTROL_Target_Angle = ALL_DATA[Index_Plan_Offset_1 + _INDEX_Target_Angle_];
+	CONTROL_Target_Speed = ALL_DATA[Index_Plan_Offset_1 + _INDEX_Target_Speed_];
+	CONTROL_AnglePID_P 	 = ALL_DATA[Index_Plan_Offset_1 + _INDEX_AnglePID_P_];
+	CONTROL_AnglePID_D 	 = ALL_DATA[Index_Plan_Offset_1 + _INDEX_AnglePID_D_];
+	CONTROL_SpeedPID_P 	 = ALL_DATA[Index_Plan_Offset_1 + _INDEX_SpeedPID_P_];
+	CONTROL_SpeedPID_I   = ALL_DATA[Index_Plan_Offset_1 + _INDEX_SpeedPID_I_];
+	CONTROL_TurnPID_P    = ALL_DATA[Index_Plan_Offset_1 + _INDEX_TurnPID_P_];
+	CONTROL_TurnPID_D    = ALL_DATA[Index_Plan_Offset_1 + _INDEX_TurnPID_D_];
+	CONTROL_Huan_Add     = ALL_DATA[Index_Plan_Offset_1 + _INDEX_Huan_Add_];
+	
+	switch(_Com_Plan_)
+	{
+		case 1:	break;
+		case 2:	break;
+		case 3:	break;
+		case 4:	break;
+		case 5:	break;
+		default:	break;
+	}
+								
     while(1)
     {
         {//彩虹灯
@@ -266,27 +311,31 @@ uint8_t Just_Do_It(void)
             LED_Count++;
         }  
 //        LED_Purple_ON();
-        
-        switch(Get_Key()||(Value_End_L>350)||(Value_End_L<-350)
-//               ||Pitch<-50
-               ||Value_Inductor_L<200||Value_Inductor_R<200
-                )
+		/*******************保护相关*****************************/
+		uint8_t Protect_Flag = 0;
+		if(1 == _Com_RunProtect_)
+		{
+			if( (Value_End_L>350)||(Value_End_L<-350)			// 转速保护
+//				||Pitch<-50										// 角度保护
+				||Value_Inductor_L<200||Value_Inductor_R<200	// 电感值保护
+			  )
+				Protect_Flag = 1;
+		}
+		/*******************************************************/
+        switch(Get_Key() || Protect_Flag)
         {
             case Press_NULL:  break;
             
             default:        
-//                            FTM_PWM_set_CnV(ftm2, ftm_ch0, 0);
-//                            FTM_PWM_set_CnV(ftm2, ftm_ch5, 0);
-//                            
-//                            FTM_PWM_set_CnV(ftm2, ftm_ch2, 0);
-//                            FTM_PWM_set_CnV(ftm2, ftm_ch3, 0);
-//                        Do_it = 0;
-                            Motor_L_EN(Disable);
-                            Motor_R_EN(Disable);
-//                        PIT_CLR_Flag(PIT_CH0);
-//                        LED_White_OFF();   //关LED
+						/****关电机****/
+						Motor_L_EN(Disable);
+						Motor_R_EN(Disable);
+						Run_Time_Flag = 0;
+						
+						/**************/
+                        LED_White_OFF();   //关LED
                         OLED_Display_On();//开OLED
-//                        NVIC_DisableIRQ(PIT_CH0_IRQn);
+
                         return 0;
         }
     Variable[0] = Value_End_L;  //左编码器

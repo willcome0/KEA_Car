@@ -134,7 +134,7 @@ extern "C" {
     #define CPU_XTAL_CLK_HZ           8000000u /* Value of the external crystal or oscillator clock frequency in Hz */
     #define CPU_INT_CLK_HZ            32768u   /* Value of the internal oscillator clock frequency in Hz  */
     #define DEFAULT_SYSTEM_CLOCK      32768u   /* Default System clock value */
-#elif (CLOCK_SETUP == 4)
+#elif (CLOCK_SETUP == 4) 
     #define CPU_XTAL_CLK_HZ           8000000u /* Value of the external crystal or oscillator clock frequency in Hz */
     #define CPU_INT_CLK_HZ            32768u   /* Value of the internal oscillator clock frequency in Hz  */
     #define DEFAULT_SYSTEM_CLOCK      8000000u /* Default System clock value */

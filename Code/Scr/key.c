@@ -63,7 +63,7 @@ uint8_t Get_Key(void)
 	
 	else if(0 == Read_Input_State(KEY_Mid_Port, KEY_Mid_Pin))
 	{
-		Delay_ms(Key_Delay*1.1);
+		Delay_ms(Key_Delay);
 		if(0 == Read_Input_State(KEY_Mid_Port, KEY_Mid_Pin))
 		{
 			Beep_Time(2);
@@ -85,17 +85,17 @@ uint8_t Get_Key(void)
 	
 	else if(0 == Read_Input_State(KEY_Right_Port, KEY_Right_Pin))
 	{
-		Delay_ms(100);  /*****/
+		Delay_ms(Key_Delay);
 		if(0 == Read_Input_State(KEY_Right_Port, KEY_Right_Pin))
 		{
-			Beep_Time(2);
+			Beep_Time(1);
             temp_return = Press_Right;  //右键也改为中键
 		}
 		return temp_return;
 	}
 	else
     {
-        Key_Delay = 70;
+        Key_Delay = 60;
         Key_Keep = 0;
 		return 0;
     }

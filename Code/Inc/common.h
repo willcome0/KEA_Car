@@ -55,11 +55,13 @@
 //#define 0b000 0x00
 
 /*********************PCB版本 宏定义**************************/
-#define PCB_VERSION        20
-                                 //  0     开发板
+#ifndef PCB_VERSION
+	#define PCB_VERSION        30
+#endif                           //  0     开发板
                                  //  20    PCB V2.0
                                  //  30    PCB V3.0
                                  //  31    PCB V3.1
+
 /************************************************************/
 
 #define  SYSTEM_CLK_KHZ   DEFAULT_SYSTEM_CLOCK/1000// 芯片系统时钟频率(KHz)

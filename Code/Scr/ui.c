@@ -123,7 +123,7 @@ void CountDown(uint16_t time)
             Delay_ms(800);
             continue;
         }
-        Delay_ms(950);
+        Delay_ms(800);
 
     }
     Beep_Time(200);
@@ -137,8 +137,15 @@ uint8_t UI_Go(void)
 
     for(;;)
     {
+		uint8_t str[30];
+		sprintf(str, "%.3f           %.3f", (float)Run_Distance/5760, (float)Run_Time/100);
+		OLED_Show_Str(0, 40, str, 12, 1);
+		sprintf(str, "%.3f", (float)Run_Distance/Run_Time/57.6);
+		OLED_Show_Str(0, 53, str, 12, 1);
+		
         OLED_Show_Str(6,  0, "<", 12, Normal);
         OLED_Show_Char48_64(40, 0, _Com_CountDown_+'0', Normal);
+		
         switch (Get_Key())
         {
             case Press_Up:      _Com_CountDown_++;
@@ -172,7 +179,10 @@ uint8_t UI_Go(void)
                                 Just_Do_It();
                                 break;
 
-            case Press_Left:    return 0;
+            case Press_Left:    
+								Run_Time = 0;
+								Run_Distance = 0;
+								return 0;
 
             case Press_Right:   break;
         }
@@ -262,14 +272,7 @@ void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t Div
     }
 }
 
-#define _INDEX_Target_Angle_	0
-#define _INDEX_Target_Speed_	1
-#define _INDEX_AnglePID_P_		2
-#define _INDEX_AnglePID_D_		3
-#define _INDEX_SpeedPID_P_ 		4
-#define _INDEX_SpeedPID_I_ 		5
-#define _INDEX_TurnPID_P_ 		6
-#define _INDEX_TurnPID_D_ 		7
+
 
 void Write_Value(uint8_t in_ch[][30])
 {
@@ -292,7 +295,7 @@ void Write_Value(uint8_t in_ch[][30])
     sprintf(in_ch [6], "   6.  速 度 I   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_SpeedPID_I_		]);
     sprintf(in_ch [7], "   7.  转 向 P   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_TurnPID_P_		]);
     sprintf(in_ch [8], "   8.  转 向 D   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_TurnPID_D_   	]);
-    sprintf(in_ch [9], "   9.  tp        %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
+    sprintf(in_ch [9], "   9.  HuanAdd   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan_Add_]);
     sprintf(in_ch[10], "   10. td        %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
     sprintf(in_ch[11], "   11. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
     sprintf(in_ch[12], "   12. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
@@ -549,7 +552,7 @@ uint8_t UI_Plan(void)
                     case  6:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_SpeedPID_I_	],  Normal);   break;
                     case  7:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_TurnPID_P_		],  Normal);   break;
                     case  8:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_TurnPID_D_		],  Normal);   break;
-                    case  9:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_],  Normal);   break;
+                    case  9:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_Huan_Add_],  Normal);   break;
                     case  10:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_], Normal);  break;
 //                    case  11:   Chang_Value(UI_Case, Frame_Min, &DATA_11, DATA_P_11);  break;
 //                    case  12:   Chang_Value(UI_Case, Frame_Min, &DATA_12, DATA_P_12);  break;
@@ -692,8 +695,8 @@ void Write_State(uint8_t in_ch[][30])
 
     Judge_State(Judge_ch, _Com_Run_);
     sprintf(in_ch[4], "   4.  R U N      %s", Judge_ch);
-    Judge_State(Judge_ch, _Com_XX1_);
-    sprintf(in_ch[5], "   5.  X X 1      %s", Judge_ch);
+    Judge_State(Judge_ch, _Com_RunProtect_);
+    sprintf(in_ch[5], "   5.  Protect    %s", Judge_ch);
     Judge_State(Judge_ch, _Com_XX2_);
     sprintf(in_ch[6], "   6.  X X 2      %s", Judge_ch);
     Judge_State(Judge_ch, _Com_XX3_);
@@ -806,15 +809,15 @@ uint8_t UI_Set(void)
 			case Press_Mid:		//按中
 				switch(UI_Case)
 				{
-					case 1:  Chang_State(UI_Case, Frame_Min, &_Com_LED_);   	break;
-					case 2:  Chang_State(UI_Case, Frame_Min, &_Com_Buzzer_); 	break;
-					case 3:  Chang_State(UI_Case, Frame_Min, &_Com_BT_);  		break;
-					case 4:	 Chang_State(UI_Case, Frame_Min, &_Com_Run_);  		break;
-					case 5:	 Chang_State(UI_Case, Frame_Min, &_Com_XX1_);  		break;
-					case 6:	 Chang_State(UI_Case, Frame_Min, &_Com_XX2_);  		break;
-					case 7:	 Chang_State(UI_Case, Frame_Min, &_Com_XX3_);  		break;
-					case 8:	 Chang_State(UI_Case, Frame_Min, &_Com_XX4_);  		break;
-					case 9:	 Chang_State(UI_Case, Frame_Min, &_Com_XX5_);  		break;
+					case 1:  Chang_State(UI_Case, Frame_Min, &_Com_LED_);   			break;
+					case 2:  Chang_State(UI_Case, Frame_Min, &_Com_Buzzer_); 			break;
+					case 3:  Chang_State(UI_Case, Frame_Min, &_Com_BT_);  				break;
+					case 4:	 Chang_State(UI_Case, Frame_Min, &_Com_Run_);  				break;
+					case 5:	 Chang_State(UI_Case, Frame_Min, &_Com_RunProtect_);  		break;
+					case 6:	 Chang_State(UI_Case, Frame_Min, &_Com_XX2_);  				break;
+					case 7:	 Chang_State(UI_Case, Frame_Min, &_Com_XX3_);  				break;
+					case 8:	 Chang_State(UI_Case, Frame_Min, &_Com_XX4_);  				break;
+					case 9:	 Chang_State(UI_Case, Frame_Min, &_Com_XX5_);  				break;
 
 
 					default:	return 0;//防止真出现其他情况

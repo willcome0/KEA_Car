@@ -58,6 +58,16 @@ struct CON
 
 /////////////////////////////////////////////////////////////////
 
+#define _INDEX_Target_Angle_	0
+#define _INDEX_Target_Speed_	1
+#define _INDEX_AnglePID_P_		2
+#define _INDEX_AnglePID_D_		3
+#define _INDEX_SpeedPID_P_ 		4
+#define _INDEX_SpeedPID_I_ 		5
+#define _INDEX_TurnPID_P_ 		6
+#define _INDEX_TurnPID_D_ 		7
+#define _INDEX_Huan_Add_ 		8
+
 #define _P1_Target_Angle_		ALL_DATA[0]
 #define _P1_Target_Speed_		ALL_DATA[1]
 #define _P1_AnglePID_P_			ALL_DATA[2]
@@ -79,7 +89,7 @@ struct CON
 
 #define _Com_Plan_				ALL_DATA[209]	// 使用范围为1~5，代表方案一到方案五
 #define _Com_CountDown_         ALL_DATA[210]   // 发车倒计时时间
-
+#define _Com_RunProtect_        ALL_DATA[211]	// 发车时的保护
 
 
 //将flash中得数据缓存到数组里

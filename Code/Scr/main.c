@@ -211,14 +211,13 @@ int main(void)
 //            LED_Green_OFF();
 //        Get_Key();
 
-
-//			uint8_t str[30];
-//				sprintf(str, "%d", flash_read(FLASH_SECTOR_NUM - 2,0,uint32_t));
-//        OLED_Show_Str(0, 46, str, 12, 1);
-//				OLED_Refresh_Gram();
-//				
-
+/******************œ‘ æ≤‚ ‘¥˙¬Î**********************/
+//		uint8_t str[30];
+//		sprintf(str, "%d", Run_Time/100);
+//		OLED_Show_Str(0, 46, str, 12, 1);
+//		OLED_Refresh_Gram();
 		
+
         switch(GO)
         {
             case  0:   GO = UI_Main();      break;

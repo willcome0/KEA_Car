@@ -1,5 +1,7 @@
 #include "Init.h"
 
+
+
 void All_Init(void)
 {
     Buzzer_Init();	// 蜂鸣器初始化
@@ -16,9 +18,11 @@ void All_Init(void)
     OLED_Display_Off();
     Motor_Init();     //电机初始化
 
-//    Encoder_Init();   //编码器初始化
+	PIT_Config(PIT_CH0, 10, 0);
+	
+    Encoder_Init();   //编码器初始化
     KEY_Init();
-//    AD_Init();        //电磁AD初始化
+    AD_Init();        //电磁AD初始化
 
 
 
