@@ -132,15 +132,15 @@ void CountDown(uint16_t time)
 
 uint8_t UI_Go(void)
 {
-    int8_t GO_Time = 1;
+//    int8_t GO_Time = 1;
 	OLED_Clear();
 
     for(;;)
     {
 		uint8_t str[30];
-		sprintf(str, "%.3f           %.3f", (float)Run_Distance/5760, (float)Run_Time/100);
+		sprintf((char *)str, "%.3f           %.3f", (float)Run_Distance/5760, (float)Run_Time/100);
 		OLED_Show_Str(0, 40, str, 12, 1);
-		sprintf(str, "%.3f", (float)Run_Distance/Run_Time/57.6);
+		sprintf((char *)str, "%.3f", (float)Run_Distance/Run_Time/57.6);
 		OLED_Show_Str(0, 53, str, 12, 1);
 		
         OLED_Show_Str(6,  0, "<", 12, Normal);
@@ -191,7 +191,7 @@ uint8_t UI_Go(void)
     }
 }
 
-void Chang_Value_End(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t Div_Num)
+void Chang_Value_End(uint8_t UI_Case, uint8_t Frame_Min, uint16_t *Value, uint8_t Div_Num)
 {
     int16_t temp_value = *Value;
     temp_value = temp_value>9999 ? 9999:temp_value;
@@ -203,15 +203,15 @@ void Chang_Value_End(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t
 
         if(1 == Div_Num)
         {
-            sprintf(ch, "%4d", temp_value);
+            sprintf((char *)ch, "%4d", temp_value);
             OLED_Show_Str(102, (UI_Case-Frame_Min+1)*13, ch, 12, 0);
         }
         else
         {
             if(10  == Div_Num)
-                sprintf(ch, "%2.1f", (float)temp_value/Div_Num);
+                sprintf((char *)ch, "%2.1f", (float)temp_value/Div_Num);
             else if(100 == Div_Num)
-                sprintf(ch, "%1.2f", (float)temp_value/Div_Num);
+                sprintf((char *)ch, "%1.2f", (float)temp_value/Div_Num);
 
             OLED_Show_Str(102, (UI_Case-Frame_Min+1)*13, ch, 12, Toggle);
         }
@@ -256,15 +256,15 @@ void Chang_Value_End(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t
         {
             if(1 == Div_Num)
             {
-                sprintf(ch, "%4d", temp_value);
+                sprintf((char *)ch, "%4d", temp_value);
                 OLED_Show_Str(102, (UI_Case-Frame_Min+1)*13, ch, 12, Normal);
             }
             else
             {
                 if(10  == Div_Num)
-                    sprintf(ch, "%2.1f", (float)temp_value/Div_Num);
+                    sprintf((char *)ch, "%2.1f", (float)temp_value/Div_Num);
                 else if(100 == Div_Num)
-                    sprintf(ch, "%1.2f", (float)temp_value/Div_Num);
+                    sprintf((char *)ch, "%1.2f", (float)temp_value/Div_Num);
 
                 OLED_Show_Str(102, (UI_Case-Frame_Min+1)*13, ch, 12, Normal);
             }
@@ -274,7 +274,7 @@ void Chang_Value_End(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t
         OLED_Refresh_Gram();
     }
 }
-void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t Div_Num)
+void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, uint16_t *Value, uint8_t Div_Num)
 {
     int16_t temp_value = *Value;
     temp_value = temp_value>9999 ? 9999:temp_value;
@@ -286,15 +286,15 @@ void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t Div
 
 //        if(1 == Div_Num)
 //        {
-            sprintf(ch, "%4d ", temp_value);
+            sprintf((char *)ch, "%4d ", temp_value);
             OLED_Show_Str(102, (UI_Case-Frame_Min+1)*13, ch, 12, 0);
 //        }
 //        else
 //        {
 //            if(10  == Div_Num)
-//                sprintf(ch, "%2.1f", (float)temp_value/Div_Num);
+//                sprintf((char *)ch, "%2.1f", (float)temp_value/Div_Num);
 //            else if(100 == Div_Num)
-//                sprintf(ch, "%1.2f", (float)temp_value/Div_Num);
+//                sprintf((char *)ch, "%1.2f", (float)temp_value/Div_Num);
 
 //            OLED_Show_Str(102, (UI_Case-Frame_Min+1)*13, ch, 12, Toggle);
 //        }
@@ -325,7 +325,10 @@ void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t Div
 				                temp_value = *Value;
                                 break;
 
-            case Press_Right:	for(;;)
+            case Press_Right:	/******************编码器调值***********************/
+								;	// case后不能定义变量
+								uint8_t BreakFor_Flag = 0;
+								for(;;)
 								{
 									temp_value += Value_End_L;	//增加编码器数值
 									temp_value = temp_value>9999 ? 9999:temp_value;
@@ -335,7 +338,7 @@ void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t Div
 									{
 										case Press_Left:
 														temp_value = *Value;
-														goto break_for_1;	// 跳出该for
+														BreakFor_Flag = 1;
 														break;
 										case Press_Mid:	
 														/******************更新并保存数据***********************/
@@ -346,17 +349,14 @@ void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t Div
 														FLASH_Write_All_Data();		// 写入所有数据到存数据的扇叶
 
 														/******************************************************/
-														goto break_for_1;	// 跳出该for
+														BreakFor_Flag = 1;
 														break;
-											
-										
-
 									}
-										sprintf(ch, "%4d#", temp_value);
-										OLED_Show_Str(102, (UI_Case-Frame_Min+1)*13, ch, 12, 0);
-										OLED_Refresh_Gram();
+									sprintf((char *)ch, "%4d#", temp_value);
+									OLED_Show_Str(102, (UI_Case-Frame_Min+1)*13, ch, 12, 0);
+									OLED_Refresh_Gram();
+									if(BreakFor_Flag)	break;
 								}
-								break_for_1: ;
 								break;
         }
 
@@ -366,15 +366,15 @@ void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, int16_t *Value, uint8_t Div
         {
 //            if(1 == Div_Num)
 //            {
-			sprintf(ch, "%4d ", temp_value);
+			sprintf((char *)ch, "%4d ", temp_value);
 			OLED_Show_Str(102, (UI_Case-Frame_Min+1)*13, ch, 12, Normal);
 //            }
 //            else
 //            {
 //                if(10  == Div_Num)
-//                    sprintf(ch, "%2.1f", (float)temp_value/Div_Num);
+//                    sprintf((char *)ch, "%2.1f", (float)temp_value/Div_Num);
 //                else if(100 == Div_Num)
-//                    sprintf(ch, "%1.2f", (float)temp_value/Div_Num);
+//                    sprintf((char *)ch, "%1.2f", (float)temp_value/Div_Num);
 
 //                OLED_Show_Str(102, (UI_Case-Frame_Min+1)*13, ch, 12, Normal);
 //            }
@@ -393,29 +393,29 @@ void Write_Value(uint8_t in_ch[][30])
 //	uint16_t Index_Plan_Offset = (_Com_Plan_-1)*40;
 	switch(_Com_Plan_)
 	{
-		case 1:	sprintf(in_ch [0], "  <    方  案  一     ");	break;
-		case 2:	sprintf(in_ch [0], "  <    方  案  二     ");	break;
-		case 3:	sprintf(in_ch [0], "  <    方  案  三     ");	break;
-		case 4:	sprintf(in_ch [0], "  <    方  案  四     ");	break;
-		case 5:	sprintf(in_ch [0], "  <    方  案  五     ");	break;
+		case 1:	sprintf((char *)in_ch [0], "  <    方  案  一     ");	break;
+		case 2:	sprintf((char *)in_ch [0], "  <    方  案  二     ");	break;
+		case 3:	sprintf((char *)in_ch [0], "  <    方  案  三     ");	break;
+		case 4:	sprintf((char *)in_ch [0], "  <    方  案  四     ");	break;
+		case 5:	sprintf((char *)in_ch [0], "  <    方  案  五     ");	break;
 		default: 												break;
 	}
-    sprintf(in_ch [1], "   1.  目标角度  %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_	]);
-    sprintf(in_ch [2], "   2.  目标速度  %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Speed_	]);
-    sprintf(in_ch [3], "   3.  角 度 P   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_AnglePID_P_		]);
-    sprintf(in_ch [4], "   4.  角 度 D   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_AnglePID_D_		]);
-    sprintf(in_ch [5], "   5.  速 度 P   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_SpeedPID_P_		]);
-    sprintf(in_ch [6], "   6.  速 度 I   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_SpeedPID_I_		]);
-    sprintf(in_ch [7], "   7.  转 向 P   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_TurnPID_P_		]);
-    sprintf(in_ch [8], "   8.  转 向 D   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_TurnPID_D_   	]);
-    sprintf(in_ch [9], "   9.  HuanAdd   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan_Add_]);
-    sprintf(in_ch[10], "   10. td        %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
-    sprintf(in_ch[11], "   11. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
-    sprintf(in_ch[12], "   12. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
-    sprintf(in_ch[13], "   13. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
-    sprintf(in_ch[14], "   14. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
-    sprintf(in_ch[15], "   15. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
-    sprintf(in_ch[16], "   16. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
+    sprintf((char *)in_ch [1], "   1.  目标角度  %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_	]);
+    sprintf((char *)in_ch [2], "   2.  目标速度  %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Speed_	]);
+    sprintf((char *)in_ch [3], "   3.  角 度 P   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_AnglePID_P_		]);
+    sprintf((char *)in_ch [4], "   4.  角 度 D   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_AnglePID_D_		]);
+    sprintf((char *)in_ch [5], "   5.  速 度 P   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_SpeedPID_P_		]);
+    sprintf((char *)in_ch [6], "   6.  速 度 I   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_SpeedPID_I_		]);
+    sprintf((char *)in_ch [7], "   7.  转 向 P   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_TurnPID_P_		]);
+    sprintf((char *)in_ch [8], "   8.  转 向 D   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_TurnPID_D_   	]);
+    sprintf((char *)in_ch [9], "   9.  HuanAdd   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan_Add_]);
+    sprintf((char *)in_ch[10], "   10. td        %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
+    sprintf((char *)in_ch[11], "   11. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
+    sprintf((char *)in_ch[12], "   12. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
+    sprintf((char *)in_ch[13], "   13. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
+    sprintf((char *)in_ch[14], "   14. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
+    sprintf((char *)in_ch[15], "   15. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
+    sprintf((char *)in_ch[16], "   16. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
 }
 
 uint8_t UI_Plan(void)
@@ -425,12 +425,12 @@ uint8_t UI_Plan(void)
     uint8_t Frame_Min = 1;
     uint8_t Frame_Temp = 0;
     uint8_t Should_Refresh = 0;//用于更改值后刷新
-    uint8_t ch[25];
+//    uint8_t ch[25];
 	uint16_t Index_Plan_Offset = (_Com_Plan_-1)*40;
 
     uint8_t UI_Menu[20][30];
 
-	back: ;
+
 	OLED_Clear();
     Write_Value(UI_Menu);
     OLED_Show_StrAll(0,  0, UI_Menu[0],           Normal);
@@ -455,13 +455,15 @@ uint8_t UI_Plan(void)
 			
 			case Press_Left:	return 0;
 			
-			case Press_Right:	uint8_t TEMP_GRAM_1[OLED_X_MAX][8];
+			case Press_Right:	;	// case后不能定义变量
+								uint8_t TEMP_GRAM_1[OLED_X_MAX][8];
 								for(uint8_t i=0; i<OLED_X_MAX; i++)
 									for(uint8_t j=0; j<8; j++)
 										TEMP_GRAM_1[i][j] = OLED_GRAM[i][j];
 			
-								uint8_t UI_Case_1 = 1;
-								uint8_t Break_Flag = 0;
+								uint8_t UI_Case_1;	UI_Case_1 = 1;	// 为了解决警告
+								uint8_t Break_Flag;	Break_Flag = 0;
+								
 								for(; Break_Flag != 1 ;)	// 第二层循环
 								{
 									OLED_Fill(30, 23, 71, 56, 1);	// 白色背景
@@ -486,13 +488,14 @@ uint8_t UI_Plan(void)
 										case Press_Down:	UI_Case_1 = 2;	break;
 										
 										case Press_Mid:		
-										case Press_Right:	uint8_t TEMP_GRAM_2[OLED_X_MAX][8];
+										case Press_Right:	;	// case后不能定义变量
+															uint8_t TEMP_GRAM_2[OLED_X_MAX][8];
 															for(uint8_t i=0; i<OLED_X_MAX; i++)
 																for(uint8_t j=0; j<8; j++)
 																	TEMP_GRAM_2[i][j] = OLED_GRAM[i][j];
 										
-															uint8_t UI_Case_2 = 1;
-															uint8_t Break_Flag_1 = 0;
+															uint8_t UI_Case_2;		UI_Case_2 = 1;
+															uint8_t Break_Flag_1;	Break_Flag_1 = 0;
 															for(; Break_Flag_1 != 1 ;)	// 第三层循环
 															{
 																if(UI_Case_1 == 1)				
@@ -518,30 +521,30 @@ uint8_t UI_Plan(void)
 																	uint8_t Temp_Str[4][9];
 																	switch(_Com_Plan_)
 																	{
-																		case 1:	sprintf(Temp_Str[0], " 方案二 ");
-																				sprintf(Temp_Str[1], " 方案三 ");
-																				sprintf(Temp_Str[2], " 方案四 ");
-																				sprintf(Temp_Str[3], " 方案五 ");
+																		case 1:	sprintf((char *)Temp_Str[0], " 方案二 ");
+																				sprintf((char *)Temp_Str[1], " 方案三 ");
+																				sprintf((char *)Temp_Str[2], " 方案四 ");
+																				sprintf((char *)Temp_Str[3], " 方案五 ");
 																				break;
-																		case 2:	sprintf(Temp_Str[0], " 方案一 ");
-																				sprintf(Temp_Str[1], " 方案三 ");
-																				sprintf(Temp_Str[2], " 方案四 ");
-																				sprintf(Temp_Str[3], " 方案五 ");
+																		case 2:	sprintf((char *)Temp_Str[0], " 方案一 ");
+																				sprintf((char *)Temp_Str[1], " 方案三 ");
+																				sprintf((char *)Temp_Str[2], " 方案四 ");
+																				sprintf((char *)Temp_Str[3], " 方案五 ");
 																				break;
-																		case 3:	sprintf(Temp_Str[0], " 方案一 ");
-																				sprintf(Temp_Str[1], " 方案二 ");
-																				sprintf(Temp_Str[2], " 方案四 ");
-																				sprintf(Temp_Str[3], " 方案五 ");
+																		case 3:	sprintf((char *)Temp_Str[0], " 方案一 ");
+																				sprintf((char *)Temp_Str[1], " 方案二 ");
+																				sprintf((char *)Temp_Str[2], " 方案四 ");
+																				sprintf((char *)Temp_Str[3], " 方案五 ");
 																				break;
-																		case 4:	sprintf(Temp_Str[0], " 方案一 ");
-																				sprintf(Temp_Str[1], " 方案二 ");
-																				sprintf(Temp_Str[2], " 方案三 ");
-																				sprintf(Temp_Str[3], " 方案五 ");
+																		case 4:	sprintf((char *)Temp_Str[0], " 方案一 ");
+																				sprintf((char *)Temp_Str[1], " 方案二 ");
+																				sprintf((char *)Temp_Str[2], " 方案三 ");
+																				sprintf((char *)Temp_Str[3], " 方案五 ");
 																				break;
-																		case 5:	sprintf(Temp_Str[0], " 方案一 ");
-																				sprintf(Temp_Str[1], " 方案二 ");
-																				sprintf(Temp_Str[2], " 方案三 ");
-																				sprintf(Temp_Str[3], " 方案四 ");
+																		case 5:	sprintf((char *)Temp_Str[0], " 方案一 ");
+																				sprintf((char *)Temp_Str[1], " 方案二 ");
+																				sprintf((char *)Temp_Str[2], " 方案三 ");
+																				sprintf((char *)Temp_Str[3], " 方案四 ");
 																				break;
 																	}
 																	OLED_Show_StrAll(72,  4, Temp_Str[0], Toggle);
@@ -597,6 +600,7 @@ uint8_t UI_Plan(void)
 																						break;
 																						
 																	case Press_Mid:		/*********计算实际指向的是方案几*********/
+																						;	// case后不能定义变量
 																						uint8_t Real_Plan;
 																						if(UI_Case_2 < _Com_Plan_)
 																							Real_Plan = UI_Case_2;
@@ -628,8 +632,8 @@ uint8_t UI_Plan(void)
 																										FLASH_Write_All_Data();		// 写入所有数据到存数据的扇叶
 																										break;
 																						}
-																						goto back;
-																						break;
+																						return 2;
+
 																						
 																	case Press_Right:	
 																						break;
@@ -691,7 +695,7 @@ uint8_t UI_Plan(void)
             OLED_Show_Char(6, 50, ' ', 12, Normal);
             /*状态写入UI_Menu里*/
             Write_Value(UI_Menu);
-            Should_Refresh == 0;
+            Should_Refresh = 0;
         }
 
         if(Frame_Temp != Frame_Min)
@@ -790,9 +794,9 @@ void Judge_State(uint8_t Judge_ch[], uint16_t state)
 {
     switch(state)
     {
-        case 0:   sprintf(Judge_ch, "OFF");  break;
-        case 1:   sprintf(Judge_ch, "ON ");  break;
-        default:  sprintf(Judge_ch, "???");
+        case 0:   sprintf((char *)Judge_ch, "OFF");  break;
+        case 1:   sprintf((char *)Judge_ch, "ON ");  break;
+        default:  sprintf((char *)Judge_ch, "???");
     }
 
 }
@@ -800,33 +804,32 @@ void Judge_State(uint8_t Judge_ch[], uint16_t state)
 void Write_State(uint8_t in_ch[][30])
 {
     uint8_t Judge_ch[4] = "";
-    uint8_t UnSet = 77;
+//    uint8_t UnSet = 77;
 
-    sprintf(in_ch[0], "  <     设  置       ");
-    Judge_State(Judge_ch, _Com_LED_);
-    sprintf(in_ch[1], "   1.  L E D      %s", Judge_ch);
-    Judge_State(Judge_ch, _Com_Buzzer_);
-    sprintf(in_ch[2], "   2.  蜂 鸣 器   %s", Judge_ch);
-    Judge_State(Judge_ch, _Com_BT_);
-    sprintf(in_ch[3], "   3.  蓝  牙     %s", Judge_ch);
-
-    Judge_State(Judge_ch, _Com_Run_);
-    sprintf(in_ch[4], "   4.  R U N      %s", Judge_ch);
-    Judge_State(Judge_ch, _Com_RunProtect_);
-    sprintf(in_ch[5], "   5.  Protect    %s", Judge_ch);
-//    Judge_State(Judge_ch, _Com_RunTimeStop_);
-//    sprintf(in_ch[6], "   6.  TimeStop   %s", Judge_ch);
-   sprintf(in_ch [6], "   6.  TimeStop  %4d  ", _Com_RunTimeStop_);
+    sprintf((char *)in_ch[0], "  <     设  置       ");
 	
-   sprintf(in_ch [7], "   7.  Dis Stop  %4d  ", _Com_RunDisStop_ );
-//    Judge_State(Judge_ch, _Com_XX3_);
-//    sprintf(in_ch[7], "   7.  X X 3      %s", Judge_ch);
+   sprintf((char *)in_ch [1], "   1.  时间停车  %4d  ", _Com_RunTimeStop_);
+	
+   sprintf((char *)in_ch [2], "   2.  距离停车  %4d  ", _Com_RunDisStop_ );
+
+	Judge_State(Judge_ch, _Com_RunProtect_);
+    sprintf((char *)in_ch[3], "   3.  保  护     %s", Judge_ch);	// 保护开关
+
+	Judge_State(Judge_ch, _Com_Debug_);
+    sprintf((char *)in_ch[4], "   4.  调  试     %s", Judge_ch);	// 调试开关：开后，电机禁能且关保护
+	
+    Judge_State(Judge_ch, _Com_LED_);
+    sprintf((char *)in_ch[5], "   5.  L E D      %s", Judge_ch);
+    Judge_State(Judge_ch, _Com_Buzzer_);
+    sprintf((char *)in_ch[6], "   6.  蜂 鸣 器   %s", Judge_ch);
+    Judge_State(Judge_ch, _Com_BT_);
+    sprintf((char *)in_ch[7], "   7.  蓝  牙     %s", Judge_ch);
+
     Judge_State(Judge_ch, _Com_XX4_);
-    sprintf(in_ch[8], "   8.  X X 4      %s", Judge_ch);
+    sprintf((char *)in_ch[8], "   8.  X X 4      %s", Judge_ch);
     Judge_State(Judge_ch, _Com_XX5_);
-    sprintf(in_ch[9], "   9.  X X 5      %s", Judge_ch);
-//    Judge_State(Judge_ch, Set_XXXX);
-//    sprintf(in_ch[2], "     2. XXXX     %s", Judge_ch);
+    sprintf((char *)in_ch[9], "   9.  X X 5      %s", Judge_ch);
+	/****************************设置菜单 修改二****************************/
 }
 
 //uint8_t U8_DATA[4];
@@ -835,7 +838,7 @@ void Chang_State(uint8_t UI_Case, uint8_t Frame_Min, uint16_t *Value)
 {
     int8_t temp_value = *Value;
     uint8_t ch[25];
-	uint8_t Which_4B = (UI_Case-1)/2; 	// 判断属于哪4字节空间里，flash写数据一次至少4字节;
+//	uint8_t Which_4B = (UI_Case-1)/2; 	// 判断属于哪4字节空间里，flash写数据一次至少4字节;
 										// 这里的哪是指从公共参数开始，即偏移量400开始。
     for(;;)
     {
@@ -923,42 +926,54 @@ uint8_t UI_Set(void)
 
 		switch (Get_Key())
 		{
-			case Press_Up:   UI_Case--;  break;
-            case Press_Down: UI_Case++;  break;
-			case Press_Left: return 0;
-			case Press_Mid:		//按中
-				switch(UI_Case)
-				{
-					case 1:  Chang_State(UI_Case, Frame_Min, &_Com_LED_);   				break;
-					case 2:  Chang_State(UI_Case, Frame_Min, &_Com_Buzzer_); 				break;
-					case 3:  Chang_State(UI_Case, Frame_Min, &_Com_BT_);  					break;
-					case 4:	 Chang_State(UI_Case, Frame_Min, &_Com_Run_);  					break;
-					case 5:	 Chang_State(UI_Case, Frame_Min, &_Com_RunProtect_);  			break;
-					case 6:	 Chang_Value(UI_Case, Frame_Min, &_Com_RunTimeStop_,  Normal);	break;
-					case 7:	 Chang_Value(UI_Case, Frame_Min, &_Com_RunDisStop_ ,  Normal);	break;
-					case 8:	 Chang_State(UI_Case, Frame_Min, &_Com_XX4_);  					break;
-					case 9:	 Chang_State(UI_Case, Frame_Min, &_Com_XX5_);  					break;
+			case Press_Up:		UI_Case--;
+								UI_Case=UI_Case<1?9:UI_Case;
+								break;
+			
+            case Press_Down:	UI_Case++;
+								UI_Case=UI_Case>9?1:UI_Case;
+								break;
+			
+			case Press_Left:	return 0;	// 退出
+			
+			case Press_Mid:
+								switch(UI_Case)
+								{
+									case 1:	 Chang_Value(UI_Case, Frame_Min, &_Com_RunTimeStop_,   1);	break;	// 时间停车
+									case 2:	 Chang_Value(UI_Case, Frame_Min, &_Com_RunDisStop_ ,   1);	break;	// 距离停车
+									case 3:	 Chang_State(UI_Case, Frame_Min, &_Com_Debug_			);	break;	// 调试开关
+									case 4:	 Chang_State(UI_Case, Frame_Min, &_Com_RunProtect_		);	break;	// 保护开关
+									case 5:  Chang_State(UI_Case, Frame_Min, &_Com_LED_				);	break;	// LED开关
+									case 6:  Chang_State(UI_Case, Frame_Min, &_Com_Buzzer_			);	break;	// 蜂鸣器开关
+									case 7:  Chang_State(UI_Case, Frame_Min, &_Com_BT_				);	break;	// 蓝牙开关
 
 
-					default:	return 0;//防止真出现其他情况
-				}
+									case 8:	 Chang_State(UI_Case, Frame_Min, &_Com_XX4_				);	break;
+									case 9:	 Chang_State(UI_Case, Frame_Min, &_Com_XX5_				);	break;
+									/****************************设置菜单 修改三****************************/
+
+									default:	return 0;//防止真出现其他情况
+								}
+								break;
 		}
-        UI_Case=UI_Case<1?9:UI_Case;
-        UI_Case=UI_Case>9?1:UI_Case;
+        
+        
         /*判断框的范围*/
         Frame_Min = UI_Case<Frame_Min?UI_Case:Frame_Min;
         Frame_Min = UI_Case-3>Frame_Min?UI_Case-3:Frame_Min;
+		/*判断更新界面与值*/
         if(Case_Temp != UI_Case || Should_Refresh == 1)
         {
+			/*刷新指示*/
             OLED_Show_Char(6, 12, ' ', 12, Normal);
             OLED_Show_Char(6, 25, ' ', 12, Normal);
             OLED_Show_Char(6, 38, ' ', 12, Normal);
             OLED_Show_Char(6, 50, ' ', 12, Normal);
             /*状态写入UI_Menu里*/
             Write_State(UI_Menu);
-            Should_Refresh == 0;
+            Should_Refresh = 0;
         }
-
+		/*框最小值变更，更新内容*/
         if(Frame_Temp != Frame_Min)
         {
             /*显示菜单*/
@@ -968,10 +983,10 @@ uint8_t UI_Set(void)
             OLED_Show_StrAll(0, 52, UI_Menu[Frame_Min+3], Normal);
         }
         /*显示指示器*/
-        if(UI_Case == Frame_Min)          OLED_Show_Char(6, 12, '@', 12, Normal);
-        else if(UI_Case == Frame_Min+1)   OLED_Show_Char(6, 25, '@', 12, Normal);
-        else if(UI_Case == Frame_Min+2)   OLED_Show_Char(6, 38, '@', 12, Normal);
-        else if(UI_Case == Frame_Min+3)   OLED_Show_Char(6, 50, '@', 12, Normal);
+        if		(UI_Case == Frame_Min)		OLED_Show_Char(6, 12, '@', 12, Normal);
+        else if	(UI_Case == Frame_Min+1)	OLED_Show_Char(6, 25, '@', 12, Normal);
+        else if	(UI_Case == Frame_Min+2)	OLED_Show_Char(6, 38, '@', 12, Normal);
+        else if	(UI_Case == Frame_Min+3)	OLED_Show_Char(6, 50, '@', 12, Normal);
         OLED_Refresh_Gram();
     }
 }
@@ -982,18 +997,18 @@ uint8_t UI_Set(void)
 
 uint8_t UI_Read_Ind(void)
 {
-    uint32_t Ind_L = 0;
-    uint32_t Ind_R = 0;
+//    uint32_t Ind_L = 0;
+//    uint32_t Ind_R = 0;
 
-    uint32_t Ind_L_Integral = 0;
-    uint32_t Ind_R_Integral = 0;
+//    uint32_t Ind_L_Integral = 0;
+//    uint32_t Ind_R_Integral = 0;
 
-    uint16_t Pre_L_Integral[10] = {0,0,0,0,0,0,0,0,0,0,};
-    uint16_t Pre_R_Integral[10] = {0,0,0,0,0,0,0,0,0,0,};
+//    uint16_t Pre_L_Integral[10] = {0,0,0,0,0,0,0,0,0,0,};
+//    uint16_t Pre_R_Integral[10] = {0,0,0,0,0,0,0,0,0,0,};
 
-    int16_t L_R = 0;
-    uint8_t ch[20] = "";
-    float error_dis = 0;
+//    int16_t L_R = 0;
+//    uint8_t ch[20] = "";
+//    float error_dis = 0;
     OLED_Clear();
     OLED_Show_StrAll(0,  0, " <    电  感  值      ", 1);
     for(;;)
@@ -1008,21 +1023,21 @@ uint8_t UI_Read_Ind(void)
 
 
             uint8_t str[32];
-            sprintf(str, "AD_L:%4d  AD_R:%4d", Value_Inductor_L, Value_Inductor_R);
+            sprintf((char *)str, "AD_L:%4d  AD_R:%4d", Value_Inductor_L, Value_Inductor_R);
             OLED_Show_Str(0, 12, str, 12, 1);
-//            sprintf(str, "AD1-2  :%4d ", Value_Inductor_L-Value_Inductor_R);
+//            sprintf((char *)str, "AD1-2  :%4d ", Value_Inductor_L-Value_Inductor_R);
 //            OLED_Show_Str(0, 25, str, 12, 1);
-		    sprintf(str, "AD_3:%4d  AD_4:%4d", Get_Ind_V(AD_3), Get_Ind_V(AD_4));
+		    sprintf((char *)str, "AD_3:%4d  AD_4:%4d", Get_Ind_V(AD_3), Get_Ind_V(AD_4));
             OLED_Show_Str(0, 25, str, 12, 1);
 
 
-		       sprintf(str, "PITCH: %3.2f   x:%f ", Pitch,x);
+		       sprintf((char *)str, "PITCH: %3.2f   x:%f ", Pitch,x);
            OLED_Show_Str(0,45, str, 12, 1);
 
-//            sprintf(str, "Pitch:%2.1f", Pitch );
+//            sprintf((char *)str, "Pitch:%2.1f", Pitch );
 //            OLED_Show_Str(0, 38, str, 12, 1);
 
-//           sprintf(str, "BAT:%2.2f", (float)Get_Ind_V(5)/410*1.78);
+//           sprintf((char *)str, "BAT:%2.2f", (float)Get_Ind_V(5)/410*1.78);
 //           OLED_Show_Str(0, 60, str, 12, 1);
 
             OLED_Refresh_Gram();
@@ -1069,7 +1084,7 @@ uint8_t UI_Read_Ind(void)
 
 uint8_t UI_MPU6050(void)
 {
-    uint32_t temp_tem = 0;
+//    uint32_t temp_tem = 0;
 
     OLED_Clear();
     OLED_Show_StrAll(0,  0, " <    陀  螺  仪      ", 1);
@@ -1087,16 +1102,16 @@ uint8_t UI_MPU6050(void)
 //    Get_Attitude_NoF();
 
 
-//        sprintf(str, "TEMP: %4d", Read_Temperature());
+//        sprintf((char *)str, "TEMP: %4d", Read_Temperature());
 //        OLED_Show_Str(0, 34, str, 12, 1);
 //
 //        Get_Angle();
 //        printf("Pitch: %f\r\n",Pitch);
-        sprintf(str, "PITCH: %3.2f    ", Pitch);
+        sprintf((char *)str, "PITCH: %3.2f    ", Pitch);
         OLED_Show_Str(0, 20, str, 12, 1);
-        sprintf(str, "G_Y: %5d    ", GYRO.Y);
+        sprintf((char *)str, "G_Y: %5d    ", GYRO.Y);
         OLED_Show_Str(0, 33, str, 12, 1);
-        sprintf(str, "Yaw: %d    ", Yaw);
+        sprintf((char *)str, "Yaw: %3.2f    ", Yaw);
         OLED_Show_Str(0, 46, str, 12, 1);
 
         OLED_Refresh_Gram();
@@ -1122,10 +1137,10 @@ uint8_t UI_Read_End(void)
 //        Value_End_L = End_Read_Dir(End_L)==0? -ftm_count_get(ftm0) : ftm_count_get(ftm0);
 //        Value_End_R = End_Read_Dir(End_R)==0? ftm_count_get(ftm1) : -ftm_count_get(ftm1);
 
-        sprintf(ch,"L_编码器:%5d ", Value_End_L);
+        sprintf((char *)ch,"L_编码器:%5d ", Value_End_L);
         OLED_Show_StrAll(0,  26, ch, 1);
-        sprintf(ch,"R_编码器:%5d ", Value_End_R);
-//        sprintf(ch, "   2.  目标角度  %1.2f", (float)Plan1.Target.Speed/100);
+        sprintf((char *)ch,"R_编码器:%5d ", Value_End_R);
+
         OLED_Show_StrAll(0,  39, ch, 1);
 
 //        ftm_count_clean(ftm0);
@@ -1184,7 +1199,7 @@ uint8_t UI_Read_End(void)
 //					default:	return 0;//防止真出现其他情况
 //				}
 //		}
-//        /*判断框的范围*/
+//        判断框的范围*/
 //        Frame_Min = UI_Case<Frame_Min?UI_Case:Frame_Min;
 //        Frame_Min = UI_Case-3>Frame_Min?UI_Case-3:Frame_Min;
 //        if(Case_Temp != UI_Case || Should_Refresh == 1)
@@ -1214,3 +1229,4 @@ uint8_t UI_Read_End(void)
 //        OLED_Refresh_Gram();
 //    }
 /***********************************************/
+

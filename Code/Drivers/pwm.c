@@ -211,19 +211,19 @@ void ftm_pwm_init(FTMn ftmn, FTM_CHn ch, uint32_t freq, uint32_t duty)
     {
         // EPWM的周期 ： MOD - CNTIN + 0x0001 == MOD - 0 + 1
         // 则 CnV = (MOD - 0 + 1) * 占空比 = (MOD - 0 + 1) * duty/ FTM_PRECISON
-    case ftm0:
-        cv = (duty * (mod - 0 + 1)) / FTM0_PRECISON;
-        break;
+		case ftm0:
+			cv = (duty * (mod - 0 + 1)) / FTM0_PRECISON;
+			break;
 
-    case ftm1:
-        cv = (duty * (mod - 0 + 1)) / FTM1_PRECISON;
-        break;
+		case ftm1:
+			cv = (duty * (mod - 0 + 1)) / FTM1_PRECISON;
+			break;
 
-    case ftm2:
-        cv = (duty * (mod - 0 + 1)) / FTM2_PRECISON;
-        break;
-    default:
-        break;
+		case ftm2:
+			cv = (duty * (mod - 0 + 1)) / FTM2_PRECISON;
+			break;
+		default:
+			break;
     }
     
 //    FTMX[ftmn]->MOD = mod;                  //设置PWM周期

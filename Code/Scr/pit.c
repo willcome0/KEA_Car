@@ -19,16 +19,16 @@ void PIT_Config(uint8_t PIT_CHX, uint32_t ms, uint8_t priority)
     SIM_SCGC |= SIM_SCGC_PIT_MASK;  //使能PIT时钟门
     PIT_MCR &= ~PIT_MCR_MDIS_MASK;  //使能PIT模块
 
-    NVIC_DisableIRQ(PIT_CH_IRQ_NO + PIT_CHX);  //禁能该中断
+    NVIC_DisableIRQ((IRQn_Type)(PIT_CH0_IRQn + PIT_CHX));  //禁能该中断
 
     //配置PIT模块
     PIT_LDVAL(PIT_CHX) = BUS_CLK_KHZ * ms;
     PIT_TCTRL(PIT_CHX) |= (PIT_TCTRL_TIE_MASK);     //开pit模块中断
     PIT_TCTRL(PIT_CHX) |= (PIT_TCTRL_TEN_MASK);     //使能pit模块运行
 
-    NVIC_SetPriority(PIT_CH_IRQ_NO + PIT_CHX, priority);
+    NVIC_SetPriority((IRQn_Type)(PIT_CH0_IRQn + PIT_CHX), priority);
     
-    NVIC_EnableIRQ(PIT_CH_IRQ_NO + PIT_CHX);   //使能该中断
+    NVIC_EnableIRQ((IRQn_Type)(PIT_CH0_IRQn + PIT_CHX));   //使能该中断
 }
 
 /**************************************************************************/

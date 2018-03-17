@@ -16,7 +16,7 @@ int16_t Eroor_Ind_Old = 0;
 int16_t Value_End_L = 0;
 int16_t Value_End_R = 0;
 int16_t Error_End = 0;
-int16_t PreError[5] = {0,0,0,0,0,};
+int16_t PreError[20];
 
 int AlllastError=0;
 int Speed_Slide[3]={0};//速度平滑参数
@@ -263,7 +263,7 @@ void PIT_CH0_IRQHandler(void)
 
 uint8_t Just_Do_It(void)
 {
-    uint8_t str[25];
+//    uint8_t str[25];
     
 //    NVIC_EnableIRQ(PIT_CH0_IRQn);
 //    NVIC->ISER[0] = (1 << ((uint32_t)(PIT_CH0_IRQn) & 0x1F));
@@ -373,3 +373,4 @@ uint8_t Just_Do_It(void)
     }
     
 }
+
