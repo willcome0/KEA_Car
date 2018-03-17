@@ -12,8 +12,4 @@
 #define End_L  0
 #define End_R  1
 
-
-void Encoder_Init(void);
-	
-
 #endif

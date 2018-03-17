@@ -4,7 +4,7 @@
 #include "common.h"
 
 //为方便PIT号传参
-//#define PIT_CH_IRQ_NO 22
+#define PIT_CH_IRQ_NO 22
 
 #define PIT_CH0 0
 #define PIT_CH1 1

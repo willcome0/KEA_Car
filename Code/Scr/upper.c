@@ -1,17 +1,13 @@
 #include "upper.h"
 #include "uart.h"
 
-/******************只用于 匿名四轴上位机代码***********************/
-#define BYTE0(Temp)       (*(char *) (&Temp))         //0-7位
-#define BYTE1(Temp)       (*((char *)(&Temp) + 1))  //8-15位
-#define BYTE2(Temp)       (*((char *)(&Temp) + 2))  //16-23位
-#define BYTE3(Temp)       (*((char *)(&Temp) + 3))  //24-31位
-/******************************************************************/
 
+#define BYTE0(Temp)       (*(char *)(&Temp))     
+#define BYTE1(Temp)       (*((char *)(&Temp) + 1))
+#define BYTE2(Temp)       (*((char *)(&Temp) + 2))
+#define BYTE3(Temp)       (*((char *)(&Temp) + 3))
 
-
-/******************波形助手上位机代码***********************/
-//void pit_hander();
+void pit_hander();
 float Variable[20];
 
 
@@ -27,7 +23,7 @@ void my_putchar(char temp)
 
 /*用来通知上位机新的一组数据开始，要保存数据必须发送它*/
 
-void Send_Begin(void)
+void Send_Begin()
 {
   my_putchar(0x55);
   my_putchar(0xaa);
@@ -35,7 +31,7 @@ void Send_Begin(void)
 }
 
 
-void Send_Variable(void)
+void Send_Variable()
 {
     uint8_t ch=0;
     float temp=0;
@@ -64,32 +60,27 @@ void Send_Variable(void)
 void Enable_Interrupt(uint8_t vector_number)
 {
 
-	NVIC_ClearPendingIRQ((IRQn_Type)vector_number); 		/* Clear pending interrupt register */
-	NVIC_EnableIRQ((IRQn_Type)vector_number); 				/* Enable required Interrupt */
+	NVIC_ClearPendingIRQ(vector_number); 		/* Clear pending interrupt register */
+	NVIC_EnableIRQ(vector_number); 				/* Enable required Interrupt */
 
 }
-/******************************************************************/
-
 
 /*************************************************************************
 *函 数 名：usart1_report_imu()
-*函数功能：匿名四轴上位机程序
+*函数功能：BYTE0(XX)什么玩意
 *时    间：2017.8.6
-*备    注：BYTE0(XX)什么玩意
-			解决办法：http://blog.sina.com.cn/s/blog_a3e25cc70102vhs5.html
+*备    注：http://blog.sina.com.cn/s/blog_a3e25cc70102vhs5.html
 **************************************************************************/
-//#define BYTE0(Temp)       (*(char *)(&Temp))     
-//#define BYTE1(Temp)       (*((char *)(&Temp) + 1))
-//#define BYTE2(Temp)       (*((char *)(&Temp) + 2))
-//#define BYTE3(Temp)       (*((char *)(&Temp) + 3))
-	
-
+#define BYTE0(dwTemp)       (*(char *)(&dwTemp))         //0-7位
+#define BYTE1(dwTemp)       (*((char *)(&dwTemp) + 1))  //8-15位
+#define BYTE2(dwTemp)       (*((char *)(&dwTemp) + 2))  //16-23位
+#define BYTE3(dwTemp)       (*((char *)(&dwTemp) + 3))  //24-31位
 uint8_t data_to_send[50];	//发送数据缓存
 void ANO_DT_Send_Data(uint8_t *dataToSend , uint8_t length)
 {
 ////	Usart2_Send(data_to_send, length);
 //	HAL_UART_Transmit(&huart1, dataToSend, length, 0xFFFF);
-    printf((char *)dataToSend);
+    printf(dataToSend);
 }
 void ANO_DT_Send_Status(float angle_rol, float angle_pit, float angle_yaw, int32_t alt, uint8_t fly_model, uint8_t armed)
 {
@@ -179,8 +170,6 @@ void ANO_DT_Send_Senser(int16_t a_x,int16_t a_y,int16_t a_z,int16_t g_x,int16_t 
 	
 	ANO_DT_Send_Data(data_to_send, _cnt);
 }
-/******************************************************************/
-
 //下面与获取角度放在循环里即可
 //	ANO_DT_Send_Status(Roll, Pitch, Yaw, 1, 1, 1);
 //	ANO_DT_Send_Senser(Accel_X,Accel_Y,Accel_Z,Gyro_X,Gyro_Y,Gyro_Z,1,1,1,0);

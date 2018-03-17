@@ -14,7 +14,7 @@
 
 ; <h> Stack Configuration
 ;   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
-; Ô­À´£ºStack_Size      EQU     0x00001000    </h>
+; </h>
 
 Stack_Size      EQU     0x00001000
 

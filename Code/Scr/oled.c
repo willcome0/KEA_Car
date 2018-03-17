@@ -117,13 +117,9 @@ void OLED_WR_Byte(uint8_t dat,uint8_t cmd)
 	{
 		OLED_SCL_LOW();
 		if(dat&0x80)
-		{
 			OLED_SDA_HIGH();
-		}
 		else
-		{
 			OLED_SDA_LOW();
-		}
 		OLED_SCL_HIGH();
 		dat<<=1;
 	}
@@ -355,14 +351,13 @@ void OLED_Show_Char48_64(uint8_t x, uint8_t y, uint8_t ch, uint8_t mode)
 		x -= 48;    // 恢复x值
    }
 }
-
 /*取字模时宽必须为8的倍数，这次取字模相当于是16x12*/
 void OLED_Show_ZH12_12(uint8_t x, uint8_t y, uint8_t ch1, uint8_t ch2, uint8_t mode)
 {
 	uint8_t   font_dat;
 	uint8_t   i, j, k;
 
-   for(i=0; i<ZH_Num; i+=2)//一个个查找字库
+   for(i=0; i<100; i+=2)//一个个查找字库
    {  //需同时判断汉字的低字节和高字节
       if(FONT12x12_TAB[i]==ch1 && FONT12x12_TAB[i+1]==ch2)
          break;
@@ -407,36 +402,36 @@ void  OLED_Show_StrAll(uint8_t x, uint8_t y, uint8_t *str, uint8_t mode)
         }
     }
 }
-//void OLED_Show_ZH14_16(uint8_t x, uint8_t y, uint8_t ch, uint8_t mode)
-//{
-//	uint8_t   font_dat;
-//	uint8_t   i, j, k;
+void OLED_Show_ZH14_16(uint8_t x, uint8_t y, uint8_t ch, uint8_t mode)
+{
+	uint8_t   font_dat;
+	uint8_t   i, j, k;
 
-//   for(i=0; i<15; i++)//一个个查找字库
-//   {
-//      if(FONT24x32_TAB[i]==ch)
-//         break;
-//   }
-//   ch = i;
+   for(i=0; i<15; i++)//一个个查找字库
+   {
+      if(FONT24x32_TAB[i]==ch)
+         break;
+   }
+   ch = i;
 
-//   for(i=0; i<16; i++)//显示共16行
-//   {
-//      for(j=0; j<2; j++) //每行2字节
-//      {
-//         font_dat = FONT24x32[ch][i*2+j];
-//         for(k=0; k<8; k++)
-//         {  /* 设置相应的点为color或为back_color */
-//            if( font_dat & DCB2HEX_TAB[k] )
-//               OLED_DrawPoint(x, y, mode);
-//            else
-//               OLED_DrawPoint(x, y, !mode);
-//            x++;
-//         }
-//      }
-//      y++;									// 指向下一行
-//      x -= 16;								// 恢复x值
-//   }
-//}
+   for(i=0; i<16; i++)//显示共16行
+   {
+      for(j=0; j<2; j++) //每行2字节
+      {
+         font_dat = FONT24x32[ch][i*2+j];
+         for(k=0; k<8; k++)
+         {  /* 设置相应的点为color或为back_color */
+            if( font_dat & DCB2HEX_TAB[k] )
+               OLED_DrawPoint(x, y, mode);
+            else
+               OLED_DrawPoint(x, y, !mode);
+            x++;
+         }
+      }
+      y++;									// 指向下一行
+      x -= 16;								// 恢复x值
+   }
+}
 
 /****************************************************************************
 * 名称：GUI_LoadLine()

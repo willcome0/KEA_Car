@@ -89,4 +89,3 @@ void Beep_ON(void)
         Pin_Output_Set(Buzzer_Port, Buzzer_Pin, SET);
     }
 }
-

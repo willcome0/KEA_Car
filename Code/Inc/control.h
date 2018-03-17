@@ -16,6 +16,4 @@ extern int16_t Error_Ind;
 extern uint32_t Run_Time;
 extern uint32_t Run_Distance;
 
-uint8_t Just_Do_It(void);
-
 #endif

@@ -358,6 +358,8 @@ int main(void)
 ////        printf("加速度Y：%f \r\n", Accel_Y);
 ////        printf("加速度Z：%f \r\n", Accel_Z);
 
+
+    return 0;
 }
 
 /********************************************************************************************
@@ -370,6 +372,13 @@ int main(void)
 7、PIT OK！！！(11.19  19：32)
 8、
 9、OLED显示时，sprintf中有浮点数时会花屏。不勾选C/C++中One ELF Section per Function即可解决。（2017.12.7）
+
+
+
+
+
+
+
 
 
 

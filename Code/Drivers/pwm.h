@@ -68,7 +68,7 @@ void ftm_count_init(FTMn ftmn);
 uint16_t ftm_count_get(FTMn ftmn);
 void ftm_count_clean(FTMn ftmn);
 
-void FTM_PWM_set_CnV(FTMn ftmNo, FTM_CHn channel, uint16_t cnv);
+
 
 
 

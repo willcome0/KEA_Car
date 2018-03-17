@@ -1,10 +1,6 @@
 #include "delay.h"
 #include "common.h"
 
-
-#define USE_SysTick  0
-
-#if (USE_SysTick == 1)
 /*************************************************************************
 *函数名：  SysTickInt_Config
 *函数功能：系统滴答定时器中断初始化
@@ -67,28 +63,42 @@ void SysTick_Handler(void)
 *举例：    Delay_us(10);   延时10us
 **************************************************************************/
 
-void Delay_us(uint32_t us)
-{	
-if(us == 0)  //要比那个2.5大
-    return;
-SysTick->CTRL = 0;   //设置前先关闭systick
-SysTick->VAL  = 0;   //清除计数器
+//void Delay_us(uint32_t us)
+//{	
+//if(us == 0)  //要比那个2.5大
+//    return;
+//SysTick->CTRL = 0;   //设置前先关闭systick
+//SysTick->VAL  = 0;   //清除计数器
 
-//根据计数频率，确定并设置重载寄存器的值
-    SysTick->LOAD = CORE_CLK_KHZ/1000*us;
-//SysTick->LOAD = 1;
-//    // 设定 SysTick优先级为2
-//    SCB->SHP[2] |=(0x02)<<30;
+////根据计数频率，确定并设置重载寄存器的值
+//    SysTick->LOAD = CORE_CLK_KHZ/1000*us;
+////SysTick->LOAD = 1;
+////    // 设定 SysTick优先级为2
+////    SCB->SHP[2] |=(0x02)<<30;
 
-//设置时钟源,,使能该模块,开始计数
-SysTick->CTRL = (1<<SysTick_CTRL_CLKSOURCE_Pos) |
-                SysTick_CTRL_ENABLE_Msk;
+////设置时钟源,,使能该模块,开始计数
+//SysTick->CTRL = (1<<SysTick_CTRL_CLKSOURCE_Pos) |
+//                SysTick_CTRL_ENABLE_Msk;
 
-while( !(SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk));//等待时间到
-}
-
-
-#endif
+//while( !(SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk));//等待时间到
+//}
+//void Delay_us(uint32_t us)
+//{	
+////    for(uint16_t i=0; i<us; i++)
+////    {
+////        for(uint32_t j=0; j<1; j++)
+////        {
+////            __ASM("nop");
+////        }
+////    }
+////    for(int8_t i=0; i<1; i++)
+////    {
+////        
+////        __ASM("nop");
+////    }
+////    __ASM("nop");
+////    __ASM("nop");
+//}
 
 /*************************************************************************
 *函数名：  Delay_us
