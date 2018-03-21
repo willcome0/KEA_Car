@@ -47,8 +47,8 @@
 *举例：    Pin_Output_Config(PTD, PTD3, OUTPUT);   设置PD3脚输出高
 **************************************************************************/
 
-#define Pin_Output_Config(port,port_pin,state)      (port->PDDR |= (1 << port_pin)); \
-                                                    (state == 0) ? (port->PCOR |=(1<<port_pin)) : (port->PSOR |=(1<<port_pin))
+#define Pin_Output_Config(port,port_pin,state)      (port->PDDR |= ((uint32_t)1 << port_pin)); \
+                                                    (state == 0) ? (port->PCOR |=((uint32_t)1<<port_pin)) : (port->PSOR |=((uint32_t)1<<port_pin))
                                                                                                   
 /*************************************************************************
 *函数名：  Pin_Pull_State
@@ -65,13 +65,13 @@
 **************************************************************************/                                                   
                                                         
 #define Pin_Pull_State(port,port_pin,state)         if(state == 0) \
-                                                        if(port==GPIOA_BASE_PTR){PORT_BASE_PTR->PUE0 &=~ (1<<port_pin);} \
-                                                        else if(port==GPIOB_BASE_PTR){PORT_BASE_PTR->PUE1 &=~ (1<<port_pin);} \
-                                                        else {PORT_BASE_PTR->PUE2 &=~(1<<port_pin);} \
+                                                        if(port==GPIOA_BASE_PTR){PORT_BASE_PTR->PUE0 &=~ ((uint32_t)1<<port_pin);} \
+                                                        else if(port==GPIOB_BASE_PTR){PORT_BASE_PTR->PUE1 &=~ ((uint32_t)1<<port_pin);} \
+                                                        else {PORT_BASE_PTR->PUE2 &=~((uint32_t)1<<port_pin);} \
                                                     else \
-                                                        if(port==GPIOA_BASE_PTR){PORT_BASE_PTR->PUE0 |= (1<<port_pin);} \
-                                                        else if(port==GPIOB_BASE_PTR){PORT_BASE_PTR->PUE1|=(1<<port_pin);} \
-                                                        else {PORT_BASE_PTR->PUE2|=(1<<port_pin);}
+                                                        if(port==GPIOA_BASE_PTR){PORT_BASE_PTR->PUE0 |= ((uint32_t)1<<port_pin);} \
+                                                        else if(port==GPIOB_BASE_PTR){PORT_BASE_PTR->PUE1|=((uint32_t)1<<port_pin);} \
+                                                        else {PORT_BASE_PTR->PUE2|=((uint32_t)1<<port_pin);}
                                                         
 /*************************************************************************
 *函数名：  Pin_Input_Config
@@ -87,8 +87,8 @@
 *举例：    Pin_Output_Config(PTD, PTD3, Pull_Up);   设置PD3脚输出高    ( port->PDDR &= (1<<port_pin)); \
 **************************************************************************/
 
-#define Pin_Input_Config(port,port_pin,state)       (port->PIDR &=~ (1<<port_pin)); \
-                                                    ( port->PDDR &= ~(1<<port_pin)); \
+#define Pin_Input_Config(port,port_pin,state)       (port->PIDR &=~ ((uint32_t)1<<port_pin)); \
+                                                    ( port->PDDR &= ~((uint32_t)1<<port_pin)); \
                                                     Pin_Pull_State(port,port_pin,state)
                                                     
                                                     
@@ -105,7 +105,7 @@
 *举例：    Pin_Output_Set(PTH, PTH1, 1);   PH1脚输出高
 **************************************************************************/
                                                         
-#define Pin_Output_Set(port,port_pin,state)         (state == 0) ? (port->PCOR |=(1<<port_pin)) : (port->PSOR |=(1<<port_pin)) 
+#define Pin_Output_Set(port,port_pin,state)         (state == 0) ? (port->PCOR |=((uint32_t)1<<port_pin)) : (port->PSOR |=((uint32_t)1<<port_pin)) 
 
 /*************************************************************************
 *函数名：  Pin_Output_Toggle
@@ -119,7 +119,7 @@
 *举例：    Pin_Output_Toggle(PTH, PTH1);   
 **************************************************************************/
 
-#define Pin_Output_Toggle(port,port_pin)            port->PTOR |=(1<<port_pin)
+#define Pin_Output_Toggle(port,port_pin)            port->PTOR |=((uint32_t)1<<port_pin)
 
 /*************************************************************************
 *函数名：  Pin_Output_Toggle
@@ -133,7 +133,7 @@
 *举例：    Read_Input_State(PTD, PTD2);   
 **************************************************************************/
 
-#define Read_Input_State(port,port_pin)             (port->PDIR & GPIO_PDIR_PDI(1<<port_pin))
+#define Read_Input_State(port,port_pin)             (port->PDIR & GPIO_PDIR_PDI((uint32_t)1<<port_pin))
 
 /**************************************************************************/
 

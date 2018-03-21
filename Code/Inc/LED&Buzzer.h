@@ -57,13 +57,13 @@
 
 #define LED_Blue_OFF()   	Pin_Output_Set(LED_Blue_Port,  LED_Blue_Pin,  1)
 
-#define LED_Orange_OFF()    Pin_Output_Set(LED_Red_Port,   LED_Red_Pin,   1), Pin_Output_Set(LED_Green_Port, LED_Green_Pin, 1)
+#define LED_Orange_OFF()    {Pin_Output_Set(LED_Red_Port,   LED_Red_Pin,   1);	Pin_Output_Set(LED_Green_Port, LED_Green_Pin, 1);}
 
-#define LED_Purple_OFF()    Pin_Output_Set(LED_Red_Port,   LED_Red_Pin,   1), Pin_Output_Set(LED_Blue_Port,  LED_Blue_Pin,  1)
+#define LED_Purple_OFF()    {Pin_Output_Set(LED_Red_Port,   LED_Red_Pin,   1);	Pin_Output_Set(LED_Blue_Port,  LED_Blue_Pin,  1);}
 
-#define LED_Indigo_OFF()    Pin_Output_Set(LED_Green_Port, LED_Green_Pin, 1), Pin_Output_Set(LED_Blue_Port,  LED_Blue_Pin,  1)
+#define LED_Indigo_OFF()    {Pin_Output_Set(LED_Green_Port, LED_Green_Pin, 1);	Pin_Output_Set(LED_Blue_Port,  LED_Blue_Pin,  1);}
 
-#define LED_White_OFF()     Pin_Output_Set(LED_Red_Port,   LED_Red_Pin,   1), Pin_Output_Set(LED_Green_Port, LED_Green_Pin, 1), Pin_Output_Set(LED_Blue_Port,  LED_Blue_Pin,  1)
+#define LED_White_OFF()     {Pin_Output_Set(LED_Red_Port,   LED_Red_Pin,   1);	Pin_Output_Set(LED_Green_Port, LED_Green_Pin, 1);	Pin_Output_Set(LED_Blue_Port,  LED_Blue_Pin,  1);}
 
 #define Beep_OFF()       	Pin_Output_Set(Buzzer_Port, Buzzer_Pin, RESET)
 
@@ -89,6 +89,6 @@ void LED_Orange_ON(void);
 void LED_Purple_ON(void);
 void LED_Indigo_ON(void);
 void LED_White_ON(void);
-
+void Beep_ON(void);
 
 #endif

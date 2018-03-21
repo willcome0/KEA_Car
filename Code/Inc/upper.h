@@ -12,5 +12,7 @@ extern int test_data2;
 extern int test_data3;
 
 
+void Send_Begin(void);
+void Send_Variable(void);
 
 #endif

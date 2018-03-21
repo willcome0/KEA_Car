@@ -16,7 +16,7 @@ int16_t Eroor_Ind_Old = 0;
 int16_t Value_End_L = 0;
 int16_t Value_End_R = 0;
 int16_t Error_End = 0;
-int16_t PreError[5] = {0,0,0,0,0,};
+int16_t PreError[20];
 
 int AlllastError=0;
 int Speed_Slide[3]={0};//速度平滑参数
@@ -159,7 +159,7 @@ void PIT_CH0_IRQHandler(void)
 //                                        Huan_Count = 1;
                                         Yaw_Huan = Yaw;
                                         Beep_ON();
-                                        Value_Inductor_L = Value_Inductor_L*CONTROL_Huan_Add/10;
+//                                        Value_Inductor_L = Value_Inductor_L*CONTROL_Huan_Add/10;
                                     }
                                     else if(Huan_Count > 200) //2S之后
                                     {
@@ -184,7 +184,14 @@ void PIT_CH0_IRQHandler(void)
 //       p2 =   -2.85e-06  (-3.911e-06, -1.788e-06)
 //       p3 =     0.01201  (0.01121, 0.01282)rrb
 //       p4 =   -0.006396  (-0.1843, 0.1716)
-                                x =(5.043e-09) *(float)Error_Ind * (float)Error_Ind*Error_Ind +(-2.85e-06)*(float)Error_Ind*Error_Ind + 0.01201*(float)Error_Ind  -0.006396;  //角度18.8
+									
+//                                if(Pitch>-16)
+//									x =(8.77e-09) *(float)Error_Ind * (float)Error_Ind*Error_Ind +(9.936e-07)*(float)Error_Ind*Error_Ind + 0.008321*(float)Error_Ind   -0.7557;
+//								else
+//									x =(2.743e-08) *(float)Error_Ind * (float)Error_Ind*Error_Ind +(2.896e-06)*(float)Error_Ind*Error_Ind + 0.01528*(float)Error_Ind  -1.906;  //角度18.8
+					x =(5.043e-09) *(float)Error_Ind * (float)Error_Ind*Error_Ind +(-2.85e-06)*(float)Error_Ind*Error_Ind + 0.01201*(float)Error_Ind  -0.006396;  //角度18.8
+//						x = -3573 + 5.121*(float)Value_Inductor_L + 1.226*(float)Value_Inductor_R -0.001796*(float)Value_Inductor_L*Value_Inductor_L - 0.00102*(float)Value_Inductor_L*Value_Inductor_R + 5.696e-06*(float)Value_Inductor_R*Value_Inductor_R;
+
 //								x<-20?x=-20:x;
 //								x>20?x=20:x;
                                 
@@ -263,7 +270,7 @@ void PIT_CH0_IRQHandler(void)
 
 uint8_t Just_Do_It(void)
 {
-    uint8_t str[25];
+//    uint8_t str[25];
     
 //    NVIC_EnableIRQ(PIT_CH0_IRQn);
 //    NVIC->ISER[0] = (1 << ((uint32_t)(PIT_CH0_IRQn) & 0x1F));
@@ -349,9 +356,10 @@ uint8_t Just_Do_It(void)
 						/**************/
                         LED_White_OFF();   //关LED
                         OLED_Display_On();//开OLED
-
+						OLED_Init();
                         return 0;
         }
+		
     Variable[0] = Value_End_L;  //左编码器
     Variable[1] = Value_End_R;  //右编码器
     Variable[2] = Pitch;  //俯仰角
@@ -373,3 +381,4 @@ uint8_t Just_Do_It(void)
     }
     
 }
+

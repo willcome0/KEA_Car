@@ -211,19 +211,19 @@ void ftm_pwm_init(FTMn ftmn, FTM_CHn ch, uint32_t freq, uint32_t duty)
     {
         // EPWM的周期 ： MOD - CNTIN + 0x0001 == MOD - 0 + 1
         // 则 CnV = (MOD - 0 + 1) * 占空比 = (MOD - 0 + 1) * duty/ FTM_PRECISON
-    case ftm0:
-        cv = (duty * (mod - 0 + 1)) / FTM0_PRECISON;
-        break;
+		case ftm0:
+			cv = (duty * (mod - 0 + 1)) / FTM0_PRECISON;
+			break;
 
-    case ftm1:
-        cv = (duty * (mod - 0 + 1)) / FTM1_PRECISON;
-        break;
+		case ftm1:
+			cv = (duty * (mod - 0 + 1)) / FTM1_PRECISON;
+			break;
 
-    case ftm2:
-        cv = (duty * (mod - 0 + 1)) / FTM2_PRECISON;
-        break;
-    default:
-        break;
+		case ftm2:
+			cv = (duty * (mod - 0 + 1)) / FTM2_PRECISON;
+			break;
+		default:
+			break;
     }
     
 //    FTMX[ftmn]->MOD = mod;                  //设置PWM周期
@@ -244,7 +244,8 @@ void ftm_pwm_init(FTMn ftmn, FTM_CHn ch, uint32_t freq, uint32_t duty)
     
     if(ftm2 == ftmn)FTMX[ftmn]->CNTIN = 0;         //设置计数器初值，一般没特殊用途就清零
 //    FTMX[ftmn]->CONTROLS[ch].CnV = cv;             //设置占空比
-    FTMX[ftmn]->CONTROLS[ch].CnV = 1600;             //设置占空比
+	cv = 1600;
+    FTMX[ftmn]->CONTROLS[ch].CnV = cv;             //设置占空比
     
     FTMX[ftmn]->CNT = 0;                           //计数器，写任意值都会加载CNTIN的值
     

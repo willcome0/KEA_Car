@@ -77,10 +77,11 @@ struct CON
 #define _P1_TurnPID_P_			ALL_DATA[6]
 #define _P1_TurnPID_D_			ALL_DATA[7]
 
-#define _Com_LED_				ALL_DATA[200]
+/*******************设置菜单************************/
+#define _Com_LED_				ALL_DATA[200]	
 #define _Com_Buzzer_			ALL_DATA[201]
 #define _Com_BT_				ALL_DATA[202]
-#define _Com_Run_				ALL_DATA[203]
+#define _Com_Debug_				ALL_DATA[203]
 #define _Com_XX1_				ALL_DATA[204]
 #define _Com_XX2_				ALL_DATA[205]
 #define _Com_XX3_				ALL_DATA[206]
@@ -92,6 +93,8 @@ struct CON
 #define _Com_RunProtect_        ALL_DATA[211]	// 发车时的保护
 #define _Com_RunTimeStop_       ALL_DATA[212]	// 定时停车
 #define _Com_RunDisStop_       	ALL_DATA[213]	// 定距停车
+/*******************设置菜单 修改一******************/
+
 //将flash中得数据缓存到数组里
 #define Cache_ALL_DATA()	{for(uint16_t i=0; i<256; i++)    ALL_DATA[i] = FLASH_Read(DATA_FLASH, i*2, uint16_t);}
 
@@ -121,6 +124,8 @@ extern uint8_t Bluetooth;
 extern volatile int16_t Value_End;
 
 uint32_t ABS(int32_t Num);//取绝对值
+
+void Data_Init(void);
 
 #endif
 

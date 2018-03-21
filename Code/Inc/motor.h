@@ -24,7 +24,12 @@
  **********************************************************/
 void Motor_Init(void);
 
-
+void Motor_Set_Go_Speed(uint16_t L, uint16_t R);
+void Motor_Set_Back_Speed(uint16_t L, uint16_t R);
+void Motor_L_Back_V(uint16_t L);
+void Motor_L_Go_V(uint16_t L);
+void Motor_R_Back_V(uint16_t R);
+void Motor_R_Go_V(uint16_t R);
 
 
 

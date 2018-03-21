@@ -19,6 +19,7 @@ uint16_t Get_Ind_V(uint8_t ADX)
         case AD_3:   return ADC_Ave(AD_3, 3);
         case AD_4:   return ADC_Ave(AD_4, 3);
         case AD_BAT: return ADC_Ave(AD_BAT, 200);
+		default: return 0;
     }
 }
 

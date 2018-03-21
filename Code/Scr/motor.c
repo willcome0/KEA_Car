@@ -79,3 +79,4 @@ void Motor_R_Go_V(uint16_t R)
     FTM_PWM_set_CnV(ftm2, ftm_ch0, 1);
     FTM_PWM_set_CnV(ftm2, ftm_ch5, R);
 }
+

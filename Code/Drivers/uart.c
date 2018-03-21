@@ -31,7 +31,7 @@ int fputc(int ch, FILE *f)
 {
     //局部变量声明
     register uint16_t sbr;
-    uint8_t temp;
+//    uint8_t temp;
     //声明uartch1为UART_MemMapPtr结构体类型指针
     UART_MemMapPtr uartch1 = UART_ARR[uartNo];
 
@@ -253,7 +253,7 @@ void uart_enable_re_int(uint8_t uartNo)
     UART_MemMapPtr uartch1 = UART_ARR[uartNo];
 
     uartch1->C2 |= UART_C2_RIE_MASK;       // 开放UART接收中断
-    NVIC_EnableIRQ(table_irq_uart[uartNo]);// 开中断控制器IRQ中断
+    NVIC_EnableIRQ((IRQn_Type)table_irq_uart[uartNo]);// 开中断控制器IRQ中断
 }
 
 //===========================================================================
@@ -266,5 +266,5 @@ void uart_disable_re_int(uint8_t uartNo)
 {
     UART_MemMapPtr uartch1 = UART_ARR[uartNo];
     uartch1->C2 &= ~UART_C2_RIE_MASK;       // 禁止UART接收中断
-    NVIC_DisableIRQ(table_irq_uart[uartNo]);// 禁止中断控制器IRQ中断
+    NVIC_DisableIRQ((IRQn_Type)table_irq_uart[uartNo]);// 禁止中断控制器IRQ中断
 }
