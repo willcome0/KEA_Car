@@ -188,12 +188,12 @@ void PIT_CH0_IRQHandler(void)
 //								x<-20?x=-20:x;
 //								x>20?x=20:x;
                                 
-								if(Value_Inductor_L<250&&Value_Inductor_R<920&&Value_Inductor_R>250) //ÓÒ¶ª
-									x=-13,Beep_ON();
-								else if(Value_Inductor_L>400&&Value_Inductor_L<920&&Value_Inductor_R<400)
-									x=13,Beep_ON();
-								else
-									Beep_OFF();
+//								if(Value_Inductor_L<250&&Value_Inductor_R<920&&Value_Inductor_R>250) //ÓÒ¶ª
+//									x=-13,Beep_ON();
+//								else if(Value_Inductor_L>400&&Value_Inductor_L<920&&Value_Inductor_R<400)
+//									x=13,Beep_ON();
+//								else
+//									Beep_OFF();
 		              
 
 //          Turn_PWM = Error_Ind*Plan1.Turn.P/10 + (Error_Ind - Eroor_Ind_Old)*Plan1.Turn.D;
