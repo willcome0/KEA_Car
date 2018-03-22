@@ -18,7 +18,7 @@ void All_Init(void)
     OLED_Display_Off();
     Motor_Init();     //电机初始化
 
-	PIT_Config(PIT_CH0, 10, 0);
+	PIT_Config(PIT_CH0, 8, 0);
 	
     Encoder_Init();   //编码器初始化
     KEY_Init();

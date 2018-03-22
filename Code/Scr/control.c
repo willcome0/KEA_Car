@@ -22,8 +22,10 @@ int AlllastError=0;
 int Speed_Slide[3]={0};//速度平滑参数
 
 int SpeedOUT;
-int32_t End_Integral = 0;    
-float x=0;  
+int32_t End_Integral = 0;   
+
+float LR_Error = 0;
+
 uint8_t Do_it = 1;
 
 uint8_t Huan_Count_Flag = 0;
@@ -73,8 +75,8 @@ void PIT_CH0_IRQHandler(void)
 								{
 									Run_Time++;								// 计时	
 									Run_Distance = Run_Distance + Ave_End;	// 记路程
-								}									
-								
+								}								
+/*	暂时不要速度环						
     
    
 					      Error_End =   CONTROL_Target_Speed - Ave_End;   //求速度偏差
@@ -89,14 +91,18 @@ void PIT_CH0_IRQHandler(void)
                 PreError[19] = Error_End;
                 End_Integral += PreError[19];
 
-  /*              PreError[4]=PreError[3];
-                PreError[3]=PreError[2];
-                PreError[2]=PreError[1];
-                PreError[1]=PreError[0];
-                PreError[0]=Error_End;//入速度误差积分队列
-								AlllastError=(int)(PreError[0]+PreError[1]+PreError[2]+PreError[3]+PreError[4]);*/
+//                PreError[4]=PreError[3];
+//                PreError[3]=PreError[2];
+//                PreError[2]=PreError[1];
+//                PreError[1]=PreError[0];
+//                PreError[0]=Error_End;//入速度误差积分队列
+//								AlllastError=(int)(PreError[0]+PreError[1]+PreError[2]+PreError[3]+PreError[4]);
 								
 								Speed_PWM = -Error_End*CONTROL_SpeedPID_P + End_Integral*CONTROL_SpeedPID_I/100;    //速度环
+*/				
+				
+				
+				
 //								PreError[4]=PreError[3];
 //                PreError[3]=PreError[2];
 //                PreError[2]=PreError[1];
@@ -189,7 +195,8 @@ void PIT_CH0_IRQHandler(void)
 //									x =(8.77e-09) *(float)Error_Ind * (float)Error_Ind*Error_Ind +(9.936e-07)*(float)Error_Ind*Error_Ind + 0.008321*(float)Error_Ind   -0.7557;
 //								else
 //									x =(2.743e-08) *(float)Error_Ind * (float)Error_Ind*Error_Ind +(2.896e-06)*(float)Error_Ind*Error_Ind + 0.01528*(float)Error_Ind  -1.906;  //角度18.8
-					x =(5.043e-09) *(float)Error_Ind * (float)Error_Ind*Error_Ind +(-2.85e-06)*(float)Error_Ind*Error_Ind + 0.01201*(float)Error_Ind  -0.006396;  //角度18.8
+
+					LR_Error =(5.043e-09) *(float)Error_Ind * (float)Error_Ind*Error_Ind +(-2.85e-06)*(float)Error_Ind*Error_Ind + 0.01201*(float)Error_Ind  -0.006396;  //角度18.8
 //						x = -3573 + 5.121*(float)Value_Inductor_L + 1.226*(float)Value_Inductor_R -0.001796*(float)Value_Inductor_L*Value_Inductor_L - 0.00102*(float)Value_Inductor_L*Value_Inductor_R + 5.696e-06*(float)Value_Inductor_R*Value_Inductor_R;
 
 //								x<-20?x=-20:x;
@@ -204,7 +211,9 @@ void PIT_CH0_IRQHandler(void)
 		              
 
 //          Turn_PWM = Error_Ind*Plan1.Turn.P/10 + (Error_Ind - Eroor_Ind_Old)*Plan1.Turn.D;
-								Turn_PWM = x*CONTROL_TurnPID_P + (Error_Ind - Eroor_Ind_Old)*CONTROL_TurnPID_D;
+//								Turn_PWM = LR_Error*CONTROL_TurnPID_P + (Error_Ind - Eroor_Ind_Old)*CONTROL_TurnPID_D;
+//								Turn_PWM = LR_Error*CONTROL_TurnPID_P + GYRO.X/10*CONTROL_TurnPID_D;
+								Turn_PWM = LR_Error*CONTROL_TurnPID_P + (Error_Ind - Eroor_Ind_Old)*CONTROL_TurnPID_D;
 								
 								L_Final_PWM = Angle_PWM + Speed_PWM - Turn_PWM;
 								R_Final_PWM = Angle_PWM + Speed_PWM + Turn_PWM;

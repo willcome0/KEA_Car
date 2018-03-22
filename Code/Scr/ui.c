@@ -149,6 +149,7 @@ uint8_t UI_Go(void)
         switch (Get_Key())
         {
             case Press_Up:      _Com_CountDown_++;
+//			_Com_CountDown_ = 2;
                                 _Com_CountDown_ = _Com_CountDown_>=5?5:_Com_CountDown_;
                                 /******************更新并保存数据***********************/
 
@@ -330,7 +331,7 @@ void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, uint16_t *Value, uint8_t Di
 								uint8_t BreakFor_Flag = 0;
 								for(;;)
 								{
-									temp_value += Value_End_L;	//增加编码器数值
+									temp_value += Value_End_R;	//增加编码器数值
 									temp_value = temp_value>9999 ? 9999:temp_value;
 									temp_value = temp_value<0 ? 0:temp_value;
 									
@@ -1031,7 +1032,7 @@ uint8_t UI_Read_Ind(void)
             OLED_Show_Str(0, 25, str, 12, 1);
 
 
-		       sprintf((char *)str, "P: %3.2f   x:%2.1f ", Pitch,x);
+		       sprintf((char *)str, "P: %3.2f   x:%2.1f ", Pitch, LR_Error);
            OLED_Show_Str(0,45, str, 12, 1);
 
 //            sprintf((char *)str, "Pitch:%2.1f", Pitch );
@@ -1107,12 +1108,10 @@ uint8_t UI_MPU6050(void)
 //
 //        Get_Angle();
 //        printf("Pitch: %f\r\n",Pitch);
-        sprintf((char *)str, "PITCH: %3.2f    ", Pitch);
+        sprintf((char *)str, "P:%3.2f    Y:%3.2f", Pitch, Yaw);
         OLED_Show_Str(0, 20, str, 12, 1);
-        sprintf((char *)str, "G_Y: %5d    ", GYRO.Y);
+        sprintf((char *)str, "G X: %5d  Y: %5d ", ACC.X, ACC.Y);
         OLED_Show_Str(0, 33, str, 12, 1);
-        sprintf((char *)str, "Yaw: %3.2f    ", Yaw);
-        OLED_Show_Str(0, 46, str, 12, 1);
 
         OLED_Refresh_Gram();
     }

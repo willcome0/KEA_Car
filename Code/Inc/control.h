@@ -7,7 +7,7 @@
 
 extern uint16_t Value_Inductor_L;
 extern uint16_t Value_Inductor_R;
-extern float x;
+extern float LR_Error;
 
 extern int16_t Value_End_L;
 extern int16_t Value_End_R;

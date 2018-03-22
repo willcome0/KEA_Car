@@ -14,10 +14,10 @@ uint16_t Get_Ind_V(uint8_t ADX)
 {
     switch(ADX)
     {
-        case AD_1:   return ADC_Ave(AD_1 , 3);
-        case AD_2:   return ADC_Ave(AD_2 , 3);
-        case AD_3:   return ADC_Ave(AD_3, 3);
-        case AD_4:   return ADC_Ave(AD_4, 3);
+        case AD_1:   return ADC_Ave(AD_1, 1);
+        case AD_2:   return ADC_Ave(AD_2, 1);
+        case AD_3:   return ADC_Ave(AD_3, 1);
+        case AD_4:   return ADC_Ave(AD_4, 1);
         case AD_BAT: return ADC_Ave(AD_BAT, 200);
 		default: return 0;
     }
