@@ -93,6 +93,7 @@ struct CON
 #define _Com_RunProtect_        ALL_DATA[211]	// 发车时的保护
 #define _Com_RunTimeStop_       ALL_DATA[212]	// 定时停车
 #define _Com_RunDisStop_       	ALL_DATA[213]	// 定距停车
+#define _Com_Huan_LR_       	ALL_DATA[214]	// 设置左入环还是右入环
 /*******************设置菜单 修改一******************/
 
 //将flash中得数据缓存到数组里

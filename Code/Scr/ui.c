@@ -826,8 +826,8 @@ void Write_State(uint8_t in_ch[][30])
     Judge_State(Judge_ch, _Com_BT_);
     sprintf((char *)in_ch[7], "   7.  蓝  牙     %s", Judge_ch);
 
-    Judge_State(Judge_ch, _Com_XX4_);
-    sprintf((char *)in_ch[8], "   8.  X X 4      %s", Judge_ch);
+    Judge_State(Judge_ch, _Com_Huan_LR_);
+    sprintf((char *)in_ch[8], "   8.  Huan_LR    %s", Judge_ch);
     Judge_State(Judge_ch, _Com_XX5_);
     sprintf((char *)in_ch[9], "   9.  X X 5      %s", Judge_ch);
 	/****************************设置菜单 修改二****************************/
@@ -949,7 +949,7 @@ uint8_t UI_Set(void)
 									case 7:  Chang_State(UI_Case, Frame_Min, &_Com_BT_				);	break;	// 蓝牙开关
 
 
-									case 8:	 Chang_State(UI_Case, Frame_Min, &_Com_XX4_				);	break;
+									case 8:	 Chang_State(UI_Case, Frame_Min, &_Com_Huan_LR_				);	break;
 									case 9:	 Chang_State(UI_Case, Frame_Min, &_Com_XX5_				);	break;
 									/****************************设置菜单 修改三****************************/
 

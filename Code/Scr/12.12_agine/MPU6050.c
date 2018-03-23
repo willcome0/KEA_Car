@@ -155,7 +155,7 @@ void MPU6050_GetData(S_INT16_XYZ *GYRO, S_INT16_XYZ *ACC)
 		GYRO->X = GetData(MPU_GYRO_XOUTH_REG);	// 获取陀螺仪原始数据并归一化
 		GYRO->Y = GetData(MPU_GYRO_YOUTH_REG);
 		GYRO->Z = GetData(MPU_GYRO_ZOUTH_REG);
-	} 
+	}
 }
 
 /*
@@ -354,7 +354,7 @@ void IMUupdate(float gx, float gy, float gz, float ax, float ay, float az)
 //	Roll = atan2(2*q2*q3 + 2*q0*q1, -2*q1*q1 - 2*q2*q2 + 1)*57.3; // roll
 	Yaw = atan2(2*q1*q2 + 2*q0*q3, -2*q2*q2 - 2*q3*q3 + 1)*57.3; // yaw
 
-        Yaw = Yaw<0 ? 360 + Yaw : Yaw;
+    Yaw = Yaw<0 ? 360 + Yaw : Yaw;
 //	Attitude_Angle.Z = 0;
 }
 

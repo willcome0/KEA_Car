@@ -50,6 +50,10 @@ uint16_t CONTROL_TurnPID_P    = 0;
 uint16_t CONTROL_TurnPID_D    = 0;
 uint16_t CONTROL_Huan_Add     = 0;
 
+uint32_t temp_time = 0;	// 用于临时计时 进
+//uint32_t out_time = 0;	// 用于临时计时 出
+uint32_t temp_dis = 0;
+
 void PIT_CH0_IRQHandler(void)
 {
 								PIT_CLR_Flag(PIT_CH0);  //清除中断标志位 
@@ -74,7 +78,7 @@ void PIT_CH0_IRQHandler(void)
 								if(Run_Time_Flag)	//计时与测距
 								{
 									Run_Time++;								// 计时	
-									Run_Distance = Run_Distance + Ave_End;	// 记路程
+									Run_Distance += Ave_End;	// 记路程
 								}								
 /*	暂时不要速度环						
     
@@ -147,31 +151,72 @@ void PIT_CH0_IRQHandler(void)
 //                                    Huan_Flag = OUT;//出环岛标志
 //                                else 
 //                                    Huan_Flag = IN; //入环岛标志
-                                if(Huan_Count_Flag)
-                                    Huan_Count++;
-//                                if(Huan_Count > 500 || Huan_Count == 0)//初步入环条件
-//                                {
-                                    
-                                    if(Value_Inductor_R>1050//具体入环条件:在环、1S以内
+//                                if(Huan_Count_Flag)
+//                                    Huan_Count++;
+////                                if(Huan_Count > 500 || Huan_Count == 0)//初步入环条件
+////                                {
+//                                    
+//                                    if(Value_Inductor_R>1050//具体入环条件:在环、1S以内
+//                                        &&Pitch<-18
+//                                        &&Value_Inductor_L>1050
+//                                       && Huan_Count <80
+////                                        &&100<Yaw
+////                                        &&Yaw<160
+//    //                                    && Huan_Flag!=OUT
+//                                    )
+//                                    {
+//                                        Huan_Count_Flag = 1;
+////                                        Huan_Count = 1;
+//                                        Yaw_Huan = Yaw;
+//                                        Beep_ON();
+//                                        Value_Inductor_L = Value_Inductor_L*CONTROL_Huan_Add/10;
+//                                    }
+//                                    else if(Huan_Count > 200) //2S之后
+//                                    {
+//                                        Huan_Count_Flag = 0;
+//                                        Huan_Count = 0;
+//                                    }
+									
+									
+									/********新环***************/
+									if(Value_Inductor_R>1050
                                         &&Pitch<-18
                                         &&Value_Inductor_L>1050
-                                       && Huan_Count <80
-//                                        &&100<Yaw
-//                                        &&Yaw<160
-    //                                    && Huan_Flag!=OUT
-                                    )
-                                    {
-                                        Huan_Count_Flag = 1;
-//                                        Huan_Count = 1;
-                                        Yaw_Huan = Yaw;
-                                        Beep_ON();
-//                                        Value_Inductor_L = Value_Inductor_L*CONTROL_Huan_Add/10;
-                                    }
-                                    else if(Huan_Count > 200) //2S之后
-                                    {
-                                        Huan_Count_Flag = 0;
-                                        Huan_Count = 0;
-                                    }
+										&& Huan_Flag == OUT)
+									{
+										Huan_Flag = IN;
+										temp_time = Run_Time;
+//										temp_dis = Run_Distance;
+									}
+									if(
+										temp_time != 0 && 
+										((Run_Time - temp_time)*8 > 200 - Value_End_R/2.5) &&
+										((Run_Time - temp_time)*8 < 600 - Value_End_R/2.5)
+										
+									)
+									{
+										Beep_ON();
+										if(0 == _Com_Huan_LR_)
+											Value_Inductor_L = Value_Inductor_L*CONTROL_Huan_Add/10;
+										else if(1 == _Com_Huan_LR_)
+											Value_Inductor_R = Value_Inductor_R*CONTROL_Huan_Add/10;
+									}
+									if(temp_time != 0 && 
+										(Run_Time - temp_time)*8 > 1000)
+									{
+										temp_time = 0;
+										Huan_Flag = OUT;
+									}
+									/*新环结束*/
+									
+									
+//									if(temp_dis != 0 &&
+//										(Run_Distance - temp_dis)/576 > 10
+//									)
+//									{
+//										Huan_Flag = OUT;
+//									}
+									
 //                                }
 //                                else//出环或正常
 //                                {
@@ -335,7 +380,7 @@ uint8_t Just_Do_It(void)
 		{
 			if( (Value_End_L>350)||(Value_End_L<-350)			// 转速保护
 //				||Pitch<-50										// 角度保护
-				||Value_Inductor_L<250||Value_Inductor_R<250	// 电感值保护
+				||Value_Inductor_L<150||Value_Inductor_R<150	// 电感值保护
 				
 			  )
 				Protect_Flag = 1;
