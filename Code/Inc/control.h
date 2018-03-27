@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-
+#define Con_Period	8	// ¿ØÖÆÖÜÆÚ
 
 extern uint16_t Value_Inductor_L;
 extern uint16_t Value_Inductor_R;

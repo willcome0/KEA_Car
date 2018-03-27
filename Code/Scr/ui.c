@@ -146,10 +146,10 @@ uint8_t UI_Go(void)
         OLED_Show_Str(6,  0, "<", 12, Normal);
         OLED_Show_Char48_64(40, 0, _Com_CountDown_+'0', Normal);
 		
+		_Com_CountDown_ = _Com_CountDown_>=5?5:_Com_CountDown_;
         switch (Get_Key())
         {
             case Press_Up:      _Com_CountDown_++;
-//			_Com_CountDown_ = 2;
                                 _Com_CountDown_ = _Com_CountDown_>=5?5:_Com_CountDown_;
                                 /******************更新并保存数据***********************/
 
@@ -942,8 +942,8 @@ uint8_t UI_Set(void)
 								{
 									case 1:	 Chang_Value(UI_Case, Frame_Min, &_Com_RunTimeStop_,   1);	break;	// 时间停车
 									case 2:	 Chang_Value(UI_Case, Frame_Min, &_Com_RunDisStop_ ,   1);	break;	// 距离停车
-									case 3:	 Chang_State(UI_Case, Frame_Min, &_Com_RunProtect_			);	break;	// 调试开关
-									case 4:	 Chang_State(UI_Case, Frame_Min, &_Com_Debug_		);	break;	// 保护开关
+									case 3:	 Chang_State(UI_Case, Frame_Min, &_Com_RunProtect_			);	break;	// 保护开关
+									case 4:	 Chang_State(UI_Case, Frame_Min, &_Com_Debug_		);	break;	// 调试开关
 									case 5:  Chang_State(UI_Case, Frame_Min, &_Com_LED_				);	break;	// LED开关
 									case 6:  Chang_State(UI_Case, Frame_Min, &_Com_Buzzer_			);	break;	// 蜂鸣器开关
 									case 7:  Chang_State(UI_Case, Frame_Min, &_Com_BT_				);	break;	// 蓝牙开关

@@ -64,8 +64,10 @@ void PIT_CH0_IRQHandler(void)
 								Data_Filter();     //原始数据滤波
 								Get_Attitude();    //获取姿态
 							
-  
-								Angle_PWM = CONTROL_AnglePID_P*(Pitch + CONTROL_Target_Angle) + CONTROL_AnglePID_D/10*GYRO_Real.Y;   //直立环
+//								if(_Com_Debug_)
+//									(float)CONTROL_Target_Angle = (float)CONTROL_Target_Angle + (Pitch + (float)CONTROL_Target_Angle)/4;
+	
+								Angle_PWM = CONTROL_AnglePID_P*(Pitch + (float)CONTROL_Target_Angle) + CONTROL_AnglePID_D/10*GYRO_Real.Y;   //直立环
 
     
 
@@ -190,8 +192,9 @@ void PIT_CH0_IRQHandler(void)
 									}
 									if(
 										temp_time != 0 && 
-										((Run_Time - temp_time)*8 > 200 - Value_End_R/2.5) &&
-										((Run_Time - temp_time)*8 < 600 - Value_End_R/2.5)
+										Huan_Flag == IN &&
+										((Run_Time - temp_time)*Con_Period > 200 - Value_End_R/2.5) &&
+										((Run_Time - temp_time)*Con_Period < 600 - Value_End_R/2.5)
 										
 									)
 									{
@@ -202,7 +205,7 @@ void PIT_CH0_IRQHandler(void)
 											Value_Inductor_R = Value_Inductor_R*CONTROL_Huan_Add/10;
 									}
 									if(temp_time != 0 && 
-										(Run_Time - temp_time)*8 > 1000)
+										(Run_Time - temp_time)*Con_Period > 1000)
 									{
 										temp_time = 0;
 										Huan_Flag = OUT;
@@ -378,15 +381,15 @@ uint8_t Just_Do_It(void)
 		uint8_t Protect_Flag = 0;
 		if(1 == _Com_RunProtect_)
 		{
-			if( (Value_End_L>350)||(Value_End_L<-350)			// 转速保护
-//				||Pitch<-50										// 角度保护
-				||Value_Inductor_L<150||Value_Inductor_R<150	// 电感值保护
+			if( (Value_End_L>300)||(Value_End_L<-300)			// 转速保护
+				||Pitch<-40										// 角度保护
+				||Value_Inductor_L<100||Value_Inductor_R<100	// 电感值保护
 				
 			  )
 				Protect_Flag = 1;
 		}
 		/*******************************************************/
-		if(	(_Com_RunTimeStop_!=0 && Run_Time>_Com_RunTimeStop_)	||		// 100即1s   1.00
+		if(	(_Com_RunTimeStop_!=0 && Run_Time*Con_Period>_Com_RunTimeStop_*10)	||		// 800即8s   8.00
 			(_Com_RunDisStop_!=0  && Run_Distance>(float)_Com_RunDisStop_*57.6)		// 100即1米
 		  )
 		{
