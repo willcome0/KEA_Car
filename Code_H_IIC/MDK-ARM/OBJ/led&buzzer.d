@@ -43,4 +43,4 @@
 .\obj\led&buzzer.o: ..\Inc\includes.h
 .\obj\led&buzzer.o: ..\Drivers\uart.h
 .\obj\led&buzzer.o: ..\Drivers\My_MPU6050.h
-.\obj\led&buzzer.o: ..\Drivers\iic.h
+.\obj\led&buzzer.o: ..\Drivers\iic_shu.h

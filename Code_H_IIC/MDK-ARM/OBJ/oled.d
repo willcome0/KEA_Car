@@ -43,5 +43,5 @@
 .\obj\oled.o: ..\Inc\includes.h
 .\obj\oled.o: ..\Drivers\uart.h
 .\obj\oled.o: ..\Drivers\My_MPU6050.h
-.\obj\oled.o: ..\Drivers\iic.h
+.\obj\oled.o: ..\Drivers\iic_shu.h
 .\obj\oled.o: ..\Inc\oledfont.h

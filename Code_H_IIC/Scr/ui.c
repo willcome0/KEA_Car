@@ -1091,16 +1091,16 @@ uint8_t UI_MPU6050(void)
     OLED_Show_StrAll(0,  0, " <    陀  螺  仪      ", 1);
     uint8_t str[32];
 	
-	uint16_t x, y, z;
-	uint16_t a, b, c;
+//	uint16_t x, y, z;
+//	uint16_t a, b, c;
     for(;;)
     {
 		switch(Get_Key())
 		{
 			case Press_Left:	return 3;
 		}
-		MPU_Get_Gyroscope(&x, &y, &z);
-		MPU_Get_Accelerometer(&a, &b, &c);
+//		MPU_Get_Gyroscope(&x, &y, &z);
+//		MPU_Get_Accelerometer(&a, &b, &c);
 //    MPU6050_GetData(&GYRO, &ACC);   //获取原始数据
 ////    Data_Filter();     //原始数据滤波
 //    Get_Attitude_NoF();
@@ -1108,11 +1108,11 @@ uint8_t UI_MPU6050(void)
 
 //        sprintf((char *)str, "TEMP: %4d", Read_Temperature());
 
-        sprintf((char *)str, "%6d  %6d  %6d   ", x, y, z);
-        OLED_Show_Str(0, 20, str, 12, 1);
-        sprintf((char *)str, "%6d  %6d  %6d   ", a, b, c);
-        OLED_Show_Str(0, 33, str, 12, 1);
-		sprintf((char *)str, "%3.1f  ", (float)MPU_Get_Temperature());
+//        sprintf((char *)str, "%6d  %6d  %6d   ", x, y, z);
+//        OLED_Show_Str(0, 20, str, 12, 1);
+//        sprintf((char *)str, "%6d  %6d  %6d   ", a, b, c);
+//        OLED_Show_Str(0, 33, str, 12, 1);
+		sprintf((char *)str, "%3.1f  ", (float)mpu6050_TEMP_OUT_data());
         OLED_Show_Str(0, 46, str, 12, 1);
         OLED_Refresh_Gram();
     }

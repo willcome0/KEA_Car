@@ -42,5 +42,5 @@
 .\obj\pwm.o: ..\Inc\includes.h
 .\obj\pwm.o: ..\Drivers\uart.h
 .\obj\pwm.o: ..\Drivers\My_MPU6050.h
-.\obj\pwm.o: ..\Drivers\iic.h
+.\obj\pwm.o: ..\Drivers\iic_shu.h
 .\obj\pwm.o: ..\Drivers\CMSIS\SKEAZ1284.h

@@ -43,4 +43,4 @@
 .\obj\flash.o: ..\Inc\includes.h
 .\obj\flash.o: ..\Drivers\uart.h
 .\obj\flash.o: ..\Drivers\My_MPU6050.h
-.\obj\flash.o: ..\Drivers\iic.h
+.\obj\flash.o: ..\Drivers\iic_shu.h

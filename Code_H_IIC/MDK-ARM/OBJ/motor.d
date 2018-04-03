@@ -43,4 +43,4 @@
 .\obj\motor.o: ..\Inc\includes.h
 .\obj\motor.o: ..\Drivers\uart.h
 .\obj\motor.o: ..\Drivers\My_MPU6050.h
-.\obj\motor.o: ..\Drivers\iic.h
+.\obj\motor.o: ..\Drivers\iic_shu.h

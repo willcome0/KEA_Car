@@ -43,4 +43,4 @@
 .\obj\data.o: ..\Inc\includes.h
 .\obj\data.o: ..\Drivers\uart.h
 .\obj\data.o: ..\Drivers\My_MPU6050.h
-.\obj\data.o: ..\Drivers\iic.h
+.\obj\data.o: ..\Drivers\iic_shu.h

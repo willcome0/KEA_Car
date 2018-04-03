@@ -42,5 +42,5 @@
 .\obj\upper.o: ..\Inc\includes.h
 .\obj\upper.o: ..\Drivers\uart.h
 .\obj\upper.o: ..\Drivers\My_MPU6050.h
-.\obj\upper.o: ..\Drivers\iic.h
+.\obj\upper.o: ..\Drivers\iic_shu.h
 .\obj\upper.o: ..\Drivers\CMSIS\SKEAZ1284.h

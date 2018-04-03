@@ -43,5 +43,5 @@
 .\obj\uart.o: ..\Inc\includes.h
 .\obj\uart.o: ..\Drivers\uart.h
 .\obj\uart.o: ..\Drivers\My_MPU6050.h
-.\obj\uart.o: ..\Drivers\iic.h
+.\obj\uart.o: ..\Drivers\iic_shu.h
 .\obj\uart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

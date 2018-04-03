@@ -43,4 +43,4 @@
 .\obj\gpio.o: ..\Inc\includes.h
 .\obj\gpio.o: ..\Drivers\uart.h
 .\obj\gpio.o: ..\Drivers\My_MPU6050.h
-.\obj\gpio.o: ..\Drivers\iic.h
+.\obj\gpio.o: ..\Drivers\iic_shu.h

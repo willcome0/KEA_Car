@@ -22,7 +22,7 @@ int main(void)
 	/*************************************/
 	
 	Delay_ms(100);
-	while(MPU_Init());
+	while(mpu6050_init());
 	
 	Beep_Time(1000);
 	

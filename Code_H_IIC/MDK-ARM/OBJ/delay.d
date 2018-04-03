@@ -43,4 +43,4 @@
 .\obj\delay.o: ..\Inc\includes.h
 .\obj\delay.o: ..\Drivers\uart.h
 .\obj\delay.o: ..\Drivers\My_MPU6050.h
-.\obj\delay.o: ..\Drivers\iic.h
+.\obj\delay.o: ..\Drivers\iic_shu.h

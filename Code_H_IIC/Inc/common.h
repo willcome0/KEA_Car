@@ -47,7 +47,8 @@
 //#include "My_I2C.h"
 
 #include "My_MPU6050.h"
-#include "iic.h"
+//#include "iic.h"
+#include "iic_shu.h"
 //#define 0b000 0x00
 //#define 0b001 0x01
 //#define 0b010 0x02
