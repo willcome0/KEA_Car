@@ -114,20 +114,20 @@ void CountDown(uint16_t time)
 
     for(uint8_t i=time; i!=0; i--)
     {
-        Beep_Time(50);
+        Beep_Time(100);
         OLED_Show_Char48_64(40, 0, i+'0', Normal);
         OLED_Refresh_Gram();
         //考虑到最后一秒蜂鸣器时常
         if(1 == i)
         {
-            Delay_ms(800);
+            Delay_ms(600);
             continue;
         }
-        Delay_ms(800);
+        Delay_ms(700);
 
     }
-    Beep_Time(200);
-    OLED_Refresh_Gram();
+    Beep_Time(300);
+//    OLED_Refresh_Gram();
 }
 
 uint8_t UI_Go(void)

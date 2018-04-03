@@ -14,7 +14,7 @@ uint8_t Get_Key(void)
 {
 //    #define Key_Delay_Time 50;
     static uint16_t Key_Keep = 0;
-    static uint8_t Key_Delay = 60;
+    static uint8_t Key_Delay = 50;
     
     volatile uint8_t temp_return = 0;
     
@@ -24,17 +24,17 @@ uint8_t Get_Key(void)
 		if(0 == Read_Input_State(KEY_Up_Port, KEY_Up_Pin))
 		{
             Key_Keep++;
-            if(Key_Keep >50)
+            if(Key_Keep > 20)
                 Key_Delay = 1;
-            else if(Key_Keep > 12)
+            else if(Key_Keep > 10)
                 Key_Delay = 10;
-            else if(Key_Keep > 6)
+            else if(Key_Keep > 5)
                 Key_Delay = 30;
             else if(Key_Keep > 3)
-                Key_Delay = 50;
+                Key_Delay = 40;
             
             temp_return = Press_Up; 
-            Beep_Time(2);
+            Beep_Time(CON_PERIOD);
 
 		}
         return temp_return;
@@ -46,16 +46,16 @@ uint8_t Get_Key(void)
 		if(0 == Read_Input_State(KEY_Down_Port, KEY_Down_Pin))
 		{
             Key_Keep++;
-            if(Key_Keep >50)
+            if(Key_Keep > 20)
                 Key_Delay = 1;
-            else if(Key_Keep > 12)
+            else if(Key_Keep > 10)	
                 Key_Delay = 10;
-            else if(Key_Keep > 6)
+            else if(Key_Keep > 5)
                 Key_Delay = 30;
             else if(Key_Keep > 3)
-                Key_Delay = 50;
+                Key_Delay = 40;
             temp_return = Press_Down;  
-            Beep_Time(2);
+            Beep_Time(CON_PERIOD);
 
 		}
         return temp_return;
@@ -66,7 +66,7 @@ uint8_t Get_Key(void)
 		Delay_ms(Key_Delay);
 		if(0 == Read_Input_State(KEY_Mid_Port, KEY_Mid_Pin))
 		{
-			Beep_Time(2);
+			Beep_Time(CON_PERIOD);
             temp_return = Press_Mid;
 		}
         return temp_return;
@@ -77,7 +77,7 @@ uint8_t Get_Key(void)
 		Delay_ms(Key_Delay);
 		if(0 == Read_Input_State(KEY_Left_Port, KEY_Left_Pin))
 		{
-			Beep_Time(2);
+			Beep_Time(CON_PERIOD);
             temp_return = Press_Left;
 		}
         return temp_return;
@@ -88,7 +88,7 @@ uint8_t Get_Key(void)
 		Delay_ms(Key_Delay);
 		if(0 == Read_Input_State(KEY_Right_Port, KEY_Right_Pin))
 		{
-			Beep_Time(1);
+			Beep_Time(CON_PERIOD);
             temp_return = Press_Right;  //右键也改为中键
 		}
 		return temp_return;

@@ -14,7 +14,10 @@ void All_Init(void)
 //	FLASH_Write_All_Data();		// 写入所有数据到存数据的扇叶
 	
 	Data_Init();	// 系统变量初始化
-	Beep_Time(50);
+	
+	Beep_ON();
+	Delay_ms(50);
+	Beep_OFF();
     	
     UART_Init(UART_1, 9600);
     LED_Init();
@@ -25,7 +28,7 @@ void All_Init(void)
     OLED_Display_Off();
     Motor_Init();     //电机初始化
 
-	PIT_Config(PIT_CH0, Con_Period, 0);
+	PIT_Config(PIT_CH0, CON_PERIOD, 0);
 	
     Encoder_Init();   //编码器初始化
     KEY_Init();

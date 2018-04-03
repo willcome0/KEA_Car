@@ -148,7 +148,9 @@ void PIT_CH0_IRQHandler(void)
 //                                    Huan_Count=0;
 //                                Value_Ind_L_Old = Value_Inductor_L;
 //                                Value_Ind_R_Old = Value_Inductor_R;
-                                Beep_OFF();
+//                                Beep_OFF();
+								
+								
 //                                if(Yaw - Yaw_Huan > 100)//已入环岛
 //                                    Huan_Flag = OUT;//出环岛标志
 //                                else 
@@ -181,9 +183,9 @@ void PIT_CH0_IRQHandler(void)
 									
 									
 									/********新环***************/
-									if(Value_Inductor_R>1050
-                                        &&Pitch<-18
-                                        &&Value_Inductor_L>1050
+									if(Value_Inductor_R>1000
+                                        &&Pitch<-22
+                                        &&Value_Inductor_L>1000
 										&& Huan_Flag == OUT)
 									{
 										Huan_Flag = IN;
@@ -192,21 +194,23 @@ void PIT_CH0_IRQHandler(void)
 									}
 									if(
 										temp_time != 0 && 
-										Huan_Flag == IN &&
-										((Run_Time - temp_time)*Con_Period > 200 - Value_End_R/2.5) &&
-										((Run_Time - temp_time)*Con_Period < 600 - Value_End_R/2.5)
+										Huan_Flag != OUT &&
+										((Run_Time - temp_time)*CON_PERIOD > 80 - Value_End_R/2.5) &&
+										((Run_Time - temp_time)*CON_PERIOD < 600 - Value_End_R/2.5) &&	//原600
+										Value_Inductor_L + Value_Inductor_R > 1800
 										
 									)
 									{
-										Beep_ON();
+										Beep_Time(CON_PERIOD);
 										if(0 == _Com_Huan_LR_)
 											Value_Inductor_L = Value_Inductor_L*CONTROL_Huan_Add/10;
 										else if(1 == _Com_Huan_LR_)
 											Value_Inductor_R = Value_Inductor_R*CONTROL_Huan_Add/10;
 									}
-									if(temp_time != 0 && 
-										(Run_Time - temp_time)*Con_Period > 1000)
+									else if(temp_time != 0 && 
+										(Run_Time - temp_time)*CON_PERIOD > 3300)
 									{
+										Beep_Time(100);
 										temp_time = 0;
 										Huan_Flag = OUT;
 									}
@@ -313,10 +317,19 @@ void PIT_CH0_IRQHandler(void)
 								}
 							}
 								
+
+								if(BB_Times >= CON_PERIOD)
+								{
+									BB_Times -= CON_PERIOD;
+									Beep_ON();
+								}
+								else
+								{
+									Beep_OFF();
+								}
+
 								
-								
-								
-                                LED_White_OFF();
+//                                LED_White_OFF();
 //    Pin_Output_Toggle(LED_Blue_Port, LED_Blue_Pin);
 //    Pin_Output_Toggle(PTE, PTE0);
 
@@ -363,16 +376,16 @@ uint8_t Just_Do_It(void)
     while(1)
     {
         {//彩虹灯
-            LED_Count = LED_Count==7 ? 0:LED_Count;
+            LED_Count = LED_Count==35 ? 0:LED_Count;
             switch(LED_Count)
             {
                 case 0: LED_White_OFF();  LED_Orange_ON();  break;
-                case 1: LED_Orange_OFF();  LED_Red_ON();    break;
-                case 2: LED_Red_OFF();     LED_Green_ON();  break;
-                case 3: LED_Green_OFF();   LED_Blue_ON();   break;
-                case 4: LED_Blue_OFF();    LED_Indigo_ON(); break;
-                case 5: LED_Indigo_OFF();  LED_Purple_ON(); break;
-                case 6: LED_Purple_OFF();  LED_White_ON();  break;
+                case 5: LED_Orange_OFF();  LED_Red_ON();    break;
+                case 10: LED_Red_OFF();     LED_Green_ON();  break;
+                case 15: LED_Green_OFF();   LED_Blue_ON();   break;
+                case 20: LED_Blue_OFF();    LED_Indigo_ON(); break;
+                case 25: LED_Indigo_OFF();  LED_Purple_ON(); break;
+                case 30: LED_Purple_OFF();  LED_White_ON();  break;
             }
             LED_Count++;
         }  
@@ -389,7 +402,7 @@ uint8_t Just_Do_It(void)
 				Protect_Flag = 1;
 		}
 		/*******************************************************/
-		if(	(_Com_RunTimeStop_!=0 && Run_Time*Con_Period>_Com_RunTimeStop_*10)	||		// 800即8s   8.00
+		if(	(_Com_RunTimeStop_!=0 && Run_Time*CON_PERIOD>_Com_RunTimeStop_*10)	||		// 800即8s   8.00
 			(_Com_RunDisStop_!=0  && Run_Distance>(float)_Com_RunDisStop_*57.6)		// 100即1米
 		  )
 		{

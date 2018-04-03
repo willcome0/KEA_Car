@@ -232,8 +232,13 @@ int main(void)
 
             default:   GO = UI_Main();
         }
-
-
+//while(1)
+//{
+//	LED_Blue_ON();
+//	Delay_ms(2000);
+//	LED_Blue_OFF();
+//	Delay_ms(2000);
+//}
 
 
 //LED_Red_ON();
