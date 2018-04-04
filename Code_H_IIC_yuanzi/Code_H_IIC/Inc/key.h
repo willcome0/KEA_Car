@@ -5,7 +5,7 @@
 
 /*********************各板子的兼容代码**************************/
 
-#if (PCB_VERSION == 30)    //兼容PCB V2.0 宏定义
+#if (PCB_VERSION == 20)    //兼容PCB V2.0 宏定义
     #define KEY_Up_Port     PTE
     #define KEY_Up_Pin      PTE4
 

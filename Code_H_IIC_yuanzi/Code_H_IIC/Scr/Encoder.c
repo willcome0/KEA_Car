@@ -17,4 +17,8 @@ uint8_t End_Read_Dir(uint8_t Dir)
 		default:	return 0;
     }
 }
-
+uint8_t Debug_Pin_Init(void)
+{
+	Pin_Output_Config(PTE, PTE0, 1);
+	Pin_Output_Config(Dir_End_L_Port, Dir_End_L_Pin, 1);
+}

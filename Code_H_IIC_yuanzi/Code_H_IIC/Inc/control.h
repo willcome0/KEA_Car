@@ -16,8 +16,8 @@ extern int16_t Error_Ind;
 extern uint32_t Run_Time;
 extern uint32_t Run_Distance;
 
-extern float pitch,roll,yaw;
-extern short Gyro_X, Gyro_Y, Gyro_Z;
+extern volatile float Pitch, Roll, Yaw;
+extern volatile short Gyro_X, Gyro_Y, Gyro_Z;
 uint8_t Just_Do_It(void);
 
 #endif

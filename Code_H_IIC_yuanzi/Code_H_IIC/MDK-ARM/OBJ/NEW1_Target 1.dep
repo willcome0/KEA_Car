@@ -1,7 +1,7 @@
 Dependencies for Project 'NEW1', Target 'Target 1': (DO NOT MODIFY !)
-F (..\Scr\main.c)(0x5AC38597)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\main.o --omf_browse .\obj\main.crf --depend .\obj\main.d)
+F (..\Scr\main.c)(0x5AC4D11B)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\main.o --omf_browse .\obj\main.crf --depend .\obj\main.d)
 I (..\Inc\includes.h)(0x5A8AF47E)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -14,7 +14,7 @@ I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\oled.h)(0x5AACC20B)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\adc.h)(0x5A8AF47E)
@@ -24,9 +24,9 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Inc\Init.h)(0x5A9E7160)
@@ -41,13 +41,13 @@ I (..\Drivers\CMSIS\core_cm0plus.h)(0x5A7E19BC)
 I (..\Drivers\CMSIS\core_cmInstr.h)(0x5A7E19BC)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\system_SKEAZ1284.h)(0x5A9E02EC)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\gpio.h)(0x5AAE35D1)
 I (..\Drivers\delay.h)(0x5A8AF47E)
 I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\adc.h)(0x5A8AF47E)
@@ -57,9 +57,9 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Inc\Init.h)(0x5A9E7160)
@@ -70,7 +70,7 @@ I (..\Drivers\iic.h)(0x5AC2225F)
 I (..\Inc\oledfont.h)(0x5AACAEDA)
 F (..\Scr\motor.c)(0x5AAE3644)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\motor.o --omf_browse .\obj\motor.crf --depend .\obj\motor.d)
 I (..\Inc\motor.h)(0x5AAE36A3)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -83,7 +83,7 @@ I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\oled.h)(0x5AACC20B)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\adc.h)(0x5A8AF47E)
@@ -93,9 +93,9 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Inc\Init.h)(0x5A9E7160)
 I (..\Inc\includes.h)(0x5A8AF47E)
@@ -104,7 +104,7 @@ I (..\Drivers\MPU6050_YuanZi\My_MPU6050.h)(0x5AC22625)
 I (..\Drivers\iic.h)(0x5AC2225F)
 F (..\Scr\LED&Buzzer.c)(0x5ABA2CF2)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\led&buzzer.o --omf_browse .\obj\led&buzzer.crf --depend .\obj\led&buzzer.d)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -116,7 +116,7 @@ I (..\Drivers\delay.h)(0x5A8AF47E)
 I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\oled.h)(0x5AACC20B)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\adc.h)(0x5A8AF47E)
@@ -126,9 +126,9 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Inc\Init.h)(0x5A9E7160)
@@ -137,8 +137,8 @@ I (..\Drivers\uart.h)(0x5A8AF47E)
 I (..\Drivers\MPU6050_YuanZi\My_MPU6050.h)(0x5AC22625)
 I (..\Drivers\iic.h)(0x5AC2225F)
 F (..\Scr\key.c)(0x5AC1F6E5)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\key.o --omf_browse .\obj\key.crf --depend .\obj\key.d)
-I (..\Inc\key.h)(0x5AC3857D)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Inc\key.h)(0x5AC4BC37)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -160,9 +160,9 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Inc\Init.h)(0x5A9E7160)
@@ -172,7 +172,7 @@ I (..\Drivers\MPU6050_YuanZi\My_MPU6050.h)(0x5AC22625)
 I (..\Drivers\iic.h)(0x5AC2225F)
 F (..\Scr\data.c)(0x5AACB477)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\data.o --omf_browse .\obj\data.crf --depend .\obj\data.d)
 I (..\Inc\data.h)(0x5AB4F9EC)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -185,7 +185,7 @@ I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\oled.h)(0x5AACC20B)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 I (..\Inc\adc.h)(0x5A8AF47E)
 I (..\Inc\AD.h)(0x5A8AF47E)
@@ -194,9 +194,9 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Inc\Init.h)(0x5A9E7160)
@@ -204,9 +204,9 @@ I (..\Inc\includes.h)(0x5A8AF47E)
 I (..\Drivers\uart.h)(0x5A8AF47E)
 I (..\Drivers\MPU6050_YuanZi\My_MPU6050.h)(0x5AC22625)
 I (..\Drivers\iic.h)(0x5AC2225F)
-F (..\Scr\ui.c)(0x5AC3857D)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\ui.o --omf_browse .\obj\ui.crf --depend .\obj\ui.d)
+F (..\Scr\ui.c)(0x5AC4D3C0)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\ui.o --omf_browse .\obj\ui.crf --depend .\obj\ui.d)
 I (..\Inc\ui.h)(0x5AACBC81)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -219,7 +219,7 @@ I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\oled.h)(0x5AACC20B)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\adc.h)(0x5A8AF47E)
@@ -228,9 +228,9 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Inc\Init.h)(0x5A9E7160)
@@ -240,7 +240,7 @@ I (..\Drivers\MPU6050_YuanZi\My_MPU6050.h)(0x5AC22625)
 I (..\Drivers\iic.h)(0x5AC2225F)
 F (..\Scr\AD.c)(0x5AB3A4E4)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\ad.o --omf_browse .\obj\ad.crf --depend .\obj\ad.d)
 I (..\Inc\AD.h)(0x5A8AF47E)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -253,7 +253,7 @@ I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\oled.h)(0x5AACC20B)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\adc.h)(0x5A8AF47E)
@@ -262,9 +262,9 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Inc\Init.h)(0x5A9E7160)
@@ -272,9 +272,9 @@ I (..\Inc\includes.h)(0x5A8AF47E)
 I (..\Drivers\uart.h)(0x5A8AF47E)
 I (..\Drivers\MPU6050_YuanZi\My_MPU6050.h)(0x5AC22625)
 I (..\Drivers\iic.h)(0x5AC2225F)
-F (..\Scr\Encoder.c)(0x5AACB341)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\encoder.o --omf_browse .\obj\encoder.crf --depend .\obj\encoder.d)
-I (..\Inc\Encoder.h)(0x5AACB477)
-I (..\Inc\common.h)(0x5AC385A2)
+F (..\Scr\Encoder.c)(0x5AC4B324)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\encoder.o --omf_browse .\obj\encoder.crf --depend .\obj\encoder.d)
+I (..\Inc\Encoder.h)(0x5AC4B324)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -287,7 +287,7 @@ I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\oled.h)(0x5AACC20B)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\adc.h)(0x5A8AF47E)
@@ -298,7 +298,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (..\Inc\pit.h)(0x5AACAEDC)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Inc\Init.h)(0x5A9E7160)
@@ -306,9 +306,9 @@ I (..\Inc\includes.h)(0x5A8AF47E)
 I (..\Drivers\uart.h)(0x5A8AF47E)
 I (..\Drivers\MPU6050_YuanZi\My_MPU6050.h)(0x5AC22625)
 I (..\Drivers\iic.h)(0x5AC2225F)
-F (..\Scr\control.c)(0x5AC38603)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\control.o --omf_browse .\obj\control.crf --depend .\obj\control.d)
-I (..\Inc\control.h)(0x5AC3857D)
-I (..\Inc\common.h)(0x5AC385A2)
+F (..\Scr\control.c)(0x5AC4D5AE)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\control.o --omf_browse .\obj\control.crf --depend .\obj\control.d)
+I (..\Inc\control.h)(0x5AC4D4F3)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -321,7 +321,7 @@ I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\oled.h)(0x5AACC20B)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\adc.h)(0x5A8AF47E)
@@ -331,7 +331,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
@@ -344,7 +344,7 @@ F (.\引脚资源表.txt)(0x5A8AF47E)()
 F (..\Scr\Init.c)(0x5AC3857D)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\init.o --omf_browse .\obj\init.crf --depend .\obj\init.d)
 I (..\Inc\Init.h)(0x5A9E7160)
 I (..\Inc\includes.h)(0x5A8AF47E)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -357,7 +357,7 @@ I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\oled.h)(0x5AACC20B)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\adc.h)(0x5A8AF47E)
@@ -367,9 +367,9 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Drivers\uart.h)(0x5A8AF47E)
@@ -377,7 +377,7 @@ I (..\Drivers\MPU6050_YuanZi\My_MPU6050.h)(0x5AC22625)
 I (..\Drivers\iic.h)(0x5AC2225F)
 F (..\Drivers\gpio.c)(0x5A8AF47E)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\gpio.o --omf_browse .\obj\gpio.crf --depend .\obj\gpio.d)
 I (..\Drivers\gpio.h)(0x5AAE35D1)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -389,7 +389,7 @@ I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\oled.h)(0x5AACC20B)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\adc.h)(0x5A8AF47E)
@@ -399,9 +399,9 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Inc\Init.h)(0x5A9E7160)
@@ -411,7 +411,7 @@ I (..\Drivers\MPU6050_YuanZi\My_MPU6050.h)(0x5AC22625)
 I (..\Drivers\iic.h)(0x5AC2225F)
 F (..\Drivers\uart.c)(0x5AACB2DE)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\uart.o --omf_browse .\obj\uart.crf --depend .\obj\uart.d)
 I (..\Drivers\uart.h)(0x5A8AF47E)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -424,7 +424,7 @@ I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\oled.h)(0x5AACC20B)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\adc.h)(0x5A8AF47E)
@@ -434,9 +434,9 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Inc\Init.h)(0x5A9E7160)
@@ -446,7 +446,7 @@ I (..\Drivers\iic.h)(0x5AC2225F)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x599ECD2A)
 F (..\Drivers\delay.c)(0x5AACB29B)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\delay.o --omf_browse .\obj\delay.crf --depend .\obj\delay.d)
 I (..\Drivers\delay.h)(0x5A8AF47E)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -458,7 +458,7 @@ I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\oled.h)(0x5AACC20B)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\adc.h)(0x5A8AF47E)
@@ -468,9 +468,9 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Inc\Init.h)(0x5A9E7160)
@@ -480,7 +480,7 @@ I (..\Drivers\MPU6050_YuanZi\My_MPU6050.h)(0x5AC22625)
 I (..\Drivers\iic.h)(0x5AC2225F)
 F (..\Scr\pit.c)(0x5AACAE64)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\pit.o --omf_browse .\obj\pit.crf --depend .\obj\pit.d)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -493,7 +493,7 @@ I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\oled.h)(0x5AACC20B)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\adc.h)(0x5A8AF47E)
@@ -502,9 +502,9 @@ I (..\Inc\ui.h)(0x5AACBC81)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Inc\Init.h)(0x5A9E7160)
@@ -514,7 +514,7 @@ I (..\Drivers\MPU6050_YuanZi\My_MPU6050.h)(0x5AC22625)
 I (..\Drivers\iic.h)(0x5AC2225F)
 F (..\Drivers\pwm.c)(0x5AAE366C)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\pwm.o --omf_browse .\obj\pwm.crf --depend .\obj\pwm.d)
 I (..\Drivers\pwm.h)(0x5AACC038)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -526,7 +526,7 @@ I (..\Drivers\delay.h)(0x5A8AF47E)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\oled.h)(0x5AACC20B)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\adc.h)(0x5A8AF47E)
@@ -536,9 +536,9 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Inc\Init.h)(0x5A9E7160)
@@ -548,7 +548,7 @@ I (..\Drivers\MPU6050_YuanZi\My_MPU6050.h)(0x5AC22625)
 I (..\Drivers\iic.h)(0x5AC2225F)
 F (..\Scr\upper.c)(0x5AACB477)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\upper.o --omf_browse .\obj\upper.crf --depend .\obj\upper.d)
 I (..\Inc\upper.h)(0x5AACB477)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -560,7 +560,7 @@ I (..\Drivers\delay.h)(0x5A8AF47E)
 I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\oled.h)(0x5AACC20B)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\adc.h)(0x5A8AF47E)
@@ -570,9 +570,9 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Inc\Init.h)(0x5A9E7160)
@@ -582,7 +582,7 @@ I (..\Drivers\MPU6050_YuanZi\My_MPU6050.h)(0x5AC22625)
 I (..\Drivers\iic.h)(0x5AC2225F)
 F (..\Scr\adc.c)(0x5AA0FEA7)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\adc.o --omf_browse .\obj\adc.crf --depend .\obj\adc.d)
 I (..\Inc\adc.h)(0x5A8AF47E)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -595,7 +595,7 @@ I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\oled.h)(0x5AACC20B)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\AD.h)(0x5A8AF47E)
@@ -604,9 +604,9 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Inc\Init.h)(0x5A9E7160)
@@ -618,7 +618,7 @@ F (..\Drivers\kalman.c)(0x5A8AF47E)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O
 I (..\Drivers\kalman.h)(0x5A8AF47E)
 F (..\Scr\flash.c)(0x5A8AF47E)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\flash.o --omf_browse .\obj\flash.crf --depend .\obj\flash.d)
 I (..\Inc\flash.h)(0x5A8AF47E)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -631,7 +631,7 @@ I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\oled.h)(0x5AACC20B)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\adc.h)(0x5A8AF47E)
@@ -641,9 +641,9 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\Init.h)(0x5A9E7160)
 I (..\Inc\includes.h)(0x5A8AF47E)
@@ -652,7 +652,7 @@ I (..\Drivers\MPU6050_YuanZi\My_MPU6050.h)(0x5AC22625)
 I (..\Drivers\iic.h)(0x5AC2225F)
 F (..\Drivers\iic.c)(0x5AC2225F)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\iic.o --omf_browse .\obj\iic.crf --depend .\obj\iic.d)
 I (..\Drivers\iic.h)(0x5AC2225F)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -665,7 +665,7 @@ I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\oled.h)(0x5AACC20B)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\adc.h)(0x5A8AF47E)
@@ -675,9 +675,9 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Inc\Init.h)(0x5A9E7160)
@@ -686,7 +686,7 @@ I (..\Drivers\uart.h)(0x5A8AF47E)
 I (..\Drivers\MPU6050_YuanZi\My_MPU6050.h)(0x5AC22625)
 F (..\Drivers\MPU6050_YuanZi\My_MPU6050.c)(0x5AC37E92)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\my_mpu6050.o --omf_browse .\obj\my_mpu6050.crf --depend .\obj\my_mpu6050.d)
 I (..\Drivers\MPU6050_YuanZi\My_MPU6050.h)(0x5AC22625)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
@@ -699,7 +699,7 @@ I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\oled.h)(0x5AACC20B)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\adc.h)(0x5A8AF47E)
@@ -709,9 +709,9 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Inc\Init.h)(0x5A9E7160)
@@ -720,14 +720,14 @@ I (..\Drivers\uart.h)(0x5A8AF47E)
 I (..\Drivers\iic.h)(0x5AC2225F)
 F (..\Drivers\MPU6050_YuanZi\eMPL\dmpKey.h)(0x50CA9A0C)()
 F (..\Drivers\MPU6050_YuanZi\eMPL\dmpmap.h)(0x50CA9A0C)()
-F (..\Drivers\MPU6050_YuanZi\eMPL\inv_mpu.c)(0x5AC37AA4)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\inv_mpu.o --omf_browse .\obj\inv_mpu.crf --depend .\obj\inv_mpu.d)
+F (..\Drivers\MPU6050_YuanZi\eMPL\inv_mpu.c)(0x5AC4B9DB)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\inv_mpu.o --omf_browse .\obj\inv_mpu.crf --depend .\obj\inv_mpu.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
-I (..\Drivers\MPU6050_YuanZi\eMPL\inv_mpu.h)(0x5AC37A75)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Drivers\MPU6050_YuanZi\eMPL\inv_mpu.h)(0x5AC4D7A4)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (..\Drivers\CMSIS\core_cm0plus.h)(0x5A7E19BC)
@@ -739,15 +739,15 @@ I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\oled.h)(0x5AACC20B)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\adc.h)(0x5A8AF47E)
 I (..\Inc\AD.h)(0x5A8AF47E)
 I (..\Inc\ui.h)(0x5AACBC81)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Inc\Init.h)(0x5A9E7160)
@@ -756,15 +756,15 @@ I (..\Drivers\uart.h)(0x5A8AF47E)
 I (..\Drivers\MPU6050_YuanZi\My_MPU6050.h)(0x5AC22625)
 I (..\Drivers\iic.h)(0x5AC2225F)
 I (..\Drivers\MPU6050_YuanZi\eMPL\inv_mpu_dmp_motion_driver.h)(0x50CA9A0C)
-F (..\Drivers\MPU6050_YuanZi\eMPL\inv_mpu.h)(0x5AC37A75)()
+F (..\Drivers\MPU6050_YuanZi\eMPL\inv_mpu.h)(0x5AC4D7A4)()
 F (..\Drivers\MPU6050_YuanZi\eMPL\inv_mpu_dmp_motion_driver.c)(0x5AC37A4D)(--c99 -c --cpu Cortex-M0+ -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Inc -I ..\Drivers -I ..\Drivers\CMSIS -I ..\Scr\12.12_agine -I ..\Drivers\MPU6050_YuanZi -I ..\Drivers\MPU6050_YuanZi\eMPL-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.2.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\Kinetis_KEAxx_DFP\1.3.0\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSKEAZ128xxx4-o .\obj\inv_mpu_dmp_motion_driver.o --omf_browse .\obj\inv_mpu_dmp_motion_driver.crf --depend .\obj\inv_mpu_dmp_motion_driver.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x599ECD2E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599ECD2C)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599ECD2E)
-I (..\Drivers\MPU6050_YuanZi\eMPL\inv_mpu.h)(0x5AC37A75)
-I (..\Inc\common.h)(0x5AC385A2)
+I (..\Drivers\MPU6050_YuanZi\eMPL\inv_mpu.h)(0x5AC4D7A4)
+I (..\Inc\common.h)(0x5AC4BCD1)
 I (..\Drivers\CMSIS\core_cmFunc.h)(0x5A8AF47E)
 I (..\Drivers\CMSIS\SKEAZ1284.h)(0x5A7E19BC)
 I (..\Drivers\CMSIS\core_cm0plus.h)(0x5A7E19BC)
@@ -776,15 +776,15 @@ I (..\Drivers\pwm.h)(0x5AACC038)
 I (..\Inc\upper.h)(0x5AACB477)
 I (..\Inc\oled.h)(0x5AACC20B)
 I (..\Inc\LED&Buzzer.h)(0x5ABA2CF2)
-I (..\Inc\key.h)(0x5AC3857D)
+I (..\Inc\key.h)(0x5AC4BC37)
 I (..\Inc\data.h)(0x5AB4F9EC)
 I (..\Inc\adc.h)(0x5A8AF47E)
 I (..\Inc\AD.h)(0x5A8AF47E)
 I (..\Inc\ui.h)(0x5AACBC81)
 I (..\Inc\pit.h)(0x5AACAEDC)
-I (..\Inc\Encoder.h)(0x5AACB477)
+I (..\Inc\Encoder.h)(0x5AC4B324)
 I (..\Drivers\kalman.h)(0x5A8AF47E)
-I (..\Inc\control.h)(0x5AC3857D)
+I (..\Inc\control.h)(0x5AC4D4F3)
 I (..\Inc\motor.h)(0x5AAE36A3)
 I (..\Inc\flash.h)(0x5A8AF47E)
 I (..\Inc\Init.h)(0x5A9E7160)

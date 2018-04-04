@@ -22,11 +22,14 @@ int main(void)
 	/*************************************/
 	
 	Delay_ms(100);
-//	while(MPU_Init());
-//	while(mpu_dmp_init());
-	Beep_Time(1000);
 	
-	uint8_t GO = 0;
+	Beep_ON();
+	Delay_ms(200);
+	Beep_OFF();
+	
+	Debug_Pin_Init();
+	
+	uint8_t GO = 31;
     while(1)
     {	
         switch(GO)

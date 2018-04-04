@@ -55,15 +55,28 @@ uint32_t temp_time = 0;	// 用于临时计时 进
 uint32_t temp_dis = 0;
 
 
-float pitch,roll,yaw;
-short Gyro_X, Gyro_Y, Gyro_Z;
+volatile float Pitch, Roll, Yaw;
+volatile short Gyro_X, Gyro_Y, Gyro_Z;
+
 void PIT_CH0_IRQHandler(void)
 {
-								PIT_CLR_Flag(PIT_CH0);  //清除中断标志位
-mpu_dmp_get_data(&pitch,&roll,&yaw);	
-	mpu_dmp_get_data(&pitch,&roll,&yaw);
-	MPU_Get_Gyroscope(&Gyro_X, &Gyro_Y, &Gyro_Z);
-	
+	Debug_Pin1_Toggle();
+	Debug_Pin2_H();
+			PIT_CLR_Flag(PIT_CH0);  //清除中断标志位
+	Disable_PIT_CH0();
+
+			
+			mpu_dmp_get_data(&Pitch,&Roll,&Yaw);//2.96ms
+////			Pitch = 9.999999;
+//			MPU_Get_Gyroscope(&Gyro_X, &Gyro_Y, &Gyro_Z);//0.52ms
+//			MPU_Get_Gyroscope(&Gyro_X, &Gyro_Y, &Gyro_Z);//0.52ms
+//			MPU_Get_Gyroscope(&Gyro_X, &Gyro_Y, &Gyro_Z);//0.52ms
+//                for(uint16_t i=0; i<300; i++)
+//                {
+//                    PreError[i] = PreError[i+1]; 
+//                    End_Integral += PreError[i];
+//                }
+
 //							//    Disable_PIT_CH0();
 //									/*中断内容--开始*/
 //    
@@ -340,8 +353,11 @@ mpu_dmp_get_data(&pitch,&roll,&yaw);
 //    Pin_Output_Toggle(LED_Blue_Port, LED_Blue_Pin);
 //    Pin_Output_Toggle(PTE, PTE0);
 
+
+			Debug_Pin2_L();		
+			
     /*中断内容--结束*/
-//    Enable_PIT_CH0();
+    Enable_PIT_CH0();
 }
 
 
@@ -382,80 +398,80 @@ uint8_t Just_Do_It(void)
 								
     while(1)
     {
-        {//彩虹灯
-            LED_Count = LED_Count==35 ? 0:LED_Count;
-            switch(LED_Count)
-            {
-                case 0: LED_White_OFF();  LED_Orange_ON();  break;
-                case 5: LED_Orange_OFF();  LED_Red_ON();    break;
-                case 10: LED_Red_OFF();     LED_Green_ON();  break;
-                case 15: LED_Green_OFF();   LED_Blue_ON();   break;
-                case 20: LED_Blue_OFF();    LED_Indigo_ON(); break;
-                case 25: LED_Indigo_OFF();  LED_Purple_ON(); break;
-                case 30: LED_Purple_OFF();  LED_White_ON();  break;
-            }
-            LED_Count++;
-        }  
-//        LED_Purple_ON();
-		/*******************保护相关*****************************/
-		uint8_t Protect_Flag = 0;
-		if(1 == _Com_RunProtect_)
-		{
-			if( (Value_End_L>300)||(Value_End_L<-300)			// 转速保护
-//				||Pitch<-40										// 角度保护
-				||Value_Inductor_L<100||Value_Inductor_R<100	// 电感值保护
-				
-			  )
-				Protect_Flag = 1;
-		}
-		/*******************************************************/
-		if(	(_Com_RunTimeStop_!=0 && Run_Time*CON_PERIOD>_Com_RunTimeStop_*10)	||		// 800即8s   8.00
-			(_Com_RunDisStop_!=0  && Run_Distance>(float)_Com_RunDisStop_*57.6)		// 100即1米
-		  )
-		{
-			Stop_Flag = 1;
-			Run_Time_Flag = 0;
-			Delay_ms(200);
-			
-			Protect_Flag = 1;
-		}
-        switch(Get_Key() || Protect_Flag)
-        {
-            case Press_NULL:  break;
-            
-            default:        
-						/****关电机****/
-						Run_Time_Flag = 0;
-						Motor_L_EN(Disable);
-						Motor_R_EN(Disable);
-						
-						Stop_Flag = 0;
-						/**************/
-                        LED_White_OFF();   //关LED
-                        OLED_Display_On();//开OLED
-						OLED_Init();
-                        return 0;
-        }
-    Variable[0] = pitch;  //左编码器
-    Variable[1] = roll;  //右编码器
-    Variable[2] = yaw;  //俯仰角
-//    Variable[0] = Value_End_L;  //左编码器
-//    Variable[1] = Value_End_R;  //右编码器
-//    Variable[2] = Pitch;  //俯仰角
-    Variable[3] = Value_Inductor_L;  //左电磁
-    Variable[4] = Value_Inductor_R;  //右电磁
-    Variable[5] = Value_Inductor_R - Value_Inductor_L;
-//    Variable[6] = Yaw;  //航向角
-        
-    Send_Begin();
-    Send_Variable();
-//        sprintf(str, "%2.1f %3d     ", Pitch, (int)(Value_End_L+Value_End_R)/2);
-//        OLED_Show_Str(0, 0, str, 24, 1);
+//        {//彩虹灯
+//            LED_Count = LED_Count==35 ? 0:LED_Count;
+//            switch(LED_Count)
+//            {
+//                case 0: LED_White_OFF();  LED_Orange_ON();  break;
+//                case 5: LED_Orange_OFF();  LED_Red_ON();    break;
+//                case 10: LED_Red_OFF();     LED_Green_ON();  break;
+//                case 15: LED_Green_OFF();   LED_Blue_ON();   break;
+//                case 20: LED_Blue_OFF();    LED_Indigo_ON(); break;
+//                case 25: LED_Indigo_OFF();  LED_Purple_ON(); break;
+//                case 30: LED_Purple_OFF();  LED_White_ON();  break;
+//            }
+//            LED_Count++;
+//        }  
+////        LED_Purple_ON();
+//		/*******************保护相关*****************************/
+//		uint8_t Protect_Flag = 0;
+//		if(1 == _Com_RunProtect_)
+//		{
+//			if( (Value_End_L>300)||(Value_End_L<-300)			// 转速保护
+////				||Pitch<-40										// 角度保护
+//				||Value_Inductor_L<100||Value_Inductor_R<100	// 电感值保护
+//				
+//			  )
+//				Protect_Flag = 1;
+//		}
+//		/*******************************************************/
+//		if(	(_Com_RunTimeStop_!=0 && Run_Time*CON_PERIOD>_Com_RunTimeStop_*10)	||		// 800即8s   8.00
+//			(_Com_RunDisStop_!=0  && Run_Distance>(float)_Com_RunDisStop_*57.6)		// 100即1米
+//		  )
+//		{
+//			Stop_Flag = 1;
+//			Run_Time_Flag = 0;
+//			Delay_ms(200);
+//			
+//			Protect_Flag = 1;
+//		}
+//        switch(Get_Key() || Protect_Flag)
+//        {
+//            case Press_NULL:  break;
+//            
+//            default:        
+//						/****关电机****/
+//						Run_Time_Flag = 0;
+//						Motor_L_EN(Disable);
+//						Motor_R_EN(Disable);
+//						
+//						Stop_Flag = 0;
+//						/**************/
+//                        LED_White_OFF();   //关LED
+//                        OLED_Display_On();//开OLED
+//						OLED_Init();
+//                        return 0;
+//        }
+//    Variable[0] = Pitch;  //左编码器
+//    Variable[1] = Roll;  //右编码器
+//    Variable[2] = Yaw;  //俯仰角
+////    Variable[0] = Value_End_L;  //左编码器
+////    Variable[1] = Value_End_R;  //右编码器
+////    Variable[2] = Pitch;  //俯仰角
+//    Variable[3] = Value_Inductor_L;  //左电磁
+//    Variable[4] = Value_Inductor_R;  //右电磁
+//    Variable[5] = Value_Inductor_R - Value_Inductor_L;
+////    Variable[6] = Yaw;  //航向角
 //        
-//        sprintf(str, "%4d %4d      ", Value_Inductor_L, Value_Inductor_R);
-//        OLED_Show_Str(0, 30, str, 24, 1);
-//        
-//        OLED_Refresh_Gram();
+//    Send_Begin();
+//    Send_Variable();
+////        sprintf(str, "%2.1f %3d     ", Pitch, (int)(Value_End_L+Value_End_R)/2);
+////        OLED_Show_Str(0, 0, str, 24, 1);
+////        
+////        sprintf(str, "%4d %4d      ", Value_Inductor_L, Value_Inductor_R);
+////        OLED_Show_Str(0, 30, str, 24, 1);
+////        
+////        OLED_Refresh_Gram();
         
     }
     
