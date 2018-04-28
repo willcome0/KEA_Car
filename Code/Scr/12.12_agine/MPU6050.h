@@ -1,70 +1,21 @@
-#ifndef __MPU6050_H
-#define __MPU6050_H
-#include "common.h"
-//#include "include.h" 
+#ifndef _MPU6050_H
+#define _MPU6050_H
 
-extern float Pitch, Roll, Yaw;
+#include "common.h" 
 
-typedef struct
-{
-	float X;
-	float Y;
-	float Z;
-} S_FLOAT_XYZ;
+//如果AD0脚(9脚)接地,IIC地址为0X68(不包含最低位).
+//如果接V3.3,则IIC地址为0X69(不包含最低位).
 
-typedef struct
-{
-	int16_t X;
-	int16_t Y;
-	int16_t Z;
-} S_INT16_XYZ;
-typedef struct
-{
-	int32_t X;
-	int32_t Y;
-	int32_t Z;
-} S_INT32_XYZ;
+#define MPU_ADDR				0X68
+/****************与硬件IIC对接***********************/
+//#define MPU_Write_Byte(add,data)			i2c_write1(IIC_0,MPU_ADDR,add,data)
+//#define MPU_Read_Byte(add,data)				i2c_read1(IIC_0,MPU_ADDR,add,data)
+//#define MPU_Read_Len(mpu_add,add,len,buf)	i2c_readn(IIC_0,mpu_add,add,buf,len)
 
+//#define MPU_IIC_Send_Byte()
+//#define MPU_IIC_Read_Byte(add)		i2c_read1(IIC_0,MPU_ADDR,add)	
 
-
-extern S_FLOAT_XYZ 
-	GYRO_Real,		// 陀螺仪转化后的数据
-	ACC_Real,		// 加速度计转化后的数据
-	Attitude_Angle,	// 当前角度 
-	Last_Angle,		// 上次角度
-	Target_Angle_6050;	// 目标角度
-
-extern S_INT16_XYZ
-	GYRO,			// 陀螺仪原始数据
-	GYRO_Offset,	// 陀螺仪温飘
-	GYRO_Last,		// 陀螺仪上次数据
-	ACC, 			// 加速度计数据
-	ACC_Offset,		// 加速度计温飘
-	ACC_Last;		// 加速度计上次数据
-extern S_INT32_XYZ
-	Tar_Ang_Vel,	// 目标角速度
-	Tar_Ang_Vel_Last;	// 上次目标角速度
-
-extern int32_t 
-	Speed_Now,		// 当前实际速度
-	Speed_Min,		// 左右最小速度
-	Speed_Set, 		// 目标设定速度
-	Vel_Set,		// 目标转向角速度
-	Direct_Parameter,
-	Radius;
-
-
-
-#define     MPU6050_DEVICE          I2C0        //定义MPU6050 所用的接口 为 I2C0
-
-//宏定义调用底层的I2C接口
-#define MPU6050_OPEN()      	IIC_init()
-#define MPU6050_WR(reg,value)   simiic_write_reg(MPU6050_ADRESS, reg, value)	//mpu6050 写寄存器
-#define MPU6050_RD(reg)         simiic_read_reg(MPU6050_ADRESS, reg, IIC)		//mpu6050 读寄存器
-
-#define     MPU6050_ADRESS          (0X68)      /*MPU6050_Device Address*/
-
-/* MPU6050 Register Address ------------------------------------------------------------*/
+/****************************************************/
 //#define MPU_ACCEL_OFFS_REG		0X06	//accel_offs寄存器,可读取版本号,寄存器手册未提到
 //#define MPU_PROD_ID_REG			0X0C	//prod id寄存器,在寄存器手册未提到
 #define MPU_SELF_TESTX_REG		0X0D	//自检寄存器X
@@ -134,57 +85,32 @@ extern int32_t
 #define MPU_FIFO_RW_REG			0X74	//FIFO读写寄存器
 #define MPU_DEVICE_ID_REG		0X75	//器件ID寄存器
  
-//如果AD0脚(9脚)接地,IIC地址为0X68(不包含最低位).
-//如果接V3.3,则IIC地址为0X69(不包含最低位).
-#define MPU_ADDR				0X68
+
+
+
 
 ////因为模块AD0默认接GND,所以转为读写地址后,为0XD1和0XD0(如果接VCC,则为0XD3和0XD2)  
 //#define MPU_READ    0XD1
 //#define MPU_WRITE   0XD0
 
-uint8_t MPU6050_Init(void);
-void MPU6050_Offset(void);
-void MPU6050_GetData(S_INT16_XYZ *GYRO, S_INT16_XYZ *ACC);
-int16_t GetData(uint8_t REG_Address);
-void Data_Filter(void);
-void KalmanFilter(float ACC_Angle);
-void Get_Attitude(void);	// 姿态解算
-void IMUupdate(float gx, float gy, float gz, float ax, float ay, float az);
+uint8_t MPU_Init(void); 								//初始化MPU6050
+uint8_t MPU_Write_Len(uint8_t addr,uint8_t reg,uint8_t len,uint8_t *buf);//IIC连续写
+uint8_t MPU_Read_Len(uint8_t addr,uint8_t reg,uint8_t len,uint8_t *buf); //IIC连续读 
+uint8_t MPU_Read_Byte(uint8_t reg);
+uint8_t MPU_Write_Byte(uint8_t reg,uint8_t data);
+
+uint8_t MPU_Set_Gyro_Fsr(uint8_t fsr);
+uint8_t MPU_Set_Accel_Fsr(uint8_t fsr);
+uint8_t MPU_Set_LPF(uint16_t lpf);
+uint8_t MPU_Set_Rate(uint16_t rate);
+uint8_t MPU_Set_Fifo(uint8_t sens);
+
+
+float MPU_Get_Temperature(void);
+uint8_t MPU_Get_Gyro(int16_t *gx,int16_t *gy,int16_t *gz);
+uint8_t MPU_Get_Accel(int16_t *ax,int16_t *ay,int16_t *az);
+
+void Get_Posture(float *pose, int16_t *accel_a,  int16_t *accel_b, int16_t *gyro);
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

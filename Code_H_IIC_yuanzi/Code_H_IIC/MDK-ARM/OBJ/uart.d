@@ -44,4 +44,5 @@
 .\obj\uart.o: ..\Drivers\uart.h
 .\obj\uart.o: ..\Drivers\MPU6050_YuanZi\My_MPU6050.h
 .\obj\uart.o: ..\Drivers\iic.h
+.\obj\uart.o: ..\Drivers\MPU6050_YuanZi\eMPL\inv_mpu.h
 .\obj\uart.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h

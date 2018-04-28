@@ -124,6 +124,20 @@ extern uint8_t Bluetooth;
 
 extern volatile int16_t Value_End;
 
+/*********车体姿态相关全局变量*********/
+
+extern volatile int16_t 	Accel_X;
+extern volatile int16_t 	Accel_Y;
+extern volatile int16_t 	Accel_Z;
+extern volatile int16_t 	Gyro_X;
+extern volatile int16_t 	Gyro_Y;
+extern volatile int16_t 	Gyro_Z;
+extern volatile float 		Pitch;
+extern volatile float 		Roll;
+extern volatile float 		Yaw;
+
+
+
 uint32_t ABS(int32_t Num);//取绝对值
 
 void Data_Init(void);

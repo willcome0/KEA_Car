@@ -54,20 +54,91 @@ uint32_t temp_time = 0;	// 用于临时计时 进
 //uint32_t out_time = 0;	// 用于临时计时 出
 uint32_t temp_dis = 0;
 
+int32_t Int_A_X = 0;
+int32_t Int_A_Y = 0;
+int32_t Int_A_Z = 0;
+int32_t Int_G_X = 0;
+int32_t Int_G_Y = 0;
+int32_t Int_G_Z = 0;
+#define AVE 5
+int16_t Pre_A_X[AVE], Pre_A_Y[AVE], Pre_A_Z[AVE];
+int16_t Pre_G_X[AVE], Pre_G_Y[AVE], Pre_G_Z[AVE];
+
 void PIT_CH0_IRQHandler(void)
 {
 								PIT_CLR_Flag(PIT_CH0);  //清除中断标志位 
 							//    Disable_PIT_CH0();
 									/*中断内容--开始*/
     
-								MPU6050_GetData(&GYRO, &ACC);   //获取原始数据
-								Data_Filter();     //原始数据滤波
-								Get_Attitude();    //获取姿态
+//								MPU6050_GetData(&GYRO, &ACC);   //获取原始数据
+//								Data_Filter();     //原始数据滤波
+//								Get_Attitude();    //获取姿态
 							
 //								if(_Com_Debug_)
 //									(float)CONTROL_Target_Angle = (float)CONTROL_Target_Angle + (Pitch + (float)CONTROL_Target_Angle)/4;
+								MPU_Get_Accel(&Accel_X, &Accel_Y, &Accel_Z);
+								MPU_Get_Gyro(&Gyro_X, &Gyro_Y, &Gyro_Z);
 	
-								Angle_PWM = CONTROL_AnglePID_P*(Pitch + (float)CONTROL_Target_Angle) + CONTROL_AnglePID_D/10*GYRO_Real.Y;   //直立环
+				
+
+
+	
+								Get_Posture(&Pitch, &Accel_X, &Accel_Z, &Gyro_Y);
+								Get_Posture(&Roll,	&Accel_Y, &Accel_Z, &Gyro_X);
+//								Get_Posture(&Yaw,	&Accel_X, &Accel_Y, &Gyro_Z);
+	
+//	Int_A_X = 0;
+//	Int_A_Y = 0;
+//	Int_A_Z = 0;
+//	Int_G_X = 0;
+//	Int_G_Y = 0;
+//	Int_G_Z = 0;	
+//	for(uint8_t i=0; i<AVE-1; i++)
+//	{
+//		Pre_A_X[i] = Pre_A_X[i+1];
+//		Int_A_X += Pre_A_X[i];
+//		
+//		Pre_A_Y[i] = Pre_A_Y[i+1];
+//		Int_A_Y += Pre_A_Y[i];
+//		
+//		Pre_A_Z[i] = Pre_A_Z[i+1];
+//		Int_A_Z += Pre_A_Z[i];
+//		
+//		Pre_G_X[i] = Pre_G_X[i+1];
+//		Int_G_X += Pre_G_X[i];
+//		
+//		Pre_G_Y[i] = Pre_G_Y[i+1];
+//		Int_G_Y += Pre_G_Y[i];
+//		
+//		Pre_G_Z[i] = Pre_G_Z[i+1];
+//		Int_G_Z += Pre_G_Z[i];
+//	}
+//	Pre_A_X[AVE-1] = Accel_X;
+//	Int_A_X += Pre_A_X[AVE-1];
+//	Accel_X = Int_A_X/AVE;
+//	
+//	Pre_A_Y[AVE-1] = Accel_Y;
+//	Int_A_Y += Pre_A_Y[AVE-1];
+//	Accel_Y = Int_A_Y/AVE;
+//	
+//	Pre_A_Z[AVE-1] = Accel_Z;
+//	Int_A_Z += Pre_A_Z[AVE-1];
+//	Accel_Z = Int_A_Z/AVE;
+//	
+//	Pre_G_X[AVE-1] = Gyro_X;
+//	Int_G_X += Pre_G_X[AVE-1];
+//	Gyro_X = Int_G_X/AVE;
+//	
+//	Pre_G_Y[AVE-1] = Gyro_Y;
+//	Int_G_Y += Pre_G_Y[AVE-1];
+//	Gyro_Y = Int_G_Y/AVE;
+//	
+//	Pre_G_Z[AVE-1] = Gyro_Z;
+//	Int_G_Z += Pre_G_Z[AVE-1];
+//	Gyro_Z = Int_G_Z/AVE;
+
+#if 1
+								Angle_PWM = (float)CONTROL_AnglePID_P*(-Pitch + (float)CONTROL_Target_Angle) + (float)CONTROL_AnglePID_D/100*Gyro_Y;   //直立环
 
     
 
@@ -81,7 +152,7 @@ void PIT_CH0_IRQHandler(void)
 								{
 									Run_Time++;								// 计时	
 									Run_Distance += Ave_End;	// 记路程
-								}								
+								}							
 /*	暂时不要速度环						
     
    
@@ -266,9 +337,24 @@ void PIT_CH0_IRQHandler(void)
 //								Turn_PWM = LR_Error*CONTROL_TurnPID_P + (Error_Ind - Eroor_Ind_Old)*CONTROL_TurnPID_D;
 //								Turn_PWM = LR_Error*CONTROL_TurnPID_P + GYRO.X/10*CONTROL_TurnPID_D;
 								Turn_PWM = LR_Error*CONTROL_TurnPID_P + (Error_Ind - Eroor_Ind_Old)*CONTROL_TurnPID_D;
+								#if	0
+									if(Turn_PWM>0)
+									{
+										L_Final_PWM = Angle_PWM + Speed_PWM - 2*Turn_PWM;
+										R_Final_PWM = Angle_PWM + Speed_PWM;
+									}
+									else
+									{
+										L_Final_PWM = Angle_PWM + Speed_PWM;
+										R_Final_PWM = Angle_PWM + Speed_PWM + 2*Turn_PWM;
+									}
+								#else
+									L_Final_PWM = Angle_PWM + Speed_PWM - Turn_PWM;
+									R_Final_PWM = Angle_PWM + Speed_PWM + Turn_PWM;
+								#endif
 								
-								L_Final_PWM = Angle_PWM + Speed_PWM - Turn_PWM;
-								R_Final_PWM = Angle_PWM + Speed_PWM + Turn_PWM;
+									
+									
 //								L_Final_PWM = Do_it==0 ? 0:L_Final_PWM;
 //								R_Final_PWM = Do_it==0 ? 0:R_Final_PWM;
      
@@ -317,6 +403,7 @@ void PIT_CH0_IRQHandler(void)
 								}
 							}
 								
+#endif
 
 								if(BB_Times >= CON_PERIOD)
 								{
@@ -376,22 +463,23 @@ uint8_t Just_Do_It(void)
     while(1)
     {
         {//彩虹灯
-            LED_Count = LED_Count==35 ? 0:LED_Count;
-            switch(LED_Count)
-            {
-                case 0: LED_White_OFF();  LED_Orange_ON();  break;
-                case 5: LED_Orange_OFF();  LED_Red_ON();    break;
-                case 10: LED_Red_OFF();     LED_Green_ON();  break;
-                case 15: LED_Green_OFF();   LED_Blue_ON();   break;
-                case 20: LED_Blue_OFF();    LED_Indigo_ON(); break;
-                case 25: LED_Indigo_OFF();  LED_Purple_ON(); break;
-                case 30: LED_Purple_OFF();  LED_White_ON();  break;
-            }
-            LED_Count++;
+//            LED_Count = LED_Count==35 ? 0:LED_Count;
+//            switch(LED_Count)
+//            {
+//                case 0: LED_White_OFF();  LED_Orange_ON();  break;
+//                case 5: LED_Orange_OFF();  LED_Red_ON();    break;
+//                case 10: LED_Red_OFF();     LED_Green_ON();  break;
+//                case 15: LED_Green_OFF();   LED_Blue_ON();   break;
+//                case 20: LED_Blue_OFF();    LED_Indigo_ON(); break;
+//                case 25: LED_Indigo_OFF();  LED_Purple_ON(); break;
+//                case 30: LED_Purple_OFF();  LED_White_ON();  break;
+//            }
+//            LED_Count++;
         }  
 //        LED_Purple_ON();
 		/*******************保护相关*****************************/
 		uint8_t Protect_Flag = 0;
+#if 1
 		if(1 == _Com_RunProtect_)
 		{
 			if( (Value_End_L>300)||(Value_End_L<-300)			// 转速保护
@@ -412,6 +500,7 @@ uint8_t Just_Do_It(void)
 			
 			Protect_Flag = 1;
 		}
+#endif
         switch(Get_Key() || Protect_Flag)
         {
             case Press_NULL:  break;
@@ -430,14 +519,16 @@ uint8_t Just_Do_It(void)
                         return 0;
         }
 		
-    Variable[0] = Value_End_L;  //左编码器
-    Variable[1] = Value_End_R;  //右编码器
-    Variable[2] = Pitch;  //俯仰角
-    Variable[3] = Value_Inductor_L;  //左电磁
-    Variable[4] = Value_Inductor_R;  //右电磁
-    Variable[5] = Value_Inductor_R - Value_Inductor_L;
-    Variable[6] = Yaw;  //航向角
-        
+    Variable[0] = Gyro_X;  //左编码器
+    Variable[1] = Gyro_Y;  //右编码器
+    Variable[2] = Gyro_Z;  //俯仰角
+    Variable[3] = Accel_X;  //左电磁
+    Variable[4] = Accel_Y;  //右电磁
+    Variable[5] = Accel_Z;
+    Variable[6] = Pitch;  //航向角
+    Variable[7] = Roll;
+	Variable[8] = Yaw;
+		
     Send_Begin();
     Send_Variable();
 //        sprintf(str, "%2.1f %3d     ", Pitch, (int)(Value_End_L+Value_End_R)/2);

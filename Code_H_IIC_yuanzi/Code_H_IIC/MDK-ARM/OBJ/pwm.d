@@ -43,4 +43,5 @@
 .\obj\pwm.o: ..\Drivers\uart.h
 .\obj\pwm.o: ..\Drivers\MPU6050_YuanZi\My_MPU6050.h
 .\obj\pwm.o: ..\Drivers\iic.h
+.\obj\pwm.o: ..\Drivers\MPU6050_YuanZi\eMPL\inv_mpu.h
 .\obj\pwm.o: ..\Drivers\CMSIS\SKEAZ1284.h

@@ -27,11 +27,11 @@ int main(void)
 	Delay_ms(200);
 	Beep_OFF();
 	
-	Debug_Pin_Init();
+//	Debug_Pin_Init();
 	
 	uint8_t GO = 31;
     while(1)
-    {	
+    {
         switch(GO)
         {
             case  0:   GO = UI_Main();      break;

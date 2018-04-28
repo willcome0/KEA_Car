@@ -70,7 +70,21 @@ uint8_t Set_LED = 1;
 uint8_t Set_Beep = 1;
 uint8_t Bluetooth = 0;
     
-volatile int16_t Value_End = 0;
+
+
+volatile int16_t 	Value_End 	= 0;
+
+/*********车体姿态相关全局变量*********/
+
+volatile int16_t 	Accel_X 	= 0;
+volatile int16_t 	Accel_Y 	= 0;
+volatile int16_t 	Accel_Z 	= 0;
+volatile int16_t 	Gyro_X 		= 0;
+volatile int16_t 	Gyro_Y 		= 0;
+volatile int16_t 	Gyro_Z 		= 0;
+volatile float 		Pitch 		= 0;
+volatile float 		Roll 		= 0;
+volatile float 		Yaw 		= 0;
 
 uint32_t ABS(int32_t Num)
 {

@@ -44,3 +44,4 @@
 .\obj\led&buzzer.o: ..\Drivers\uart.h
 .\obj\led&buzzer.o: ..\Drivers\MPU6050_YuanZi\My_MPU6050.h
 .\obj\led&buzzer.o: ..\Drivers\iic.h
+.\obj\led&buzzer.o: ..\Drivers\MPU6050_YuanZi\eMPL\inv_mpu.h

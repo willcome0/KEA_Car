@@ -48,6 +48,7 @@
 
 #include "My_MPU6050.h"
 #include "iic.h"
+#include "inv_mpu.h"
 //#define 0b000 0x00
 //#define 0b001 0x01
 //#define 0b010 0x02

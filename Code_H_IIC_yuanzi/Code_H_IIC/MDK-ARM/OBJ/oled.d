@@ -44,4 +44,5 @@
 .\obj\oled.o: ..\Drivers\uart.h
 .\obj\oled.o: ..\Drivers\MPU6050_YuanZi\My_MPU6050.h
 .\obj\oled.o: ..\Drivers\iic.h
+.\obj\oled.o: ..\Drivers\MPU6050_YuanZi\eMPL\inv_mpu.h
 .\obj\oled.o: ..\Inc\oledfont.h

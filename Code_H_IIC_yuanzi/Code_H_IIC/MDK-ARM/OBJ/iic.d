@@ -44,3 +44,4 @@
 .\obj\iic.o: ..\Drivers\uart.h
 .\obj\iic.o: ..\Drivers\MPU6050_YuanZi\My_MPU6050.h
 .\obj\iic.o: ..\Drivers\iic.h
+.\obj\iic.o: ..\Drivers\MPU6050_YuanZi\eMPL\inv_mpu.h

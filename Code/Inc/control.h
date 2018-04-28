@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-#define CON_PERIOD	8	// 控制周期
+#define CON_PERIOD	5	// 控制周期
 
 extern uint16_t Value_Inductor_L;
 extern uint16_t Value_Inductor_R;

@@ -54,24 +54,108 @@ uint32_t temp_time = 0;	// 用于临时计时 进
 //uint32_t out_time = 0;	// 用于临时计时 出
 uint32_t temp_dis = 0;
 
+volatile float Pitch = 0, Roll = 0, Yaw = 0;
+volatile float Pitch1 = 0, Roll1 = 0, Yaw1 = 0;
+volatile short Gyro[3] = {0};
+volatile short Accel[3] = {0};
 
-volatile float Pitch, Roll, Yaw;
-volatile short Gyro_X, Gyro_Y, Gyro_Z;
 
+////===============================四元素============================================
+//#define Kp 1.6f //10.0f             	// proportional gain governs rate of convergence to accelerometer/magnetometer
+//#define Ki 0.001f//1.2f // //0.008f  	// integral gain governs rate of convergence of gyroscope biases
+//#define halfT 0.005f                   	// half the sample period采样周期的一半
+//float q0 = 1, q1 = 0, q2 = 0, q3 = 0; 	// quaternion elements representing the estimated orientation
+//float exInt = 0, eyInt = 0, ezInt = 0; 	// scaled integral error
+///*
+// * 函数名：IMUupdate
+// * 描述  ：四元素解算欧拉角
+// * 输入  ：陀螺仪 加速度计
+// * 输出  ：无
+// * 调用  ：内部调用
+// */
+//void IMUupdate(float gx, float gy, float gz, float ax, float ay, float az)
+//{
+//	float norm;
+//	float vx, vy, vz;
+//	float ex, ey, ez;
+
+//	// 先把这些用得到的值算好
+//	float q0q0 = q0*q0;
+//	float q0q1 = q0*q1;
+//	float q0q2 = q0*q2;
+//	float q1q1 = q1*q1;
+//	float q1q3 = q1*q3;
+//	float q2q2 = q2*q2;
+//	float q2q3 = q2*q3;
+//	float q3q3 = q3*q3;
+
+////	if (ax*ay*az == 0)
+////	{
+////		return;
+////	}
+//		
+//	norm = sqrt(ax*ax + ay*ay + az*az);	// acc数据归一化
+//	ax = ax / norm;
+//	ay = ay / norm;
+//	az = az / norm;
+
+//	// estimated direction of gravity and flux (v and w)	估计重力方向和流量/变迁
+//	vx = 2*(q1q3 - q0q2);									// 四元素中xyz的表示
+//	vy = 2*(q0q1 + q2q3);
+//	vz = q0q0 - q1q1 - q2q2 + q3q3 ;
+
+//	// error is sum of cross product between reference direction of fields and direction measured by sensors
+//	ex = (ay*vz - az*vy) ;		// 向量外积在相减得到差分就是误差
+//	ey = (az*vx - ax*vz) ;
+//	ez = (ax*vy - ay*vx) ;
+
+//	exInt = exInt + ex * Ki;	// 对误差进行积分
+//	eyInt = eyInt + ey * Ki;
+//	ezInt = ezInt + ez * Ki;
+
+//	// adjusted gyroscope measurements
+//	gx = gx + Kp*ex + exInt;	// 将误差PI后补偿到陀螺仪，即补偿零点漂移
+//	gy = gy + Kp*ey + eyInt;
+//	gz = gz + Kp*ez + ezInt;	// 这里的gz由于没有观测者进行矫正会产生漂移，表现出来的就是积分自增或自减
+
+//	// integrate quaternion rate and normalise	// 四元素的微分方程
+//	q0 = q0 + (-q1*gx - q2*gy - q3*gz)*halfT;
+//	q1 = q1 + (q0*gx + q2*gz - q3*gy)*halfT;
+//	q2 = q2 + (q0*gy - q1*gz + q3*gx)*halfT;
+//	q3 = q3 + (q0*gz + q1*gy - q2*gx)*halfT;
+
+//	// normalise quaternion
+//	norm = sqrt(q0*q0 + q1*q1 + q2*q2 + q3*q3);
+//	q0 = q0 / norm;
+//	q1 = q1 / norm;
+//	q2 = q2 / norm;
+//	q3 = q3 / norm;
+//	
+//	Pitch1 = asin(-2*q1*q3 + 2*q0*q2) * 57.3; // pitch
+//	Yaw1 = atan2(2*q1*q2 + 2*q0*q3, -2*q2*q2 - 2*q3*q3 + 1)*57.3; // yaw
+
+//    Yaw1 = Yaw1<0 ? 360 + Yaw1 : Yaw1;
+////	Attitude_Angle.Z = 0;
+//}
+float K1 =0.02; 
+float angle, angle_dot; 
+void Yijielvbo(float angle_m, float gyro_m)
+{
+   angle = K1 * angle_m+ (1-K1) * (angle + gyro_m * 0.005);
+}
 void PIT_CH0_IRQHandler(void)
 {
-	Debug_Pin1_Toggle();
-	Debug_Pin2_H();
+//	Debug_Pin1_Toggle();
+//	Debug_Pin2_H();
 			PIT_CLR_Flag(PIT_CH0);  //清除中断标志位
-	Disable_PIT_CH0();
+
+
 
 			
-			mpu_dmp_get_data(&Pitch,&Roll,&Yaw);//2.96ms
-////			Pitch = 9.999999;
 //			MPU_Get_Gyroscope(&Gyro_X, &Gyro_Y, &Gyro_Z);//0.52ms
 //			MPU_Get_Gyroscope(&Gyro_X, &Gyro_Y, &Gyro_Z);//0.52ms
 //			MPU_Get_Gyroscope(&Gyro_X, &Gyro_Y, &Gyro_Z);//0.52ms
-//                for(uint16_t i=0; i<300; i++)
+//                for(uint16_t i=0; i<20; i++)
 //                {
 //                    PreError[i] = PreError[i+1]; 
 //                    End_Integral += PreError[i];
@@ -83,13 +167,14 @@ void PIT_CH0_IRQHandler(void)
 //								MPU6050_GetData(&GYRO, &ACC);   //获取原始数据
 //								Data_Filter();     //原始数据滤波
 //								Get_Attitude();    //获取姿态
-//							
-////								if(_Com_Debug_)
-////									(float)CONTROL_Target_Angle = (float)CONTROL_Target_Angle + (Pitch + (float)CONTROL_Target_Angle)/4;
-//	
-//								Angle_PWM = CONTROL_AnglePID_P*(Pitch + (float)CONTROL_Target_Angle) + CONTROL_AnglePID_D/10*GYRO_Real.Y;   //直立环
+							
+//								if(_Com_Debug_)
+//									(float)CONTROL_Target_Angle = (float)CONTROL_Target_Angle + (Pitch + (float)CONTROL_Target_Angle)/4;
+								mpu_dmp_get_data(&Pitch,&Roll,&Yaw);//2.96ms
+								Yijielvbo(atan2(Accel[0],Accel[2])*180/3.14,-Gyro[1]/16.4);
+								Angle_PWM = CONTROL_AnglePID_P*(-angle + (float)CONTROL_Target_Angle) + CONTROL_AnglePID_D/10*Gyro[1];   //直立环
 
-//    
+
 
 
 //								Value_End_L = Read_Input_State(Dir_End_L_Port, Dir_End_L_Pin)==0? -ftm_count_get(ftm0) :  ftm_count_get(ftm0); // 获取左编码器
@@ -287,55 +372,55 @@ void PIT_CH0_IRQHandler(void)
 ////								Turn_PWM = LR_Error*CONTROL_TurnPID_P + GYRO.X/10*CONTROL_TurnPID_D;
 //								Turn_PWM = LR_Error*CONTROL_TurnPID_P + (Error_Ind - Eroor_Ind_Old)*CONTROL_TurnPID_D;
 //								
-//								L_Final_PWM = Angle_PWM + Speed_PWM - Turn_PWM;
-//								R_Final_PWM = Angle_PWM + Speed_PWM + Turn_PWM;
-////								L_Final_PWM = Do_it==0 ? 0:L_Final_PWM;
-////								R_Final_PWM = Do_it==0 ? 0:R_Final_PWM;
-//     
-//    
-//								
-//								
-//								if(Stop_Flag == 1)		// 刹车
-//								{
-//									Motor_L_Go_V(1000);
-//									Motor_R_Go_V(1000);
-//								}
-//								
-//								else
-//									{
-//								if(L_Final_PWM<0)
-//								{
-//										L_Final_PWM = -L_Final_PWM;
-//										if(L_Final_PWM>=3150)
-//												L_Final_PWM = 3150;
-//						//        Motor_Set_Go_Speed(L_Final_PWM, R_Final_PWM);
-//										Motor_L_Go_V(L_Final_PWM);
-//								}
-//								else
-//								{
-//										if(L_Final_PWM>=3150)
-//												L_Final_PWM = 3150;
-//						//        Motor_Set_Back_Speed(L_Final_PWM, R_Final_PWM);
-//										Motor_L_Back_V(L_Final_PWM);
-//								}
-//								
-//								
-//								if(R_Final_PWM<0)
-//								{
-//										R_Final_PWM = -R_Final_PWM;
-//										if(R_Final_PWM>=3150)
-//												R_Final_PWM = 3150;
-//						//        Motor_Set_Go_Speed(L_Final_PWM, R_Final_PWM);
-//										Motor_R_Go_V(R_Final_PWM);
-//								}
-//								else
-//								{
-//										if(R_Final_PWM>=3150)
-//												R_Final_PWM = 3150;
-//						//        Motor_Set_Back_Speed(L_Final_PWM, R_Final_PWM);
-//										Motor_R_Back_V(R_Final_PWM);
-//								}
-//							}
+								L_Final_PWM = Angle_PWM + Speed_PWM - Turn_PWM;
+								R_Final_PWM = Angle_PWM + Speed_PWM + Turn_PWM;
+//								L_Final_PWM = Do_it==0 ? 0:L_Final_PWM;
+//								R_Final_PWM = Do_it==0 ? 0:R_Final_PWM;
+     
+    
+								
+								
+								if(Stop_Flag == 1)		// 刹车
+								{
+									Motor_L_Go_V(1000);
+									Motor_R_Go_V(1000);
+								}
+								
+								else
+									{
+								if(L_Final_PWM<0)
+								{
+										L_Final_PWM = -L_Final_PWM;
+										if(L_Final_PWM>=3150)
+												L_Final_PWM = 3150;
+						//        Motor_Set_Go_Speed(L_Final_PWM, R_Final_PWM);
+										Motor_L_Go_V(L_Final_PWM);
+								}
+								else
+								{
+										if(L_Final_PWM>=3150)
+												L_Final_PWM = 3150;
+						//        Motor_Set_Back_Speed(L_Final_PWM, R_Final_PWM);
+										Motor_L_Back_V(L_Final_PWM);
+								}
+								
+								
+								if(R_Final_PWM<0)
+								{
+										R_Final_PWM = -R_Final_PWM;
+										if(R_Final_PWM>=3150)
+												R_Final_PWM = 3150;
+						//        Motor_Set_Go_Speed(L_Final_PWM, R_Final_PWM);
+										Motor_R_Go_V(R_Final_PWM);
+								}
+								else
+								{
+										if(R_Final_PWM>=3150)
+												R_Final_PWM = 3150;
+						//        Motor_Set_Back_Speed(L_Final_PWM, R_Final_PWM);
+										Motor_R_Back_V(R_Final_PWM);
+								}
+							}
 								
 
 								if(BB_Times >= CON_PERIOD)
@@ -349,24 +434,18 @@ void PIT_CH0_IRQHandler(void)
 								}
 
 								
-//                                LED_White_OFF();
-//    Pin_Output_Toggle(LED_Blue_Port, LED_Blue_Pin);
-//    Pin_Output_Toggle(PTE, PTE0);
 
 
-			Debug_Pin2_L();		
+//			Debug_Pin2_L();		
 			
     /*中断内容--结束*/
-    Enable_PIT_CH0();
+//    Enable_PIT_CH0();
 }
 
 
 uint8_t Just_Do_It(void)
 {
-//    uint8_t str[25];
-    
-//    NVIC_EnableIRQ(PIT_CH0_IRQn);
-//    NVIC->ISER[0] = (1 << ((uint32_t)(PIT_CH0_IRQn) & 0x1F));
+
     OLED_Clear();
     
 //    Do_it = 1;
@@ -398,81 +477,84 @@ uint8_t Just_Do_It(void)
 								
     while(1)
     {
-//        {//彩虹灯
-//            LED_Count = LED_Count==35 ? 0:LED_Count;
-//            switch(LED_Count)
-//            {
-//                case 0: LED_White_OFF();  LED_Orange_ON();  break;
-//                case 5: LED_Orange_OFF();  LED_Red_ON();    break;
-//                case 10: LED_Red_OFF();     LED_Green_ON();  break;
-//                case 15: LED_Green_OFF();   LED_Blue_ON();   break;
-//                case 20: LED_Blue_OFF();    LED_Indigo_ON(); break;
-//                case 25: LED_Indigo_OFF();  LED_Purple_ON(); break;
-//                case 30: LED_Purple_OFF();  LED_White_ON();  break;
-//            }
-//            LED_Count++;
-//        }  
-////        LED_Purple_ON();
-//		/*******************保护相关*****************************/
-//		uint8_t Protect_Flag = 0;
-//		if(1 == _Com_RunProtect_)
-//		{
-//			if( (Value_End_L>300)||(Value_End_L<-300)			// 转速保护
-////				||Pitch<-40										// 角度保护
-//				||Value_Inductor_L<100||Value_Inductor_R<100	// 电感值保护
-//				
-//			  )
-//				Protect_Flag = 1;
-//		}
-//		/*******************************************************/
-//		if(	(_Com_RunTimeStop_!=0 && Run_Time*CON_PERIOD>_Com_RunTimeStop_*10)	||		// 800即8s   8.00
-//			(_Com_RunDisStop_!=0  && Run_Distance>(float)_Com_RunDisStop_*57.6)		// 100即1米
-//		  )
-//		{
-//			Stop_Flag = 1;
-//			Run_Time_Flag = 0;
-//			Delay_ms(200);
-//			
-//			Protect_Flag = 1;
-//		}
-//        switch(Get_Key() || Protect_Flag)
-//        {
-//            case Press_NULL:  break;
-//            
-//            default:        
-//						/****关电机****/
-//						Run_Time_Flag = 0;
-//						Motor_L_EN(Disable);
-//						Motor_R_EN(Disable);
-//						
-//						Stop_Flag = 0;
-//						/**************/
-//                        LED_White_OFF();   //关LED
-//                        OLED_Display_On();//开OLED
-//						OLED_Init();
-//                        return 0;
-//        }
-//    Variable[0] = Pitch;  //左编码器
-//    Variable[1] = Roll;  //右编码器
-//    Variable[2] = Yaw;  //俯仰角
-////    Variable[0] = Value_End_L;  //左编码器
-////    Variable[1] = Value_End_R;  //右编码器
-////    Variable[2] = Pitch;  //俯仰角
-//    Variable[3] = Value_Inductor_L;  //左电磁
-//    Variable[4] = Value_Inductor_R;  //右电磁
-//    Variable[5] = Value_Inductor_R - Value_Inductor_L;
-////    Variable[6] = Yaw;  //航向角
-//        
-//    Send_Begin();
-//    Send_Variable();
-////        sprintf(str, "%2.1f %3d     ", Pitch, (int)(Value_End_L+Value_End_R)/2);
-////        OLED_Show_Str(0, 0, str, 24, 1);
-////        
-////        sprintf(str, "%4d %4d      ", Value_Inductor_L, Value_Inductor_R);
-////        OLED_Show_Str(0, 30, str, 24, 1);
-////        
-////        OLED_Refresh_Gram();
+
+        {//彩虹灯
+            LED_Count = LED_Count==35 ? 0:LED_Count;
+            switch(LED_Count)
+            {
+                case 0: LED_White_OFF();  LED_Orange_ON();  break;
+                case 5: LED_Orange_OFF();  LED_Red_ON();    break;
+                case 10: LED_Red_OFF();     LED_Green_ON();  break;
+                case 15: LED_Green_OFF();   LED_Blue_ON();   break;
+                case 20: LED_Blue_OFF();    LED_Indigo_ON(); break;
+                case 25: LED_Indigo_OFF();  LED_Purple_ON(); break;
+                case 30: LED_Purple_OFF();  LED_White_ON();  break;
+            }
+            LED_Count++;
+        }  
+//        LED_Purple_ON();
+		/*******************保护相关*****************************/
+		uint8_t Protect_Flag = 0;
+		if(1 == _Com_RunProtect_)
+		{
+			if( (Value_End_L>300)||(Value_End_L<-300)			// 转速保护
+				||Pitch<-40										// 角度保护
+				||Value_Inductor_L<100||Value_Inductor_R<100	// 电感值保护
+				
+			  )
+				Protect_Flag = 1;
+		}
+		/*******************************************************/
+		if(	(_Com_RunTimeStop_!=0 && Run_Time*CON_PERIOD>_Com_RunTimeStop_*10)	||		// 800即8s   8.00
+			(_Com_RunDisStop_!=0  && Run_Distance>(float)_Com_RunDisStop_*57.6)		// 100即1米
+		  )
+		{
+			Stop_Flag = 1;
+			Run_Time_Flag = 0;
+			Delay_ms(200);
+			
+			Protect_Flag = 1;
+		}
+        switch(Get_Key() || Protect_Flag)
+        {
+            case Press_NULL:  break;
+            
+            default:        
+						/****关电机****/
+						Run_Time_Flag = 0;
+						Motor_L_EN(Disable);
+						Motor_R_EN(Disable);
+						
+						Stop_Flag = 0;
+						/**************/
+                        LED_White_OFF();   //关LED
+                        OLED_Display_On();//开OLED
+						OLED_Init();
+                        return 0;
+        }
+    Variable[0] = Pitch;  //左编码器
+    Variable[1] = 20;  //右编码器
+    Variable[2] = -angle;  //俯仰角
+//    Variable[0] = Value_End_L;  //左编码器
+//    Variable[1] = Value_End_R;  //右编码器
+//    Variable[2] = Pitch;  //俯仰角
+    Variable[3] = Value_Inductor_L;  //左电磁
+    Variable[4] = Value_Inductor_R;  //右电磁
+    Variable[5] = Value_Inductor_R - Value_Inductor_L;
+//    Variable[6] = Yaw;  //航向角
         
+    Send_Begin();
+    Send_Variable();
+	
+
+		
+//        sprintf(str, "%2.1f %3d     ", Pitch, (int)(Value_End_L+Value_End_R)/2);
+//        OLED_Show_Str(0, 0, str, 24, 1);
+//        
+//        sprintf(str, "%4d %4d      ", Value_Inductor_L, Value_Inductor_R);
+//        OLED_Show_Str(0, 30, str, 24, 1);
+//        
+//        OLED_Refresh_Gram();
     }
     
 }

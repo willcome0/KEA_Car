@@ -1110,7 +1110,7 @@ uint8_t UI_MPU6050(void)
 //        printf("Pitch: %f\r\n",Pitch);
         sprintf((char *)str, "P:%3.2f    Y:%3.2f", Pitch, Yaw);
         OLED_Show_Str(0, 20, str, 12, 1);
-        sprintf((char *)str, "G X: %5d  Y: %5d ", ACC.X, ACC.Y);
+        sprintf((char *)str, "G X: %5d  Y: %5d ", Accel_X, Accel_Y);
         OLED_Show_Str(0, 33, str, 12, 1);
 
         OLED_Refresh_Gram();

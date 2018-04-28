@@ -14,7 +14,7 @@ uint8_t Get_Key(void)
 {
 //    #define Key_Delay_Time 50;
     static uint16_t Key_Keep = 0;
-    static uint8_t Key_Delay = 100;
+    static uint8_t Key_Delay = 50;
     
     volatile uint8_t temp_return = 0;
     
@@ -89,13 +89,13 @@ uint8_t Get_Key(void)
 		if(0 == Read_Input_State(KEY_Right_Port, KEY_Right_Pin))
 		{
 			Beep_Time(CON_PERIOD);
-            temp_return = Press_Right;  //右键也改为中键
+            temp_return = Press_Mid;  //右键也改为中键
 		}
 		return temp_return;
 	}
 	else
     {
-        Key_Delay = 100;
+        Key_Delay = 50;
         Key_Keep = 0;
 		return 0;
     }

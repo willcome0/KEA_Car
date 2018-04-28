@@ -1111,9 +1111,9 @@ uint8_t UI_MPU6050(void)
 
 //        sprintf((char *)str, "TEMP: %4d", Read_Temperature());
 
-        sprintf((char *)str, "%3.2f  %3.2f  %3.2f   ", Pitch, Roll, Yaw);
+        sprintf((char *)str, "%3.1f  %3.1f  %3.1f   ", Pitch, Pitch1, angle);
         OLED_Show_Str(0, 20, str, 12, 1);
-        sprintf((char *)str, "%6d  %6d  ", Gyro_X, Gyro_Y);
+        sprintf((char *)str, "%6d %6d %6d  ", Gyro[0], Gyro[1], Gyro[2]);
         OLED_Show_Str(0, 33, str, 12, 1);
 		sprintf((char *)str, "%3.1f  ", (float)MPU_Get_Temperature());
         OLED_Show_Str(0, 46, str, 12, 1);
