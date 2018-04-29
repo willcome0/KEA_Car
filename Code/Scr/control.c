@@ -255,7 +255,7 @@ void PIT_CH0_IRQHandler(void)
 									
 									/********新环***************/
 									if(Value_Inductor_R>1000
-                                        &&Pitch<-22
+//                                        &&Pitch<-22
                                         &&Value_Inductor_L>1000
 										&& Huan_Flag == OUT)
 									{
@@ -490,8 +490,8 @@ uint8_t Just_Do_It(void)
 				Protect_Flag = 1;
 		}
 		/*******************************************************/
-		if(	(_Com_RunTimeStop_!=0 && Run_Time*CON_PERIOD>_Com_RunTimeStop_*10)	||		// 800即8s   8.00
-			(_Com_RunDisStop_!=0  && Run_Distance>(float)_Com_RunDisStop_*57.6)		// 100即1米
+		if(	(_Com_RunTimeStop_!=0 && Run_Time*CON_PERIOD>_Com_RunTimeStop_*10)	||		// 100即1s   8.00
+			(_Com_RunDisStop_!=0  && Run_Distance/DIS_RATIO>(float)_Com_RunDisStop_/100)		// 100即1米
 		  )
 		{
 			Stop_Flag = 1;

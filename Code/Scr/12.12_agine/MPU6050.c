@@ -22,7 +22,7 @@
 
 uint8_t MPU_Init(void)
 { 
-	uint8_t res;
+//	uint8_t res;
 	uint8_t buf;
 //  GPIO_InitTypeDef  GPIO_InitStructure;
 //	
@@ -259,7 +259,7 @@ uint8_t MPU_Write_Byte(uint8_t reg,uint8_t data)
 	return 0;
 }
 
-#define PERIOD	CON_PERIOD/1000
+
 void Get_Posture(float *pose, int16_t *accel_a,  int16_t *accel_b, int16_t *gyro)
 {
 	*pose = atan2(*accel_a,*accel_b)*57.3*0.001 + 0.999*(*pose-(float)*gyro/16.4*PERIOD);

@@ -137,10 +137,11 @@ uint8_t UI_Go(void)
 
     for(;;)
     {
+		
 		uint8_t str[30];
-		sprintf((char *)str, "%.3f           %.3f", (float)Run_Distance/5760, (float)Run_Time/100);
+		sprintf((char *)str, "%.3f           %.3f", (float)Run_Distance/DIS_RATIO, (float)Run_Time*PERIOD);
 		OLED_Show_Str(0, 40, str, 12, 1);
-		sprintf((char *)str, "%.3f", (float)Run_Distance/Run_Time/57.6);
+		sprintf((char *)str, "%.3f", (float)Run_Distance/DIS_RATIO/((float)Run_Time*PERIOD));
 		OLED_Show_Str(0, 53, str, 12, 1);
 		
         OLED_Show_Str(6,  0, "<", 12, Normal);
@@ -331,7 +332,7 @@ void Chang_Value(uint8_t UI_Case, uint8_t Frame_Min, uint16_t *Value, uint8_t Di
 								uint8_t BreakFor_Flag = 0;
 								for(;;)
 								{
-									temp_value += Value_End_R;	//增加编码器数值
+									temp_value += Value_End_L;	//增加编码器数值
 									temp_value = temp_value>9999 ? 9999:temp_value;
 									temp_value = temp_value<0 ? 0:temp_value;
 									

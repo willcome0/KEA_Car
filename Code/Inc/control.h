@@ -3,7 +3,9 @@
 
 #include "common.h"
 
-#define CON_PERIOD	5	// 控制周期
+#define CON_PERIOD	5	// 控制周期(ms)
+#define PERIOD	CON_PERIOD/1000	// 控制周期(s)
+#define DIS_RATIO	5620
 
 extern uint16_t Value_Inductor_L;
 extern uint16_t Value_Inductor_R;
