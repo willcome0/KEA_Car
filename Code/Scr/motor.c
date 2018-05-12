@@ -4,12 +4,12 @@
 void Motor_Init(void)
 {
     //注意：从库里面就把频率和占空给定了（12.5K Hz  0占空）
-    ftm_pwm_init(ftm2,ftm_ch3,12500,0);//右轮 //正转
-    ftm_pwm_init(ftm2,ftm_ch2,12500,0);
+    ftm_pwm_init(ftm2,ftm_ch3,12500,0);//右轮 //正转			//PC3
+    ftm_pwm_init(ftm2,ftm_ch2,12500,0);							//PC2
     Pin_Output_Config(Motor_L_EN_Port, Motor_L_EN_Pin, 0);
     
-    ftm_pwm_init(ftm2,ftm_ch0,12500,0);//左轮 //正转
-    ftm_pwm_init(ftm2,ftm_ch5,12500,0);//这边废了，跳线到PB5  1
+    ftm_pwm_init(ftm2,ftm_ch0,12500,0);//左轮 //正转			//PC0
+    ftm_pwm_init(ftm2,ftm_ch5,12500,0);//这边废了，跳线到PB5  1	//PB5
     Pin_Output_Config(Motor_R_EN_Port, Motor_R_EN_Pin, 0);
     
 //    ftm_pwm_init(FTM_2,CH_5,13000,3000);  //APWM_1  PB5   FTM2_CH5   主

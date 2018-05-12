@@ -153,10 +153,10 @@ void PIT_CH0_IRQHandler(void)
 									Run_Time++;								// 计时	
 									Run_Distance += Ave_End;	// 记路程
 								}							
-/*	暂时不要速度环						
+//	暂时不要速度环						
     
    
-					      Error_End =   CONTROL_Target_Speed - Ave_End;   //求速度偏差
+				Error_End =   Ave_End - CONTROL_Target_Speed;   //求速度偏差
 								
                 End_Integral = 0;	//积分清零
 								
@@ -175,8 +175,8 @@ void PIT_CH0_IRQHandler(void)
 //                PreError[0]=Error_End;//入速度误差积分队列
 //								AlllastError=(int)(PreError[0]+PreError[1]+PreError[2]+PreError[3]+PreError[4]);
 								
-								Speed_PWM = -Error_End*CONTROL_SpeedPID_P + End_Integral*CONTROL_SpeedPID_I/100;    //速度环
-*/				
+				Speed_PWM = Error_End*CONTROL_SpeedPID_P + End_Integral*CONTROL_SpeedPID_I/100;    //速度环
+			
 				
 				
 				
@@ -266,8 +266,8 @@ void PIT_CH0_IRQHandler(void)
 									if(
 										temp_time != 0 && 
 										Huan_Flag != OUT &&
-										((Run_Time - temp_time)*CON_PERIOD > 80 - Value_End_R/2.5) &&
-										((Run_Time - temp_time)*CON_PERIOD < 600 - Value_End_R/2.5) &&	//原600
+										((Run_Time - temp_time)*CON_PERIOD > 0 - Value_End_R/2.5) &&
+										((Run_Time - temp_time)*CON_PERIOD < 300 - Value_End_R/2.5) &&	//原600
 										Value_Inductor_L + Value_Inductor_R > 1800
 										
 									)
@@ -279,7 +279,7 @@ void PIT_CH0_IRQHandler(void)
 											Value_Inductor_R = Value_Inductor_R*CONTROL_Huan_Add/10;
 									}
 									else if(temp_time != 0 && 
-										(Run_Time - temp_time)*CON_PERIOD > 3300)
+										(Run_Time - temp_time)*CON_PERIOD > 4000)
 									{
 										Beep_Time(100);
 										temp_time = 0;
@@ -528,6 +528,13 @@ uint8_t Just_Do_It(void)
     Variable[6] = Pitch;  //航向角
     Variable[7] = Roll;
 	Variable[8] = Yaw;
+	Variable[9]  = Angle_PWM;
+	Variable[10] = Speed_PWM;
+	Variable[11] = Turn_PWM;
+	Variable[12] = L_Final_PWM;
+	Variable[13] = R_Final_PWM;
+	Variable[14] = Value_End_L;
+	Variable[15] = Value_End_R;	
 		
     Send_Begin();
     Send_Variable();

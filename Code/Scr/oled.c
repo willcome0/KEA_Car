@@ -270,7 +270,7 @@ void OLED_Show_Str(uint8_t x, uint8_t y, const uint8_t *ch, uint8_t size, uint8_
 //					OLED_Clear();
 //				}
         OLED_Show_Char(x, y, *ch, size, mode);
-        x+=size/2;
+        x += size/2;
         ch++;
     }
 }

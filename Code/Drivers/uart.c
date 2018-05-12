@@ -98,7 +98,7 @@ int fputc(int ch, FILE *f)
     
     {//设置波特率部分，这括号了是逐飞的。时钟方案1、2都好使。
         sbr = (((DEFAULT_SYSTEM_CLOCK / 2)>>4)*10 / baud_rate + 5)/10;               //四舍五入
-        if(sbr > 0x1FFF)sbr = 0x1FFF;                               //SBR 是 13bit，最大为 0x1FFF
+        if(sbr > 0x1FFF)sbr = 0x1FFF;                              //SBR 是 13bit，最大为 0x1FFF
 
         //写 SBR
         uartch1->BDH &= ~UART_BDH_SBR_MASK;                     //清除原来波特率

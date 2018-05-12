@@ -39,7 +39,7 @@ void Send_Variable(void)
 {
     uint8_t ch=0;
     float temp=0;
-    uint8_t Variable_num=10;
+    uint8_t Variable_num=16;
     
     my_putchar(0x55);
     my_putchar(0xaa);

@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-
+/*电机使能脚*/
 #define Motor_L_EN_Port PTD
 #define Motor_L_EN_Pin  PTD7
 
