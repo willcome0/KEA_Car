@@ -538,7 +538,7 @@ uint8_t Just_Do_It(void)
 		
     Send_Begin();
     Send_Variable();
-//        sprintf(str, "%2.1f %3d     ", Pitch, (int)(Value_End_L+Value_End_R)/2);
+//        sprintfsprintf(str, "%2.1f %3d     ", Pitch, (int)(Value_End_L+Value_End_R)/2);
 //        OLED_Show_Str(0, 0, str, 24, 1);
 //        
 //        sprintf(str, "%4d %4d      ", Value_Inductor_L, Value_Inductor_R);
