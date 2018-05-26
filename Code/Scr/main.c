@@ -6,6 +6,8 @@
 #include "pit.h"
 #include "math.h"
 
+//VSCйтр╩об
+
 //#include  "anbt_i2c.h"
 //#include  "anbt_dmp_mpu6050.h"
 //#include  "anbt_dmp_driver.h"

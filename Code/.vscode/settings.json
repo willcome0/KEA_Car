@@ -1,10 +1,10 @@
 {
     "files.associations": {
-        "control.h": "c"
+        "control.h": "c",
+        "delay.h": "c"
     },
     "C_Cpp.intelliSenseEngineFallback": "Disabled",
     "C_Cpp.errorSquiggles": "Disabled",
-    "editor.fontSize": 18
-    
-
+    "editor.fontSize": 18,
+    "C_Cpp.dimInactiveRegions": false
 }
