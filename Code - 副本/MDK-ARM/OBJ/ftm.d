@@ -1,0 +1,9 @@
+.\obj\ftm.o: ..\Scr\FTM.c
+.\obj\ftm.o: ..\Inc\FTM.h
+.\obj\ftm.o: ..\Inc\derivative.h
+.\obj\ftm.o: ..\Inc\SKEAZ1284.h
+.\obj\ftm.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\obj\ftm.o: ..\Drivers\CMSIS\core_cm0plus.h
+.\obj\ftm.o: ..\Drivers\CMSIS\core_cmInstr.h
+.\obj\ftm.o: ..\Drivers\CMSIS\core_cmFunc.h
+.\obj\ftm.o: ..\Drivers\CMSIS\system_SKEAZ1284.h

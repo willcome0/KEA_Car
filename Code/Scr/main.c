@@ -75,12 +75,14 @@ int main(void)
 //	FLASH_WriteSector(DATA_FLASH, (const uint8_t *)Con_1, 4, 400);
 	
 //    ftm_pwm_init(ftm2,ftm_ch0,12500,0);//大，正转//正反转绝对好使过
-//    ftm_pwm_init(ftm2,ftm_ch5,12500,300);
-//
+//    ftm_pwm_init(ftm2,ftm_ch1,12500,1200);
+
 //    ftm_pwm_init(ftm2,ftm_ch2,12500,0);
-//    ftm_pwm_init(ftm2,ftm_ch3,12500,300);//低
-
-
+//    ftm_pwm_init(ftm2,ftm_ch3,12500,1200);//低
+//	
+//	Motor_L_EN(1);
+//	Motor_R_EN(1);
+//	while(1);
 //    FTM_PWM_init(FTM_2, CH_0, 12.5, 20);   //APWM_2  PC0   FTM2_CH0   主   左
 //    FTM_PWM_init(FTM_2, CH_5, 12.5, 1);    //APWM_1  PB5   FTM2_CH5
 
@@ -164,7 +166,7 @@ int main(void)
 //		FLASH_WriteSector(FLASH_SECTOR_NUM - 3,(const uint8_t *)&write2,4,504);		
 //		FLASH_WriteSector(FLASH_SECTOR_NUM - 3,(const uint8_t *)&write2,4,508);
 		
-	uint8_t GO = 0;
+	uint8_t GO = 5; //进入自检
     while(1)
     {
 //    UI_Read_Ind();
@@ -227,11 +229,12 @@ int main(void)
             case  2:   GO = UI_Plan();      break;
             case  3:   GO = UI_Driver();    break;
             case  4:   GO = UI_Set();       break;
-
+			case  5:   GO = UI_Check();		break;
+			
             case 31:   GO = UI_MPU6050();   break;
             case 32:   GO = UI_Read_Ind();  break;
             case 33:   GO = UI_Read_End();  break;
-
+			
             default:   GO = UI_Main();
         }
 //while(1)

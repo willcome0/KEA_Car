@@ -17,10 +17,11 @@ void LED_Init(void)
 }
 void Buzzer_Init(void)
 {
-    Pin_Output_Config(Buzzer_Port, Buzzer_Pin, 0);
+    Pin_Output_Config(Buzzer_Port, Buzzer_Pin, 1);
 	
-	Beep_ON();
-	Delay_ms(50);
+	Pin_Output_Set(Buzzer_Port, Buzzer_Pin, SET);
+//	while(1);
+	Delay_ms(5);
 	Beep_OFF();
 }
 
@@ -96,4 +97,5 @@ void Beep_ON(void)
         Pin_Output_Set(Buzzer_Port, Buzzer_Pin, SET);
     }
 }
+
 

@@ -108,7 +108,7 @@ uint8_t UI_Main(void)
 }
 
 /*倒计时函数，本文件内部使用*/
-void CountDown(uint16_t time)
+uint8_t CountDown(uint16_t time)
 {
     OLED_Clear();
 
@@ -124,28 +124,33 @@ void CountDown(uint16_t time)
             continue;
         }
         Delay_ms(700);
-
+		switch (Get_Key())
+		{
+			case Press_Left: return 1;
+		}
     }
     Beep_Time(300);
+	return 0;
 //    OLED_Refresh_Gram();
 }
 
 uint8_t UI_Go(void)
 {
-//    int8_t GO_Time = 1;
 	OLED_Clear();
-
+	
     for(;;)
     {
 		
 		uint8_t str[30];
-		sprintf((char *)str, "%.3f           %.3f", (float)Run_Distance/DIS_RATIO, (float)Run_Time*PERIOD);
+		sprintf((char *)str, "s%-.2f", (float)Run_Distance/DIS_RATIO);
+		OLED_Show_Str(0, 27, str, 12, 1);
+		sprintf((char *)str, "t%-.2f", (float)Run_Time*PERIOD);
 		OLED_Show_Str(0, 40, str, 12, 1);
-		sprintf((char *)str, "%.3f", (float)Run_Distance/DIS_RATIO/((float)Run_Time*PERIOD));
+		sprintf((char *)str, "v%-.2f", (float)Run_Distance/DIS_RATIO/((float)Run_Time*PERIOD));
 		OLED_Show_Str(0, 53, str, 12, 1);
 		
         OLED_Show_Str(6,  0, "<", 12, Normal);
-        OLED_Show_Char48_64(40, 0, _Com_CountDown_+'0', Normal);
+        OLED_Show_Char48_64(55, 0, _Com_CountDown_+'0', Normal);
 		
 		_Com_CountDown_ = _Com_CountDown_>=5?5:_Com_CountDown_;
         switch (Get_Key())
@@ -177,7 +182,8 @@ uint8_t UI_Go(void)
                                 /******************************************************/
                                 break;
 
-            case Press_Mid:     CountDown(_Com_CountDown_);
+            case Press_Mid:     if(CountDown(_Com_CountDown_))
+									return 1;
                                 Just_Do_It();
                                 break;
 
@@ -409,15 +415,18 @@ void Write_Value(uint8_t in_ch[][30])
     sprintf((char *)in_ch [5], "   5.  速 度 P   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_SpeedPID_P_		]);
     sprintf((char *)in_ch [6], "   6.  速 度 I   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_SpeedPID_I_		]);
     sprintf((char *)in_ch [7], "   7.  转 向 P   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_TurnPID_P_		]);
-    sprintf((char *)in_ch [8], "   8.  转 向 D   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_TurnPID_D_   	]);
-    sprintf((char *)in_ch [9], "   9.  HuanAdd   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan_Add_]);
-    sprintf((char *)in_ch[10], "   10. td        %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
+    sprintf((char *)in_ch [8], "   8.  转 向 D   %4d  ",	ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_TurnPID_D_   	]);
+    sprintf((char *)in_ch [9], "   9.  环弯补偿  %4d  ",	ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_HuanTurn_Add_	]);
+    sprintf((char *)in_ch[10], "   10. XXXXXXX   %4d  ",	ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
     sprintf((char *)in_ch[11], "   11. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
     sprintf((char *)in_ch[12], "   12. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
     sprintf((char *)in_ch[13], "   13. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
     sprintf((char *)in_ch[14], "   14. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
     sprintf((char *)in_ch[15], "   15. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
     sprintf((char *)in_ch[16], "   16. XXXXXXX   %4d  ",    ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Target_Angle_]);
+
+
+													/******************* 方案菜单 修改二 ?******************/
 }
 
 uint8_t UI_Plan(void)
@@ -674,7 +683,7 @@ uint8_t UI_Plan(void)
 						case  6:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_SpeedPID_I_	],  Normal);   break;
 						case  7:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_TurnPID_P_		],  Normal);   break;
 						case  8:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_TurnPID_D_		],  Normal);   break;
-						case  9:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_Huan_Add_		],	Normal);   break;
+						case  9:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_HuanTurn_Add_		],	Normal);   break;
 						case  10:	Chang_Value(UI_Case, Frame_Min, &ALL_DATA[Index_Plan_Offset + _INDEX_Target_Angle_	],	Normal);  break;
 //						case  11:   Chang_Value(UI_Case, Frame_Min, &DATA_11, DATA_P_11);  break;
 //						case  12:   Chang_Value(UI_Case, Frame_Min, &DATA_12, DATA_P_12);  break;
@@ -682,6 +691,8 @@ uint8_t UI_Plan(void)
 //						case  14:   Chang_Value(UI_Case, Frame_Min, &DATA_14, DATA_P_14);  break;
 //						case  15:   Chang_Value(UI_Case, Frame_Min, &DATA_15, DATA_P_15);  break;
 //						case  16:   Chang_Value(UI_Case, Frame_Min, &DATA_16, DATA_P_16);  break;
+
+													/******************* 方案菜单 修改三 ?******************/
 				}
 				break;
 			}
@@ -732,7 +743,7 @@ uint8_t UI_Driver(void)
                     "    1.  陀 螺 仪     ",
                     "    2.  电 感 值     ",
                     "    3.  编码器值     ",
-                    "    4.  XXXXXXX      ",
+                    "    4.   自 检       ",
                     "    5.  XXXXXXX      ",
                     "    6.  XXXXXXX      ",
                     "    7.  XXXXXXX      ",
@@ -760,8 +771,8 @@ uint8_t UI_Driver(void)
 					case 1:		return 31;
 					case 2:		return 32;
 					case 3:		return 33;
-					case 4:		return 34;
-					default:	return 0;//防止真出现其他情况
+					case 4:		return 5;	//自检界面
+					default:	return 0;	//防止真出现其他情况
 				}
 		}
         UI_Case=UI_Case<1?9:UI_Case;
@@ -796,9 +807,9 @@ void Judge_State(uint8_t Judge_ch[], uint16_t state)
 {
     switch(state)
     {
-        case 0:   sprintf((char *)Judge_ch, "OFF");  break;
-        case 1:   sprintf((char *)Judge_ch, "ON ");  break;
-        default:  sprintf((char *)Judge_ch, "???");
+        case 0:   sprintf((char *)Judge_ch, "关");  break;
+        case 1:   sprintf((char *)Judge_ch, "开");  break;
+        default:  sprintf((char *)Judge_ch, "??");
     }
 
 }
@@ -810,27 +821,28 @@ void Write_State(uint8_t in_ch[][30])
 
     sprintf((char *)in_ch[0], "  <     设  置       ");
 	
-   sprintf((char *)in_ch [1], "   1.  时间停车  %4d  ", _Com_RunTimeStop_);
+	sprintf((char *)in_ch[1], "   1.  环磁阈值  %4d", _Com_Huan_Value_);	//环磁补偿
+
+	Judge_State(Judge_ch, _Com_Huan_LR_);
+    sprintf((char *)in_ch[2], "   2.  Huan_LR     %s", Judge_ch);			//入环方向（套路）
+
+	sprintf((char *)in_ch[3], "   3.  时间停车  %4d  ", _Com_RunTimeStop_);
 	
-   sprintf((char *)in_ch [2], "   2.  距离停车  %4d  ", _Com_RunDisStop_ );
+	sprintf((char *)in_ch[4], "   4.  距离停车  %4d  ", _Com_RunDisStop_ );
 
 	Judge_State(Judge_ch, _Com_RunProtect_);
-    sprintf((char *)in_ch[3], "   3.  保  护     %s", Judge_ch);	// 保护开关
+    sprintf((char *)in_ch[5], "   5.  保  护      %s", Judge_ch);	// 保护开关
 
 	Judge_State(Judge_ch, _Com_Debug_);
-    sprintf((char *)in_ch[4], "   4.  调  试     %s", Judge_ch);	// 调试开关：开后，电机禁能且关保护
+    sprintf((char *)in_ch[6], "   6.  调  试      %s", Judge_ch);	// 调试开关：开后，电机禁能且关保护
 	
     Judge_State(Judge_ch, _Com_LED_);
-    sprintf((char *)in_ch[5], "   5.  L E D      %s", Judge_ch);
+    sprintf((char *)in_ch[7], "   7.  L E D       %s", Judge_ch);
     Judge_State(Judge_ch, _Com_Buzzer_);
-    sprintf((char *)in_ch[6], "   6.  蜂 鸣 器   %s", Judge_ch);
+    sprintf((char *)in_ch[8], "   8.  蜂 鸣 器    %s", Judge_ch);
     Judge_State(Judge_ch, _Com_BT_);
-    sprintf((char *)in_ch[7], "   7.  蓝  牙     %s", Judge_ch);
+    sprintf((char *)in_ch[9], "   9.  蓝  牙      %s", Judge_ch);
 
-    Judge_State(Judge_ch, _Com_Huan_LR_);
-    sprintf((char *)in_ch[8], "   8.  Huan_LR    %s", Judge_ch);
-    Judge_State(Judge_ch, _Com_XX5_);
-    sprintf((char *)in_ch[9], "   9.  X X 5      %s", Judge_ch);
 	/****************************设置菜单 修改二****************************/
 }
 
@@ -845,7 +857,7 @@ void Chang_State(uint8_t UI_Case, uint8_t Frame_Min, uint16_t *Value)
     for(;;)
     {
         Judge_State(ch, temp_value);	// 判断并写入ON/OFF
-        OLED_Show_Str(108, (UI_Case-Frame_Min+1)*13, ch, 12, Toggle);	// 显示ON/OFF
+        OLED_Show_StrAll(114, (UI_Case-Frame_Min+1)*13, ch, Toggle);	// 显示ON/OFF
 
         uint8_t value_ok_flag = 0;	//值更改完成标志位
         switch (Get_Key())
@@ -897,7 +909,7 @@ void Chang_State(uint8_t UI_Case, uint8_t Frame_Min, uint16_t *Value)
         if(1 == value_ok_flag)
         {
             Judge_State(ch, temp_value);
-            OLED_Show_Str(108, (UI_Case-Frame_Min+1)*13, ch, 12, Normal);	// 更新状态（ON/OFF）
+            OLED_Show_StrAll(114, (UI_Case-Frame_Min+1)*13, ch, Normal);	// 更新状态（ON/OFF）
             OLED_Refresh_Gram();
             break;
         }
@@ -941,17 +953,16 @@ uint8_t UI_Set(void)
 			case Press_Mid:
 								switch(UI_Case)
 								{
-									case 1:	 Chang_Value(UI_Case, Frame_Min, &_Com_RunTimeStop_,   1);	break;	// 时间停车
-									case 2:	 Chang_Value(UI_Case, Frame_Min, &_Com_RunDisStop_ ,   1);	break;	// 距离停车
-									case 3:	 Chang_State(UI_Case, Frame_Min, &_Com_RunProtect_			);	break;	// 保护开关
-									case 4:	 Chang_State(UI_Case, Frame_Min, &_Com_Debug_		);	break;	// 调试开关
-									case 5:  Chang_State(UI_Case, Frame_Min, &_Com_LED_				);	break;	// LED开关
-									case 6:  Chang_State(UI_Case, Frame_Min, &_Com_Buzzer_			);	break;	// 蜂鸣器开关
-									case 7:  Chang_State(UI_Case, Frame_Min, &_Com_BT_				);	break;	// 蓝牙开关
+									case 1:	 Chang_Value(UI_Case, Frame_Min, &_Com_Huan_Value_,    1);	break;	// 环磁补偿
+									case 2:	 Chang_State(UI_Case, Frame_Min, &_Com_Huan_LR_			);	break;	// 入环方向
+									case 3:	 Chang_Value(UI_Case, Frame_Min, &_Com_RunTimeStop_,   1);	break;	// 时间停车
+									case 4:	 Chang_Value(UI_Case, Frame_Min, &_Com_RunDisStop_ ,   1);	break;	// 距离停车
+									case 5:	 Chang_State(UI_Case, Frame_Min, &_Com_RunProtect_		);	break;	// 保护开关
+									case 6:	 Chang_State(UI_Case, Frame_Min, &_Com_Debug_			);	break;	// 调试开关
+									case 7:  Chang_State(UI_Case, Frame_Min, &_Com_LED_				);	break;	// LED开关
+									case 8:  Chang_State(UI_Case, Frame_Min, &_Com_Buzzer_			);	break;	// 蜂鸣器开关
+									case 9:  Chang_State(UI_Case, Frame_Min, &_Com_BT_				);	break;	// 蓝牙开关
 
-
-									case 8:	 Chang_State(UI_Case, Frame_Min, &_Com_Huan_LR_				);	break;
-									case 9:	 Chang_State(UI_Case, Frame_Min, &_Com_XX5_				);	break;
 									/****************************设置菜单 修改三****************************/
 
 									default:	return 0;//防止真出现其他情况
@@ -993,7 +1004,29 @@ uint8_t UI_Set(void)
     }
 }
 
+uint8_t UI_Check(void)
+{
+    OLED_Clear();
+    OLED_Show_StrAll(0,  0, "  <     自  检        ", 1);
+	
+	for(;;)
+	{
+		switch(Get_Key())
+		{
+			case Press_Left:
+			case Press_Mid:	return 0;
+		}
+		uint8_t str[32];
+		sprintf((char *)str, "俯仰角:%-3.2f", Pitch);		//俯仰角
+		OLED_Show_StrAll(0, 12, str, 1);
+		sprintf((char *)str, "AD左  :%-4d 右:%-4d", Value_Inductor_L, Value_Inductor_R);	//电感值
+		OLED_Show_StrAll(0, 26, str, 1);
+		sprintf((char *)str, "转速左:%-4d 右:%-4d", Value_End_L, Value_End_R);		//编码器值
+        OLED_Show_StrAll(0, 39, str, 1);
 
+		OLED_Refresh_Gram();
+	}
+}
 
 
 

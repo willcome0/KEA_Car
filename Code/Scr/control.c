@@ -150,9 +150,11 @@ void PIT_CH0_IRQHandler(void)
 								
 								if(Run_Time_Flag)	//计时与测距
 								{
-									Run_Time++;								// 计时	
-									Run_Distance += Ave_End;	// 记路程
-								}							
+									Run_Time++;							// 计时	
+									if(Run_Distance<10 && Ave_End<0)	//防止起跑时倒转导致Run_Distance出现负数
+										Ave_End = 0;
+									Run_Distance += Ave_End;			// 记路程
+								}			
 //	暂时不要速度环						
     
    
@@ -176,10 +178,10 @@ void PIT_CH0_IRQHandler(void)
 //								AlllastError=(int)(PreError[0]+PreError[1]+PreError[2]+PreError[3]+PreError[4]);
 								
 				Speed_PWM = Error_End*CONTROL_SpeedPID_P + End_Integral*CONTROL_SpeedPID_I/100;    //速度环
-			
-				
-				
-				
+
+
+
+
 //								PreError[4]=PreError[3];
 //                PreError[3]=PreError[2];
 //                PreError[2]=PreError[1];
@@ -254,9 +256,9 @@ void PIT_CH0_IRQHandler(void)
 									
 									
 									/********新环***************/
-									if(Value_Inductor_R>1000
+									if(   Value_Inductor_R>_Com_Huan_Value_	//环处电磁阈值>设定范围
 //                                        &&Pitch<-22
-                                        &&Value_Inductor_L>1000
+                                        &&Value_Inductor_L>_Com_Huan_Value_
 										&& Huan_Flag == OUT)
 									{
 										Huan_Flag = IN;
@@ -435,8 +437,10 @@ uint8_t Just_Do_It(void)
     
 //    Do_it = 1;
 	/********开电机********/
-    Motor_L_EN(Enable);
-    Motor_R_EN(Enable);
+
+		Motor_L_EN(Enable);
+		Motor_R_EN(Enable);
+
 	Run_Time_Flag = 1;
 	Run_Time = 0;
 	Run_Distance = 0;
@@ -456,25 +460,25 @@ uint8_t Just_Do_It(void)
 	CONTROL_SpeedPID_I   = ALL_DATA[Index_Plan_Offset_1 + _INDEX_SpeedPID_I_	];
 	CONTROL_TurnPID_P    = ALL_DATA[Index_Plan_Offset_1 + _INDEX_TurnPID_P_		];
 	CONTROL_TurnPID_D    = ALL_DATA[Index_Plan_Offset_1 + _INDEX_TurnPID_D_		];
-	CONTROL_Huan_Add     = ALL_DATA[Index_Plan_Offset_1 + _INDEX_Huan_Add_		];
+	CONTROL_Huan_Add     = ALL_DATA[Index_Plan_Offset_1 + _INDEX_HuanTurn_Add_	];
 	
 
 								
     while(1)
     {
         {//彩虹灯
-//            LED_Count = LED_Count==35 ? 0:LED_Count;
-//            switch(LED_Count)
-//            {
-//                case 0: LED_White_OFF();  LED_Orange_ON();  break;
-//                case 5: LED_Orange_OFF();  LED_Red_ON();    break;
-//                case 10: LED_Red_OFF();     LED_Green_ON();  break;
-//                case 15: LED_Green_OFF();   LED_Blue_ON();   break;
-//                case 20: LED_Blue_OFF();    LED_Indigo_ON(); break;
-//                case 25: LED_Indigo_OFF();  LED_Purple_ON(); break;
-//                case 30: LED_Purple_OFF();  LED_White_ON();  break;
-//            }
-//            LED_Count++;
+            LED_Count = LED_Count==35 ? 0:LED_Count;
+            switch(LED_Count)
+            {
+                case  0: LED_White_OFF(); 	LED_Orange_ON();	break;
+                case  5: LED_Orange_OFF();  LED_Red_ON();    	break;
+                case 10: LED_Red_OFF();     LED_Green_ON();  	break;
+                case 15: LED_Green_OFF();   LED_Blue_ON();   	break;
+                case 20: LED_Blue_OFF();    LED_Indigo_ON(); 	break;
+                case 25: LED_Indigo_OFF();  LED_Purple_ON(); 	break;
+                case 30: LED_Purple_OFF();  LED_White_ON();  	break;
+            }
+            LED_Count++;
         }  
 //        LED_Purple_ON();
 		/*******************保护相关*****************************/
@@ -489,7 +493,7 @@ uint8_t Just_Do_It(void)
 			  )
 				Protect_Flag = 1;
 		}
-		/*******************************************************/
+		/**************************距离/时间停车*****************************/
 		if(	(_Com_RunTimeStop_!=0 && Run_Time*CON_PERIOD>_Com_RunTimeStop_*10)	||		// 100即1s   8.00
 			(_Com_RunDisStop_!=0  && Run_Distance/DIS_RATIO>(float)_Com_RunDisStop_/100)		// 100即1米
 		  )

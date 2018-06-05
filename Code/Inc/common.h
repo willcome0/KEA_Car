@@ -56,7 +56,7 @@
 
 /*********************PCB版本 宏定义**************************/
 #ifndef PCB_VERSION
-	#define PCB_VERSION        30
+	#define PCB_VERSION        40
 #endif                           //  0     开发板
                                  //  20    PCB V2.0
                                  //  30    PCB V3.0

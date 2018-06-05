@@ -56,8 +56,7 @@ struct CON
 
 };
 
-/////////////////////////////////////////////////////////////////
-
+/******************* 方案菜单 ************************/
 #define _INDEX_Target_Angle_	0
 #define _INDEX_Target_Speed_	1
 #define _INDEX_AnglePID_P_		2
@@ -66,7 +65,9 @@ struct CON
 #define _INDEX_SpeedPID_I_ 		5
 #define _INDEX_TurnPID_P_ 		6
 #define _INDEX_TurnPID_D_ 		7
-#define _INDEX_Huan_Add_ 		8
+#define _INDEX_HuanTurn_Add_    8   //环拐弯补偿，值为10时补偿为0。25时补偿为15
+
+/******************* 方案菜单 修改一 ?******************/
 
 #define _P1_Target_Angle_		ALL_DATA[0]
 #define _P1_Target_Speed_		ALL_DATA[1]
@@ -77,12 +78,12 @@ struct CON
 #define _P1_TurnPID_P_			ALL_DATA[6]
 #define _P1_TurnPID_D_			ALL_DATA[7]
 
-/*******************设置菜单************************/
+/******************* 设置菜单 ************************/
 #define _Com_LED_				ALL_DATA[200]	
 #define _Com_Buzzer_			ALL_DATA[201]
-#define _Com_BT_				ALL_DATA[202]
-#define _Com_Debug_				ALL_DATA[203]
-#define _Com_XX1_				ALL_DATA[204]
+#define _Com_BT_				ALL_DATA[202]	
+#define _Com_Debug_				ALL_DATA[203]	// 调试开关。开后电机一直禁能
+#define _Com_Huan_Value_		ALL_DATA[204]   // 环处电磁阈值
 #define _Com_XX2_				ALL_DATA[205]
 #define _Com_XX3_				ALL_DATA[206]
 #define _Com_XX4_				ALL_DATA[207]
@@ -94,7 +95,7 @@ struct CON
 #define _Com_RunTimeStop_       ALL_DATA[212]	// 定时停车
 #define _Com_RunDisStop_       	ALL_DATA[213]	// 定距停车
 #define _Com_Huan_LR_       	ALL_DATA[214]	// 设置左入环还是右入环
-/*******************设置菜单 修改一******************/
+/******************* 设置菜单 修改一 ?******************/
 
 //将flash中得数据缓存到数组里
 #define Cache_ALL_DATA()	{for(uint16_t i=0; i<256; i++)    ALL_DATA[i] = FLASH_Read(DATA_FLASH, i*2, uint16_t);}

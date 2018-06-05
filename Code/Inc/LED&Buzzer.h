@@ -1,5 +1,5 @@
-#ifndef __LED_BUZZER_H
-#define __LED_BUZZER_H
+#ifndef _LED_BUZZER_H
+#define _LED_BUZZER_H
 
 #include "common.h"
 
@@ -22,19 +22,34 @@ extern uint16_t BB_Times;
 //    #define Buzzer_Port     PTE
 //    #define Buzzer_Pin      PTE5
 
-//#elif (PCB_VERSION == 30)  //兼容PCB V3.0 宏定义
-    #define LED_Red_Port    PTE
-    #define LED_Red_Pin     PTE1
+//#elif (PCB_VERSION == 30)
+//    #define LED_Red_Port    PTE
+//    #define LED_Red_Pin     PTE1
 
-    #define LED_Green_Port  PTG
-    #define LED_Green_Pin   PTG1
+//    #define LED_Green_Port  PTG
+//    #define LED_Green_Pin   PTG1
 
-    #define LED_Blue_Port   PTE
-    #define LED_Blue_Pin    PTG0
+//    #define LED_Blue_Port   PTE
+//    #define LED_Blue_Pin    PTG0
+
+//    #define Buzzer_Port     PTB
+//    #define Buzzer_Pin      PTB1
+//	
+//#elif (PCB_VERSION == 40)  //兼容PCB V4.0 宏定义
+    #define LED_Red_Port    PTH
+    #define LED_Red_Pin     PTH7
+
+    #define LED_Green_Port  PTD
+    #define LED_Green_Pin   PTD1
+
+    #define LED_Blue_Port   PTD
+    #define LED_Blue_Pin    PTD0
 
     #define Buzzer_Port     PTB
     #define Buzzer_Pin      PTB1
+	
 
+	
 //#elif (PCB_VERSION == 0)  //兼容开发板 宏定义
 //    #define LED_Red_Port    PTE
 //    #define LED_Red_Pin     PTE1

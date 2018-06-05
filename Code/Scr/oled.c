@@ -308,7 +308,7 @@ void OLED_Show_Char24_32(uint8_t x, uint8_t y, uint8_t ch, uint8_t mode)
 	{
 		for(j=0; j<3; j++)     // 每行共3字节
 		{
-			font_date = FONT24x32[ch][i*3+j];
+//			font_date = FONT24x32[ch][i*3+j];
 
 			for(k=0; k<8; k++)
 			{
@@ -367,7 +367,7 @@ void OLED_Show_ZH12_12(uint8_t x, uint8_t y, uint8_t ch1, uint8_t ch2, uint8_t m
       if(FONT12x12_TAB[i]==ch1 && FONT12x12_TAB[i+1]==ch2)
          break;
    }
-   ch1 = i;
+   ch1 = i/2;
 
    for(i=0; i<12; i++)//显示共12行
    {
