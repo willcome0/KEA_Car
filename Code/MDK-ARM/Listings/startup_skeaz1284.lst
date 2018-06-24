@@ -27,26 +27,26 @@ ARM Macro Assembler    Page 1
    16 00000000         ;   <o> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
    17 00000000         ; Ô­À´£ºStack_Size      EQU     0x00001000    </h>
    18 00000000         
-   19 00000000 00001000 
+   19 00000000 00001200 
                        Stack_Size
-                               EQU              0x00001000
+                               EQU              0x00001200
    20 00000000         
    21 00000000                 AREA             STACK, NOINIT, READWRITE, ALIGN
 =3
    22 00000000         Stack_Mem
                                SPACE            Stack_Size
-   23 00001000         __initial_sp
-   24 00001000         
-   25 00001000         
-   26 00001000         ; <h> Heap Configuration
-   27 00001000         ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
-   28 00001000         ; </h>
-   29 00001000         
-   30 00001000 00000000 
+   23 00001200         __initial_sp
+   24 00001200         
+   25 00001200         
+   26 00001200         ; <h> Heap Configuration
+   27 00001200         ;   <o>  Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
+   28 00001200         ; </h>
+   29 00001200         
+   30 00001200 00000000 
                        Heap_Size
                                EQU              0x00000000
-   31 00001000         
-   32 00001000                 AREA             HEAP, NOINIT, READWRITE, ALIGN=
+   31 00001200         
+   32 00001200                 AREA             HEAP, NOINIT, READWRITE, ALIGN=
 3
    33 00000000         __heap_base
    34 00000000         Heap_Mem
@@ -518,7 +518,7 @@ Symbol: Stack_Mem
    Uses
       None
 Comment: Stack_Mem unused
-__initial_sp 00001000
+__initial_sp 00001200
 
 Symbol: __initial_sp
    Definitions
@@ -1141,7 +1141,7 @@ Symbol: Heap_Size
    Uses
       At line 34 in file RTE\Device\SKEAZ128xxx4\startup_SKEAZ1284.s
 Comment: Heap_Size used once
-Stack_Size 00001000
+Stack_Size 00001200
 
 Symbol: Stack_Size
    Definitions

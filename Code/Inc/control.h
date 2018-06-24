@@ -9,6 +9,9 @@
 
 extern uint16_t Value_Inductor_L;
 extern uint16_t Value_Inductor_R;
+extern uint16_t Value_Inductor_BL;
+extern uint16_t Value_Inductor_BR;
+
 extern float LR_Error;
 
 extern int16_t Value_End_L;
