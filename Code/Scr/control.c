@@ -36,7 +36,7 @@ uint16_t Huan_Count = 0;
 float Yaw_Huan = 0.00001;
 #define OUT 0
 #define IN 1
-uint8_t Huan_Flag = 9;
+uint8_t Huan_Flag = 0;
 uint8_t Run_Time_Flag = 0;
 uint32_t Run_Time = 0;		//单位为中断周期
 uint32_t Run_Distance = 0;	//单位为脉冲（ 脉冲/5760 = 距离 ）
@@ -300,7 +300,7 @@ void PIT_CH0_IRQHandler(void)
 //								else
 //									x =(2.743e-08) *(float)Error_Ind * (float)Error_Ind*Error_Ind +(2.896e-06)*(float)Error_Ind*Error_Ind + 0.01528*(float)Error_Ind  -1.906;  //角度18.8
 
-					//LR_Error =(5.043e-09) *(float)Error_Ind * (float)Error_Ind*Error_Ind +(-2.85e-06)*(float)Error_Ind*Error_Ind + 0.01201*(float)Error_Ind  -0.006396;  //角度18.8
+//					LR_Error =(5.043e-09) *(float)Error_Ind * (float)Error_Ind*Error_Ind +(-2.85e-06)*(float)Error_Ind*Error_Ind + 0.01201*(float)Error_Ind  -0.006396;  //角度18.8
 				LR_Error = (float)(Value_Inductor_R - Value_Inductor_L)/(float)(Value_Inductor_L + Value_Inductor_R)*50;
 
 //						x = -3573 + 5.121*(float)Value_Inductor_L + 1.226*(float)Value_Inductor_R -0.001796*(float)Value_Inductor_L*Value_Inductor_L - 0.00102*(float)Value_Inductor_L*Value_Inductor_R + 5.696e-06*(float)Value_Inductor_R*Value_Inductor_R;
@@ -411,6 +411,141 @@ void PIT_CH0_IRQHandler(void)
 ////									/*新环结束*/
 									
 									
+									/*重写环*/
+									switch( Huan_Flag )
+									{
+										case 0:		// 未入环标志
+										{
+											if(
+												Run_Time > 0 		&& 
+												Run_Distance > 0	&& 
+												temp_time == 0		&&
+												temp_dis == 0		&& 
+												Value_Inductor_L > _Com_Huan_Value_	&& 
+												Value_Inductor_R > _Com_Huan_Value_  )
+											{
+												temp_time = Run_Time;
+												temp_dis = Run_Distance;
+												Huan_Flag = 1;
+												
+												// 开红灯
+												LED_Red_ON();
+											}
+											break;
+										}
+										case 1:		// 检测到环标志
+										{
+											if(
+												temp_time > 0		&& // 开电有跑过
+												temp_dis > 0		&& // 开电有跑过
+												(Run_Distance - temp_dis) > _Com_InHuan_Min_ &&	// 识别到环后入环距离最小值
+												(Run_Distance - temp_dis) < _Com_InHuan_Max_ &&	// 识别到环后入环距离最大值
+												Value_Inductor_L + Value_Inductor_R > (_Com_Huan_Value_ * 2 - 300 )  )
+											{
+												
+												
+												if(0 == _Com_Huan_LR_)
+												{
+//													Value_Inductor_L = Value_Inductor_L*CONTROL_Huan_Add/10;
+													LR_Error = -CONTROL_Huan_Add;
+												}
+												else if(1 == _Com_Huan_LR_)
+												{
+//													Value_Inductor_R = Value_Inductor_R*CONTROL_Huan_Add/10;
+													LR_Error = CONTROL_Huan_Add;
+												}
+												
+										
+												// 开绿灯，蜂鸣器响
+												Beep_Time(5);
+												LED_Red_OFF();
+												LED_Green_ON();
+											}
+											else if ((Run_Distance - temp_dis) > _Com_InHuan_Max_)
+											{
+												LED_Green_OFF();
+												LED_Blue_ON();
+												
+												Huan_Flag = 2;
+											}
+											break;
+										}
+										
+										case 2:		// 入环后，未出环标志
+										{
+											if(
+												Run_Time - temp_time > 20			&&	// 已入环一定时间
+
+												Run_Distance - temp_dis > _Com_InHuan_Max_	&&	// 识别到环后入环距离最大值
+												Value_Inductor_L < _Com_Huan_Value_ 		&& 
+												Value_Inductor_R < _Com_Huan_Value_   )
+											{
+												
+												
+												// 分5周期，把偏移打回来
+												
+												
+												
+												
+											}
+											if( Run_Distance - temp_dis > _Com_InHuan_Max_ + 1000 )
+												Huan_Flag = 3;
+											break;
+										}
+										
+										case 3:		// 出环标志
+										{
+											if( 
+//												Run_Time - temp_time > 50			&&	// 已入环一定时间
+//												Run_Distance - temp_dis > 4000		&&	// 已入环一定距离
+												Value_Inductor_L > _Com_Huan_Value_	&& 
+												Value_Inductor_R > _Com_Huan_Value_  
+											)
+											{
+												temp_time = 0;
+												temp_dis = Run_Distance;
+												
+												
+												// 按之前现象，还需给相反方向一个偏移
+												if(0 == _Com_Huan_LR_)
+												{
+//													Value_Inductor_L = Value_Inductor_L*CONTROL_Huan_Add/10;
+													LR_Error = 40;
+												}
+												else if(1 == _Com_Huan_LR_)
+												{
+//													Value_Inductor_R = Value_Inductor_R*CONTROL_Huan_Add/10;
+													LR_Error = -40;
+												}
+												
+												
+												Beep_Time(5);
+												LED_Blue_OFF();
+
+												
+											}
+											else if( temp_time == 0 && Run_Distance - temp_dis > 700 )
+											{
+												Huan_Flag = 4;
+												LED_Purple_ON();
+											}
+											break;
+										}
+										case 4:
+										{
+											if( Run_Distance - temp_dis > 5000 )
+											{
+												Huan_Flag = 0;
+												temp_time = 0;
+												temp_dis = 0;
+												
+												LED_Purple_OFF();
+												Beep_Time(200);
+											}
+											break;
+										}
+									}
+									/*重写环 结束*/
 									
 //          Turn_PWM = Error_Ind*Plan1.Turn.P/10 + (Error_Ind - Eroor_Ind_Old)*Plan1.Turn.D;
 //								Turn_PWM = LR_Error*CONTROL_TurnPID_P + (Error_Ind - Eroor_Ind_Old)*CONTROL_TurnPID_D;
@@ -553,7 +688,7 @@ uint8_t Just_Do_It(void)
 	
     uint8_t LED_Count = 0;
     OLED_Display_Off();	//关OLED
-	Huan_Flag = OUT;
+	Huan_Flag = 0;
 
 	uint16_t Index_Plan_Offset_1 = (_Com_Plan_-1)*40;
 	
@@ -587,7 +722,7 @@ uint8_t Just_Do_It(void)
 //        }  
 //        LED_Purple_ON();
 		/*******************保护相关*****************************/
-		LED_White_OFF();
+//		LED_White_OFF();
 		
 		uint8_t Protect_Flag = 0;
 #if 1
@@ -617,7 +752,7 @@ uint8_t Just_Do_It(void)
             case Press_NULL:  break;
             
             default:     
-						Huan_Flag = 9;
+						Huan_Flag = 0;
 						Motor_L_Go_V(500);
 						Motor_R_Go_V(500);
 						/****关电机****/
@@ -656,7 +791,7 @@ uint8_t Just_Do_It(void)
 	Variable[12] = Value_Inductor_L;
 	Variable[13] = Value_Inductor_R;
 	Variable[14] = Value_Inductor_BL;
-	Variable[15] = Value_Inductor_BR;	
+	Variable[15] = Huan_Flag;	
 	
     Send_Begin();
     Send_Variable();

@@ -5,6 +5,7 @@
 void All_Init(void)
 {
     Buzzer_Init();	// 蜂鸣器初始化
+	LED_Init();
 	FLASH_Init();	// flash存储初始化
 	
 //	Cache_ALL_DATA(); 			// 缓存所有flash中的数据到数组
@@ -20,7 +21,7 @@ void All_Init(void)
 
     	
     UART_Init(UART_1, 9600);
-    LED_Init();
+    
 //	Pin_Output_Config(PTD,  PTD0,  1);
 //	while(1)
 //	{
@@ -65,4 +66,5 @@ void All_Init(void)
 	PIT_Config(PIT_CH0, CON_PERIOD, 0);
 
     Delay_ms(1000);
+	Pin_Output_Set(LED_Red_Port, LED_Red_Pin, SET);
 }
