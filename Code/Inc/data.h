@@ -67,6 +67,7 @@ struct CON
 #define _INDEX_TurnPID_D_ 		7
 #define _INDEX_HuanTurn_Add_    8   //环拐弯补偿，值为10时补偿为0。25时补偿为15
 
+//#define _INDEX_Huan1_Para_		9   // 环
 /******************* 方案菜单 修改一 ↑******************/
 
 #define _P1_Target_Angle_		ALL_DATA[0]

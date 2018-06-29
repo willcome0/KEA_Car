@@ -2,7 +2,9 @@
     "files.associations": {
         "control.h": "c",
         "delay.h": "c",
-        "ad.h": "c"
+        "ad.h": "c",
+        "data.h": "c",
+        "ui.h": "c"
     },
     "C_Cpp.intelliSenseEngineFallback": "Disabled",
     "C_Cpp.errorSquiggles": "Disabled",

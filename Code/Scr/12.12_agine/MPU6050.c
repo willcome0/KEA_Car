@@ -264,7 +264,7 @@ void Get_Posture(float *pose, int16_t *accel_a,  int16_t *accel_b, int16_t *gyro
 {
 //	*pose = atan2(*accel_a,*accel_b)*57.3*0.001 + 0.999*(*pose-(float)*gyro/16.4*PERIOD);
 	
-	*pose = atan2(*accel_a,*accel_b)*57.3*0.002 + 0.998*(*pose-(float)*gyro/16.4*0.005);
+	*pose = atan2(*accel_a,*accel_b)*57.3*0.002 + 0.998*(*pose-(float)*gyro*1.01/16.4*0.005);
 //	*pose = atan2(*accel_a,*accel_b)*0.1 + 0.9*(*pose-(float)*gyro*PERIOD);
 	
 //    float K = 0.1;  

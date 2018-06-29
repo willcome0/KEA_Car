@@ -38,7 +38,7 @@ float Yaw_Huan = 0.00001;
 #define IN 1
 uint8_t Huan_Flag = 0;
 uint8_t Run_Time_Flag = 0;
-uint32_t Run_Time = 0;		//单位为中断周期
+uint32_t Run_Time = 0;		//单位为中断周期次数
 uint32_t Run_Distance = 0;	//单位为脉冲（ 脉冲/5760 = 距离 ）
 
 uint8_t Stop_Flag = 0; // 刹车标志
@@ -57,6 +57,7 @@ uint32_t temp_time = 0;	// 用于临时计时 进
 //uint32_t out_time = 0;	// 用于临时计时 出
 uint32_t temp_dis = 0;
 
+
 int32_t Int_A_X = 0;
 int32_t Int_A_Y = 0;
 int32_t Int_A_Z = 0;
@@ -70,6 +71,14 @@ int16_t Pre_G_X[AVE], Pre_G_Y[AVE], Pre_G_Z[AVE];
 
 uint16_t LED_Count = 0;
 
+//uint16_t Ind_Queue[2][10];	// 电磁值队列
+//int32_t Ind_Queue_Sum[2];	// 电磁值队列的和
+
+volatile int32_t now_time = 0;
+uint32_t adjust_time = 0;
+uint32_t L_ind_sum = 0;
+uint32_t R_ind_sum = 0;
+											
 void PIT_CH0_IRQHandler(void)
 {
 								PIT_CLR_Flag(PIT_CH0);  //清除中断标志位 
@@ -90,7 +99,7 @@ void PIT_CH0_IRQHandler(void)
 
 	
 								Get_Posture(&Pitch, &Accel_X, &Accel_Z, &Gyro_Y);
-//								Get_Posture(&Pitch, &Accel_Y, &Accel_Z, &Gyro_X);
+//，								Get_Posture(&Pitch, &Accel_Y, &Accel_Z, &Gyro_X);
 //								Get_Posture(&Roll,	&Accel_Y, &Accel_Z, &Gyro_X);
 //								Get_Posture(&Yaw,	&Accel_X, &Accel_Y, &Gyro_Z);
 	
@@ -215,6 +224,101 @@ void PIT_CH0_IRQHandler(void)
 								//    Value_Inductor_L = Get_Ind_V(AD_2);
                                 Value_Inductor_L = kalman1_filter(&AD_Kalman[0], Get_Ind_V(AD_3));	// 获取左电感
 								Value_Inductor_R = kalman1_filter(&AD_Kalman[1], Get_Ind_V(AD_4));	// 获取右电感
+								
+//								/***** 电磁队列 *****/
+//								if(Run_Time<10)
+//								{
+//									Ind_Queue_Sum[0] += Value_Inductor_L;
+//									Ind_Queue_Sum[1] += Value_Inductor_R;
+//								}
+//								else
+//								{
+//									Ind_Queue_Sum[0] = Ind_Queue_Sum[0] - Ind_Queue[0][Run_Time%10] + Value_Inductor_L;
+//									Ind_Queue_Sum[1] = Ind_Queue_Sum[1] - Ind_Queue[1][Run_Time%10] + Value_Inductor_R;
+//								}
+//								Ind_Queue[0][Run_Time%10] = Value_Inductor_L;
+//								Ind_Queue[1][Run_Time%10] = Value_Inductor_R;
+//								
+//								/***** 电磁校准队列 *****/
+
+//								if( 1 == Adjust_Flag )
+//								{
+//									_Com_RunDisStop_ = 150;
+//									L_ind_sum = 0;
+//									R_ind_sum = 0;
+//									
+//									now_time = Run_Time;
+//									Adjust_Flag = 2;
+//								}
+//								if( Run_Time - now_time > 50 && 2 == Adjust_Flag)
+//								{
+//									Adjust_Flag = 3;
+//									now_time = Run_Time;	// 重新记录时间
+//								}
+//								if( 3 == Adjust_Flag )
+//								{
+//									L_ind_sum += Value_Inductor_L;
+//									R_ind_sum += Value_Inductor_R;
+//								}
+//								if( 4 == Adjust_Flag )
+//								{
+//									adjust_time = Run_Time - now_time;
+//									Adjust_L_Ind = L_ind_sum/adjust_time;
+//									Adjust_R_Ind = R_ind_sum/adjust_time;
+//									
+//									Adjust_Flag = 0;
+//								}
+								
+								
+								
+//								switch( Adjust_Flag )
+//								{
+//									case 1: 	// 变量初始化
+//											
+
+//											_Com_RunDisStop_ = 200;	// 2m停车
+//											Adjust_Flag++;
+//											break;
+
+//									case 2:		// 稳定时间
+//											now_time = Run_Time;	// 记录时间
+//											
+//											if( Run_Time - now_time > 50 )
+//											{
+//												Adjust_Flag++;
+//											}
+//											break;
+
+//									case 3:	// 记录当前时间
+//											now_time = Run_Time;	// 重新记录时间
+//											Adjust_R_Ind = 1000;
+//											Beep_Time(300);
+//											Adjust_Flag++;
+//											break;
+
+////									case 4:	// 计算和
+////											L_ind_sum += Value_Inductor_L;
+////											R_ind_sum += Value_Inductor_R;
+////											Adjust_R_Ind ++;
+////											break;
+
+//									case 5:	// 停车时求平均
+
+//											adjust_time = Run_Time+1000 - now_time;
+//											Adjust_L_Ind = adjust_time;
+//											
+////											Adjust_R_Ind = R_ind_sum/50;
+//											Adjust_Flag = 0;
+//											break;
+//									default:	break;
+//								}
+//								if( 4 == Adjust_Flag )
+//								{
+//									L_ind_sum += Value_Inductor_L;
+//									R_ind_sum += Value_Inductor_R;
+//									Adjust_R_Ind ++;
+//								}
+
 //								Value_Inductor_BL = Get_Ind_V(AD_1);
 //								Value_Inductor_BR = Get_Ind_V(AD_2);
 //								 Value_Inductor_L = Get_Ind_V(AD_3);	// 获取左电感
@@ -414,6 +518,20 @@ void PIT_CH0_IRQHandler(void)
 									/*重写环*/
 									switch( Huan_Flag )
 									{
+//										// 超时清除标志位
+//										if( Huan_Flag != 0 && 
+//											(Run_Time - temp_time) > 200 && 
+//											Value_Inductor_L < _Com_Huan_Value_	&& 
+//											Value_Inductor_R < _Com_Huan_Value_ )
+//										{
+//											temp_time = 0;
+//											temp_dis = 0;
+//											Huan_Flag = 0;
+//											
+//											LED_White_OFF();
+//											Beep_Time(200);
+//										}
+										
 										case 0:		// 未入环标志
 										{
 											if(
@@ -421,12 +539,20 @@ void PIT_CH0_IRQHandler(void)
 												Run_Distance > 0	&& 
 												temp_time == 0		&&
 												temp_dis == 0		&& 
+												Pitch >= 18 		&&
+												Value_End_L >= 20 	&&	// 车速
+												Value_End_R >= 20 	&&
 												Value_Inductor_L > _Com_Huan_Value_	&& 
 												Value_Inductor_R > _Com_Huan_Value_  )
 											{
 												temp_time = Run_Time;
 												temp_dis = Run_Distance;
-												Huan_Flag = 1;
+												Huan_Flag++;
+												
+//												if( Ind_Queue_Sum[0] > Ind_Queue_Sum[1] - 100 )			// 环在左
+//													_Com_Huan_LR_ = 0;
+//												else if( Ind_Queue_Sum[1] > Ind_Queue_Sum[0] - 100 )	// 环在右
+//													_Com_Huan_LR_ = 1;
 												
 												// 开红灯
 												LED_Red_ON();
@@ -446,12 +572,10 @@ void PIT_CH0_IRQHandler(void)
 												
 												if(0 == _Com_Huan_LR_)
 												{
-//													Value_Inductor_L = Value_Inductor_L*CONTROL_Huan_Add/10;
 													LR_Error = -CONTROL_Huan_Add;
 												}
 												else if(1 == _Com_Huan_LR_)
 												{
-//													Value_Inductor_R = Value_Inductor_R*CONTROL_Huan_Add/10;
 													LR_Error = CONTROL_Huan_Add;
 												}
 												
@@ -466,7 +590,7 @@ void PIT_CH0_IRQHandler(void)
 												LED_Green_OFF();
 												LED_Blue_ON();
 												
-												Huan_Flag = 2;
+												Huan_Flag++;
 											}
 											break;
 										}
@@ -484,12 +608,23 @@ void PIT_CH0_IRQHandler(void)
 												
 												// 分5周期，把偏移打回来
 												
-												
-												
+												static uint8_t turn_back_time = 0;
+												turn_back_time++;
+												if( turn_back_time < 6 )
+												{
+													if(0 == _Com_Huan_LR_)
+													{
+														LR_Error = LR_Error*turn_back_time/5 - CONTROL_Huan_Add*(5-turn_back_time)/5;
+													}
+													else if(1 == _Com_Huan_LR_)
+													{
+														LR_Error = LR_Error*turn_back_time/5 + CONTROL_Huan_Add*(5-turn_back_time)/5;
+													}
+												}
 												
 											}
 											if( Run_Distance - temp_dis > _Com_InHuan_Max_ + 1000 )
-												Huan_Flag = 3;
+												Huan_Flag++;
 											break;
 										}
 										
@@ -526,7 +661,7 @@ void PIT_CH0_IRQHandler(void)
 											}
 											else if( temp_time == 0 && Run_Distance - temp_dis > 700 )
 											{
-												Huan_Flag = 4;
+												Huan_Flag++;
 												LED_Purple_ON();
 											}
 											break;
@@ -744,7 +879,7 @@ uint8_t Just_Do_It(void)
 			Run_Time_Flag = 0;
 			Delay_ms(200);
 			
-			Protect_Flag = 1;
+			Protect_Flag = 1;	// 停车标志位
 		}
 #endif
         switch(Get_Key() || Protect_Flag)
@@ -765,6 +900,13 @@ uint8_t Just_Do_It(void)
                         LED_White_OFF();   //关LED
                         OLED_Display_On();//开OLED
 						OLED_Init();
+
+						if( Adjust_Flag > 0 )
+						{
+							Adjust_Flag = 4;	// 电磁校准标志位
+							_Com_RunDisStop_ = FLASH_Read(DATA_FLASH, 213*2, uint16_t);	// 恢复停车参数
+							return 41;
+						}
                         return 0;
         }
 		
@@ -791,7 +933,7 @@ uint8_t Just_Do_It(void)
 	Variable[12] = Value_Inductor_L;
 	Variable[13] = Value_Inductor_R;
 	Variable[14] = Value_Inductor_BL;
-	Variable[15] = Huan_Flag;	
+	Variable[15] = Run_Time;	
 	
     Send_Begin();
     Send_Variable();

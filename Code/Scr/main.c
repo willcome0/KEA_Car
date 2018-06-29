@@ -229,11 +229,14 @@ int main(void)
             case  2:   GO = UI_Plan();      break;
             case  3:   GO = UI_Driver();    break;
             case  4:   GO = UI_Set();       break;
-			case  5:   GO = UI_Check();		break;
+			case  5:   GO = UI_Check();		break;	
 			
             case 31:   GO = UI_MPU6050();   break;
             case 32:   GO = UI_Read_Ind();  break;
             case 33:   GO = UI_Read_End();  break;
+			
+			case 41:   GO = UI_Adjust_Ind();  break;	// 直道电磁校准
+			case 42:   GO = UI_Huan_About();  break;	// 环相关设置
 			
             default:   GO = UI_Main();
         }

@@ -827,33 +827,37 @@ void Write_State(uint8_t in_ch[][30])
 
     sprintf((char *)in_ch[0],  "  <     设  置       ");
 	
-	sprintf((char *)in_ch[1],  "   1.  环磁阈值  %4d", _Com_Huan_Value_);	//环磁补偿
+	sprintf((char *)in_ch[1],  "   1.  电磁校准      ");						// 直道电磁校准
+
+	sprintf((char *)in_ch[2],  "   2.  调环相关      ");	// 环相关
+
+	sprintf((char *)in_ch[3],  "   3.  环磁阈值  %4d", _Com_Huan_Value_);	//环磁补偿
 
 	Judge_State(Judge_ch, _Com_Huan_LR_);
-    sprintf((char *)in_ch[2],  "   2.  Huan_LR     %s", Judge_ch);			//入环方向（套路）
+    sprintf((char *)in_ch[4],  "   4.  Huan_LR     %s", Judge_ch);			//入环方向（套路）
 
-	sprintf((char *)in_ch[3],  "   3.  入环最小  %4d  ", _Com_InHuan_Min_);
+	sprintf((char *)in_ch[5],  "   5.  入环最小  %4d  ", _Com_InHuan_Min_);
 	
-	sprintf((char *)in_ch[4],  "   4.  入环最大  %4d  ", _Com_InHuan_Max_ );
+	sprintf((char *)in_ch[6],  "   6.  入环最大  %4d  ", _Com_InHuan_Max_ );
 
-	sprintf((char *)in_ch[5],  "   5.  时间停车  %4d  ", _Com_RunTimeStop_);
+	sprintf((char *)in_ch[7],  "   7.  时间停车  %4d  ", _Com_RunTimeStop_);
 	
-	sprintf((char *)in_ch[6],  "   6.  距离停车  %4d  ", _Com_RunDisStop_ );
+	sprintf((char *)in_ch[8],  "   8.  距离停车  %4d  ", _Com_RunDisStop_ );
 	
 	Judge_State(Judge_ch, _Com_RunProtect_);
-    sprintf((char *)in_ch[7],  "   7.  保  护      %s", Judge_ch);	// 保护开关
+    sprintf((char *)in_ch[9],  "   9.  保  护      %s", Judge_ch);	// 保护开关
 
 	Judge_State(Judge_ch, _Com_Debug_);
-    sprintf((char *)in_ch[8],  "   8.  调  试      %s", Judge_ch);	// 调试开关：开后，电机禁能且关保护
+    sprintf((char *)in_ch[10], "  10.  调  试      %s", Judge_ch);	// 调试开关：开后，电机禁能且关保护
 	
     Judge_State(Judge_ch, _Com_LED_);
-    sprintf((char *)in_ch[9],  "   9.  L E D       %s", Judge_ch);
+    sprintf((char *)in_ch[11], "  11.  L E D       %s", Judge_ch);
 	
     Judge_State(Judge_ch, _Com_Buzzer_);
-    sprintf((char *)in_ch[10], "  10.  蜂 鸣 器    %s", Judge_ch);
+    sprintf((char *)in_ch[12], "  12.  蜂 鸣 器    %s", Judge_ch);
 	
     Judge_State(Judge_ch, _Com_BT_);
-    sprintf((char *)in_ch[11], "  11.  蓝  牙      %s", Judge_ch);
+    sprintf((char *)in_ch[13], "  13.  蓝  牙      %s", Judge_ch);
 
 	/****************************设置菜单 修改二 ↑****************************/
 }
@@ -935,7 +939,7 @@ uint8_t UI_Set(void)
     uint8_t Frame_Min = 1;
     uint8_t Frame_Temp = 0;
     uint8_t Should_Refresh = 0;//用于更改值后刷新
-	const uint8_t SHOW_NUM = 12;	// 显示数目，菜单数目为SHOW_NUM-1
+	const uint8_t SHOW_NUM = 14;	// 显示数目，菜单数目为SHOW_NUM-1
 
     OLED_Clear();
     uint8_t UI_Menu[SHOW_NUM][30];
@@ -965,18 +969,20 @@ uint8_t UI_Set(void)
 			case Press_Mid:
 								switch(UI_Case)
 								{
-									case  1:	Chang_Value(UI_Case, Frame_Min, &_Com_Huan_Value_,    1);	break;	// 环磁补偿
-									case  2:	Chang_State(UI_Case, Frame_Min, &_Com_Huan_LR_			);	break;	// 入环方向
-									case  3:	Chang_Value(UI_Case, Frame_Min, &_Com_InHuan_Min_,   1);	break;	// 入环最小
-									case  4:	Chang_Value(UI_Case, Frame_Min, &_Com_InHuan_Max_ ,   1);	break;	// 入环最大
-									case  5:	Chang_Value(UI_Case, Frame_Min, &_Com_RunTimeStop_,   1);	break;	// 时间停车
-									case  6:	Chang_Value(UI_Case, Frame_Min, &_Com_RunDisStop_ ,   1);	break;	// 距离停车
+									case  1:	return 41;
+									case  2:	return 42;
+									case  3:	Chang_Value(UI_Case, Frame_Min, &_Com_Huan_Value_,    1);	break;	// 环磁补偿
+									case  4:	Chang_State(UI_Case, Frame_Min, &_Com_Huan_LR_			);	break;	// 入环方向
+									case  5:	Chang_Value(UI_Case, Frame_Min, &_Com_InHuan_Min_,   1);	break;	// 入环最小
+									case  6:	Chang_Value(UI_Case, Frame_Min, &_Com_InHuan_Max_ ,   1);	break;	// 入环最大
+									case  7:	Chang_Value(UI_Case, Frame_Min, &_Com_RunTimeStop_,   1);	break;	// 时间停车
+									case  8:	Chang_Value(UI_Case, Frame_Min, &_Com_RunDisStop_ ,   1);	break;	// 距离停车
 									
-									case  7:	Chang_State(UI_Case, Frame_Min, &_Com_RunProtect_		);	break;	// 保护开关
-									case  8:	Chang_State(UI_Case, Frame_Min, &_Com_Debug_			);	break;	// 调试开关
-									case  9:  	Chang_State(UI_Case, Frame_Min, &_Com_LED_				);	break;	// LED开关
-									case 10:  	Chang_State(UI_Case, Frame_Min, &_Com_Buzzer_			);	break;	// 蜂鸣器开关
-									case 11:  	Chang_State(UI_Case, Frame_Min, &_Com_BT_				);	break;	// 蓝牙开关
+									case  9:	Chang_State(UI_Case, Frame_Min, &_Com_RunProtect_		);	break;	// 保护开关
+									case 10:	Chang_State(UI_Case, Frame_Min, &_Com_Debug_			);	break;	// 调试开关
+									case 11:  	Chang_State(UI_Case, Frame_Min, &_Com_LED_				);	break;	// LED开关
+									case 12:  	Chang_State(UI_Case, Frame_Min, &_Com_Buzzer_			);	break;	// 蜂鸣器开关
+									case 13:  	Chang_State(UI_Case, Frame_Min, &_Com_BT_				);	break;	// 蓝牙开关
 
 									/****************************设置菜单 修改三 ↑****************************/
 
@@ -1171,6 +1177,7 @@ uint8_t UI_MPU6050(void)
     }
 }
 
+/* 查看编码器值 */
 uint8_t UI_Read_End(void)
 {
     uint8_t ch[20] = "";
@@ -1203,6 +1210,173 @@ uint8_t UI_Read_End(void)
 //        Delay_ms(7);
     }
 }
+
+
+
+/*只用于UI_Set()函数*/
+void Adjust_Write_State(uint8_t in_ch[][30])
+{
+    uint8_t Judge_ch[4] = "";
+
+    sprintf((char *)in_ch[0],  " <    电 磁 校 准      ");
+	
+	sprintf((char *)in_ch[1],  "        发 车         ");						// 直道电磁校准
+
+	sprintf((char *)in_ch[2],  "     左电磁平均  %4d", Adjust_L_Ind);	// 环相关
+
+	sprintf((char *)in_ch[3],  "     右电磁平均  %4d", Adjust_R_Ind);	//环磁补偿
+
+}
+
+/* 直道电磁校准 */
+volatile uint8_t Adjust_Flag = 0;
+uint16_t Adjust_L_Ind = 0;
+uint16_t Adjust_R_Ind = 0;
+
+uint8_t UI_Adjust_Ind(void)
+{
+    uint8_t UI_Case = 1;
+    uint8_t Case_Temp = 0;
+	const uint8_t SHOW_NUM = 4;	// 显示数目，菜单数目为SHOW_NUM-1
+	OLED_Clear();
+	
+    uint8_t UI_Menu[SHOW_NUM][30];
+    Adjust_Write_State(UI_Menu);
+	
+    OLED_Show_StrAll(0,  0, UI_Menu[0], Normal);
+    OLED_Show_StrAll(0, 13, UI_Menu[1], Normal);
+    OLED_Show_StrAll(0, 26, UI_Menu[2], Normal);
+    OLED_Show_StrAll(0, 39, UI_Menu[3], Normal);
+//    OLED_Show_StrAll(0, 52, UI_Menu[4], Normal);
+	
+// 	OLED_Show_StrAll(0,  0, " <    电 磁 校 准      ", Normal);
+//	OLED_Show_StrAll(0, 13, "        发 车         ", Normal);
+//	OLED_Show_StrAll(0, 26, "     左电磁平均  %4d", Normal);
+//	OLED_Show_StrAll(0, 39, "     右电磁平均  %4d", Normal);
+
+	for(;;)
+	{
+		Case_Temp = UI_Case;
+		switch (Get_Key())
+		{
+			case Press_Up:   	UI_Case--;
+                                UI_Case = UI_Case<1 ? SHOW_NUM-1:UI_Case;
+                                break;
+
+			case Press_Down: 	UI_Case++;
+                                UI_Case = UI_Case>SHOW_NUM-1 ? 1:UI_Case;
+                                break;
+
+			case Press_Mid:
+								switch(UI_Case)
+								{
+									case 1:		Adjust_Flag = 1;	// 校准标志位
+												
+												Just_Do_It();
+												break;
+
+									// case 2:		return 2;
+									// case 3:		return 3;
+
+									default:	return 0;// 防止出现其他情况
+								}
+
+			case Press_Left:	return 4;
+
+			case Press_Right:	break;
+
+			default:            break;
+		}
+
+		if(Case_Temp != UI_Case)  // 菜单号有改动时，清楚指示
+		{
+			OLED_Show_Char(12, 12, ' ', 12, Normal);
+            OLED_Show_Char(12, 25, ' ', 12, Normal);
+            OLED_Show_Char(12, 38, ' ', 12, Normal);
+            OLED_Show_Char(12, 50, ' ', 12, Normal);
+			Adjust_Write_State(UI_Menu);
+		}
+		switch (UI_Case)  // 判断所处菜单号，显示对应指示
+		{
+            case 1: OLED_Show_Char(12, 12, '@', 12, Normal);  break;
+            case 2: OLED_Show_Char(12, 25, '@', 12, Normal);  break;
+            case 3: OLED_Show_Char(12, 38, '@', 12, Normal);  break;
+            case 4: OLED_Show_Char(12, 50, '@', 12, Normal);  break;
+		}
+		OLED_Refresh_Gram();
+	}
+}
+
+uint8_t UI_Huan_About(void)
+{
+    uint8_t UI_Case = 1;
+    uint8_t Case_Temp = 0;
+	const uint8_t SHOW_NUM = 4;	// 显示数目，菜单数目为SHOW_NUM-1
+	OLED_Clear();
+	
+    uint8_t UI_Menu[SHOW_NUM][30];
+    Adjust_Write_State(UI_Menu);
+	
+    OLED_Show_StrAll(0,  0, UI_Menu[0], Normal);
+    OLED_Show_StrAll(0, 13, UI_Menu[1], Normal);
+    OLED_Show_StrAll(0, 26, UI_Menu[2], Normal);
+    OLED_Show_StrAll(0, 39, UI_Menu[3], Normal);
+
+
+	for(;;)
+	{
+		Case_Temp = UI_Case;
+		switch (Get_Key())
+		{
+			case Press_Up:   	UI_Case--;
+                                UI_Case = UI_Case<1 ? SHOW_NUM-1:UI_Case;
+                                break;
+
+			case Press_Down: 	UI_Case++;
+                                UI_Case = UI_Case>SHOW_NUM-1 ? 1:UI_Case;
+                                break;
+
+			case Press_Mid:
+								switch(UI_Case)
+								{
+									case 1:		Adjust_Flag = 1;	// 校准标志位
+												
+												Just_Do_It();
+												break;
+
+									// case 2:		return 2;
+									// case 3:		return 3;
+
+									default:	return 0;// 防止出现其他情况
+								}
+
+			case Press_Left:	return 4;
+
+			case Press_Right:	break;
+
+			default:            break;
+		}
+
+		if(Case_Temp != UI_Case)  // 菜单号有改动时，清楚指示
+		{
+			OLED_Show_Char(12, 12, ' ', 12, Normal);
+            OLED_Show_Char(12, 25, ' ', 12, Normal);
+            OLED_Show_Char(12, 38, ' ', 12, Normal);
+            OLED_Show_Char(12, 50, ' ', 12, Normal);
+			Adjust_Write_State(UI_Menu);
+		}
+		switch (UI_Case)  // 判断所处菜单号，显示对应指示
+		{
+            case 1: OLED_Show_Char(12, 12, '@', 12, Normal);  break;
+            case 2: OLED_Show_Char(12, 25, '@', 12, Normal);  break;
+            case 3: OLED_Show_Char(12, 38, '@', 12, Normal);  break;
+            case 4: OLED_Show_Char(12, 50, '@', 12, Normal);  break;
+		}
+		OLED_Refresh_Gram();
+	}
+}
+
+
 
 
 

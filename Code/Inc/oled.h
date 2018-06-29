@@ -59,7 +59,7 @@
     #define OLED_DC_Pin      PTF2
 #endif
 
-#define ZH_Num 170
+#define ZH_Num 180
 /**************************************************************/
 
 #define  OLED_X_MAX		128		//定义液晶x轴的像素数
