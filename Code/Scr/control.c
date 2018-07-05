@@ -45,13 +45,13 @@ uint8_t Stop_Flag = 0; // 刹车标志
 
 uint16_t CONTROL_Target_Angle = 0;
 uint16_t CONTROL_Target_Speed = 0;
-uint16_t CONTROL_AnglePID_P	 = 0;
+uint16_t CONTROL_AnglePID_P	  = 0;
 uint16_t CONTROL_AnglePID_D   = 0;
 uint16_t CONTROL_SpeedPID_P   = 0;
 uint16_t CONTROL_SpeedPID_I   = 0;
 uint16_t CONTROL_TurnPID_P    = 0;
 uint16_t CONTROL_TurnPID_D    = 0;
-uint16_t CONTROL_Huan_Add     = 0;
+uint16_t CONTROL_Huan_Add   = 0;
 
 uint32_t temp_time = 0;	// 用于临时计时 进
 //uint32_t out_time = 0;	// 用于临时计时 出

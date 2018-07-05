@@ -1,0 +1,16 @@
+.\obj\outcomp.o: ..\Drivers\outcomp.c
+.\obj\outcomp.o: ..\Drivers\outcomp.h
+.\obj\outcomp.o: ..\Inc\common.h
+.\obj\outcomp.o: ..\Drivers\CMSIS\core_cmFunc.h
+.\obj\outcomp.o: ..\Drivers\CMSIS\SKEAZ1284.h
+.\obj\outcomp.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\obj\outcomp.o: ..\Drivers\CMSIS\core_cm0plus.h
+.\obj\outcomp.o: ..\Drivers\CMSIS\core_cmInstr.h
+.\obj\outcomp.o: ..\Drivers\CMSIS\SKEAZ1284.h
+.\obj\outcomp.o: ..\Drivers\CMSIS\core_cmFunc.h
+.\obj\outcomp.o: ..\Drivers\CMSIS\SKEAZ1284.h
+.\obj\outcomp.o: ..\Drivers\CMSIS\system_SKEAZ1284.h
+.\obj\outcomp.o: ..\Drivers\CMSIS\core_cmInstr.h
+.\obj\outcomp.o: ..\Drivers\CMSIS\SKEAZ1284.h
+.\obj\outcomp.o: ..\Drivers\CMSIS\core_cm0plus.h
+.\obj\outcomp.o: ..\Drivers\CMSIS\SKEAZ1284.h
