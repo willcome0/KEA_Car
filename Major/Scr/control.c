@@ -7,6 +7,7 @@ int32_t Turn_PWM;
 int32_t L_Final_PWM;
 int32_t R_Final_PWM;
 uint16_t Value_Inductor_L = 0;
+uint16_t Value_Inductor_L_last1 = 0;
 uint16_t Value_Inductor_R = 0;
 uint16_t Value_Inductor_R_last1 = 0;
 
@@ -92,9 +93,13 @@ uint16_t CONTROL_Huan7_Data	  = 0;
 uint16_t CONTROL_Huan8_Data	  = 0;
 uint16_t CONTROL_Huan9_Data	  = 0;
 
-uint16_t Now_Huan_Add = 0;
+uint16_t Now_InHuan_Add = 0;
 uint16_t Now_InHuan_Min = 0;
 uint16_t Now_InHuan_Max = 0;
+
+uint16_t Now_OutHuan_Add = 0;
+uint16_t Now_OutHuan_Min = 0;
+uint16_t Now_OutHuan_Max = 0;
 
 uint32_t temp_time = 0;	// 用于临时计时 进
 //uint32_t out_time = 0;	// 用于临时计时 出
@@ -131,6 +136,87 @@ int16_t Ave_End;
 uint8_t May_LR = 0;	// 可能为左/右，0为无，1为左，2为右
 uint32_t May_LR_Dis = 0;	// 可能为左/右时的路程
 uint8_t Sure_LR = 0;	// 确定左右，0为无，1为左，2为右
+
+uint8_t Final_Mode = 0;	// 决赛模式
+
+uint8_t Protect_Flag = 0;
+
+
+void Huan_Get_Data(uint8_t Huan_NoX_Data)
+{
+	if( 0 != Huan_NoX_Data)
+	{
+		// 环大小
+		switch( (Huan_NoX_Data%2==0 ? Huan_NoX_Data-1 : Huan_NoX_Data)/2 )	// 偶数时除2 大1(不明白去看ui.c里的Plan_Judge_State)
+		{
+			case 0:	Now_InHuan_Add = _Huan50_In_Add;	
+					Now_InHuan_Min = _Huan50_In_Min;
+					Now_InHuan_Max = _Huan50_In_Max;
+					
+					Now_OutHuan_Add = _Huan50_Out_Add;	
+					Now_OutHuan_Min = _Huan50_Out_Min;
+					Now_OutHuan_Max = _Huan50_Out_Max;
+					break;
+			case 1:	Now_InHuan_Add = _Huan60_In_Add;	
+					Now_InHuan_Min = _Huan60_In_Min;
+					Now_InHuan_Max = _Huan60_In_Max;
+					
+					Now_OutHuan_Add = _Huan60_Out_Add;	
+					Now_OutHuan_Min = _Huan60_Out_Min;
+					Now_OutHuan_Max = _Huan60_Out_Max;
+					break;
+			case 2:	Now_InHuan_Add = _Huan70_In_Add;	
+					Now_InHuan_Min = _Huan70_In_Min;
+					Now_InHuan_Max = _Huan70_In_Max;
+					
+					Now_OutHuan_Add = _Huan70_Out_Add;	
+					Now_OutHuan_Min = _Huan70_Out_Min;
+					Now_OutHuan_Max = _Huan70_Out_Max;
+					break;
+			case 3:	Now_InHuan_Add = _Huan80_In_Add;	
+					Now_InHuan_Min = _Huan80_In_Min;
+					Now_InHuan_Max = _Huan80_In_Max;
+					
+					Now_OutHuan_Add = _Huan80_Out_Add;	
+					Now_OutHuan_Min = _Huan80_Out_Min;
+					Now_OutHuan_Max = _Huan80_Out_Max;
+					break;
+			case 4:	Now_InHuan_Add = _Huan90_In_Add;	
+					Now_InHuan_Min = _Huan90_In_Min;
+					Now_InHuan_Max = _Huan90_In_Max;
+					
+					Now_OutHuan_Add = _Huan90_Out_Add;	
+					Now_OutHuan_Min = _Huan90_Out_Min;
+					Now_OutHuan_Max = _Huan90_Out_Max;
+					break;
+			case 5:	Now_InHuan_Add = _Huan100_In_Add;	
+					Now_InHuan_Min = _Huan100_In_Min;
+					Now_InHuan_Max = _Huan100_In_Max;
+					
+					Now_OutHuan_Add = _Huan100_Out_Add;	
+					Now_OutHuan_Min = _Huan100_Out_Min;
+					Now_OutHuan_Max = _Huan100_Out_Max;
+					break;
+		}
+	}
+}
+// 判断环的形态（方向、大小）
+void Judge_Huan_Form(void)
+{
+	switch( Huan_No )
+	{
+		case 1: Huan_Get_Data(CONTROL_Huan1_Data);	break;
+		case 2: Huan_Get_Data(CONTROL_Huan2_Data);	break;
+		case 3: Huan_Get_Data(CONTROL_Huan3_Data);	break;
+		case 4: Huan_Get_Data(CONTROL_Huan4_Data);	break;
+		case 5: Huan_Get_Data(CONTROL_Huan5_Data);	break;
+		case 6: Huan_Get_Data(CONTROL_Huan6_Data);	break;
+		case 7: Huan_Get_Data(CONTROL_Huan7_Data);	break;
+		case 8: Huan_Get_Data(CONTROL_Huan8_Data);	break;
+		case 9: Huan_Get_Data(CONTROL_Huan9_Data);	break;
+	}
+}
+
 void PIT_CH0_IRQHandler(void)
 {
 								PIT_CLR_Flag(PIT_CH0);  //清除中断标志位 
@@ -149,7 +235,7 @@ void PIT_CH0_IRQHandler(void)
 
 								Value_End_L = Read_Input_State(Dir_End_L_Port, Dir_End_L_Pin)==0? -ftm_count_get(ftm0) :  ftm_count_get(ftm0); // 获取左编码器
 								Value_End_R = Read_Input_State(Dir_End_R_Port, Dir_End_R_Pin)==0?  ftm_count_get(ftm1) : -ftm_count_get(ftm1); // 获取右编码器
-								 
+								
 //								Ave_End_Last4 = Ave_End_Last3;
 //								Ave_End_Last3 = Ave_End_Last2;
 //								Ave_End_Last2 = Ave_End_Last1;
@@ -195,6 +281,7 @@ void PIT_CH0_IRQHandler(void)
 								ftm_count_clean(ftm1);
 								
 
+								Value_Inductor_L_last1 = Value_Inductor_L;
 								Value_Inductor_R_last1 = Value_Inductor_R;
                                 Value_Inductor_L = kalman1_filter(&AD_Kalman[0], Get_Ind_V(AD_3));	// 获取左电感
 								Value_Inductor_R = kalman1_filter(&AD_Kalman[1], Get_Ind_V(AD_4));	// 获取右电感
@@ -266,12 +353,14 @@ void PIT_CH0_IRQHandler(void)
 		uint8_t index_last2 = (Run_Time-2)%80;	// 可能为最大值
 		uint8_t index_last3 = (Run_Time-3)%80;
 		
-		if( Value_Inductor_BL - Value_Inductor_BR > 450 )		// 环可能在左
+		if( Value_Inductor_BL - Value_Inductor_BR > 450 && 
+			Value_Inductor_L > 600 && Value_Inductor_R > 600 )		// 环可能在左
 		{
 			May_LR = 1;
 			May_LR_Dis = Run_Distance;
 		}
-		else if( Value_Inductor_BR - Value_Inductor_BL > 450 )	// 环可能在右
+		else if( Value_Inductor_BR - Value_Inductor_BL > 450 && 
+			Value_Inductor_L > 600 && Value_Inductor_R > 600 )	// 环可能在右
 		{
 			May_LR = 2;
 			May_LR_Dis = Run_Distance;
@@ -351,13 +440,30 @@ void PIT_CH0_IRQHandler(void)
 //		}
 
 	}
-	Angle_PWM = (float)CONTROL_AnglePID_P*(-Pitch + (float)CONTROL_Target_Angle) + (float)CONTROL_AnglePID_D/100*(Gyro_Y - (Gyro_Z>0?Gyro_Z:-Gyro_Z)*0.25 );   //直立环
+		Variable[0] = Value_Inductor_L;  //左编码器
+		Variable[1] = Value_Inductor_R;  //右编码器
+//		Variable[2] = IndL_rake_Queue[Run_Time%40];  //俯仰角	// 斜率
+		Variable[2] = Value_Inductor_BL;
+		Variable[3] = Value_Inductor_BR;  //左电磁
+	
+	
+	if( CONTROL_InHuan90_Min < Run_Time && Run_Time < CONTROL_InHuan90_Max && _Com_Go_Mode_ == 1)
+	{
+//		int16_t count_t = (CONTROL_InHuan90_Max - CONTROL_InHuan90_Min)/2;
+//		if( CONTROL_InHuan90_Min <= Run_Time && Run_Time <= CONTROL_InHuan90_Min + count_t )
+//			Angle_PWM = (float)CONTROL_AnglePID_P*(-Pitch + CONTROL_Target_Angle - (CONTROL_Target_Angle - CONTROL_Huan90_Add)*(Run_Time-CONTROL_InHuan90_Min)/count_t ) + (float)CONTROL_AnglePID_D/100*(Gyro_Y);   //直立环
+//		else if( CONTROL_InHuan90_Min + count_t < Run_Time && Run_Time < CONTROL_InHuan90_Max )
+//			Angle_PWM = (float)CONTROL_AnglePID_P*(-Pitch + CONTROL_Huan90_Add + (CONTROL_Target_Angle - CONTROL_Huan90_Add)*(Run_Time-CONTROL_InHuan90_Min-count_t)/count_t ) + (float)CONTROL_AnglePID_D/100*(Gyro_Y);
+		Angle_PWM = (float)CONTROL_AnglePID_P*(-Pitch + CONTROL_Huan90_Add) + (float)CONTROL_AnglePID_D/100*(Gyro_Y);
+	}
+	else
+		Angle_PWM = (float)CONTROL_AnglePID_P*(-Pitch + (float)CONTROL_Target_Angle) + (float)CONTROL_AnglePID_D/100*(Gyro_Y - (Gyro_Z>0?Gyro_Z:-Gyro_Z)*0.005 );   //直立环
 //	Angle_PWM = (float)CONTROL_AnglePID_P*(-Pitch + (float)CONTROL_Target_Angle) + (float)CONTROL_AnglePID_D/100*Gyro_Y;   //直立环
 	
 	Eroor_Ind_Old = Error_Ind;
 	Error_Ind = Value_Inductor_R - Value_Inductor_L;
-				
-				
+
+
 									
 									/*重写环*/
 									switch( Huan_Flag )
@@ -392,17 +498,20 @@ void PIT_CH0_IRQHandler(void)
 											
 		if( Value_Inductor_L > _Com_Huan_Value_ && Value_Inductor_R > _Com_Huan_Value_ )
 		{
+			Variable[1] = 10;
 			if( IndL_rake >= 0 && 
 				May_LR == 1 && 
 				Sure_LR == 0 && 
-				Run_Distance - May_LR_Dis > 1200 &&
-				Run_Distance - May_LR_Dis < 2600 )
+				Run_Distance - May_LR_Dis > 1000 &&		// 此处大小环应该不一样	 （原先调50环时是，1200，2600）
+				Run_Distance - May_LR_Dis < 6000 )		// 这里考虑的大环
 			{
 				May_LR = 0;
 				May_LR_Dis = 0;
 				if( (IndL_rake_Last <= 0 || IndL_rake_Last2 <= 0 || IndL_rake_Last3 <= 0) && 
-					Value_Inductor_BL <= 400 && temp_time == 0 )	
+					Value_Inductor_BL <= 400 && temp_time == 0 )	// 环起点触发
 				{
+					Judge_Huan_Form();
+					
 					IndL_rake_start = Run_Time;		// 起点	// 对应电磁值就是最低值
 					IndL_rake_end = 0;
 					
@@ -413,6 +522,8 @@ void PIT_CH0_IRQHandler(void)
 					temp_dis = Run_Distance;
 					Huan_Flag ++;
 					LED_Red_ON();
+					
+					Variable[0] = 10;
 				}
 //				if( Ind_rake_Last > 0 && Ind_rake_start != 0 ) 	// 且已有起点
 //				{
@@ -440,14 +551,16 @@ void PIT_CH0_IRQHandler(void)
 			if( IndR_rake >= 0 &&
 				May_LR == 2 && 
 				Sure_LR == 0 && 
-				Run_Distance - May_LR_Dis > 1200 &&
-				Run_Distance - May_LR_Dis < 2600 )
+				Run_Distance - May_LR_Dis > 1000 &&		// 此处大小环应该不一样	 （原先调50环时是，1200，2600）
+				Run_Distance - May_LR_Dis < 6000 )
 			{
 				May_LR = 0;
 				May_LR_Dis = 0;
 				if( (IndR_rake_Last <= 0 || IndR_rake_Last2 <= 0 || IndR_rake_Last3 <= 0) && 
 					Value_Inductor_BR <= 400 && temp_time == 0 )	
 				{
+					Judge_Huan_Form();
+					
 					IndR_rake_start = Run_Time;		// 起点
 					IndR_rake_end = 0;
 					
@@ -458,6 +571,8 @@ void PIT_CH0_IRQHandler(void)
 					temp_dis = Run_Distance;
 					Huan_Flag ++;
 					LED_Green_ON();
+					
+					Variable[0] = 10;
 				}
 //				if( Ind_rake_Last > 0 && Ind_rake_start != 0 ) 	// 且已有起点
 //				{
@@ -515,7 +630,7 @@ void PIT_CH0_IRQHandler(void)
 											
 											uint8_t time_ = Run_Time-temp_time;
 											uint16_t dis_ = Run_Distance - temp_dis;
-											if( temp_time != 0 && dis_ < CONTROL_InHuan50_Max)
+											if( temp_time != 0 && dis_ < Now_InHuan_Max)		// 大小环需改的
 											{
 //												Turn_PWM = -( 0.00191*time_*time_*time_-0.1395*time_*time_+2.449*time_+Ave_End/2)*CONTROL_TurnPID_D;	// 35
 												if(time_>10)
@@ -523,11 +638,11 @@ void PIT_CH0_IRQHandler(void)
 //												Error_Ind = Value_Inductor_R - Value_Inductor_L*( ((float)Value_Inductor_L/100+(float)Value_Inductor_R/100)*((float)Value_Inductor_L/100+(float)Value_Inductor_R/100)/CONTROL_Huan50_Add )*time_/10;
 												if( 1 == Sure_LR )		// 左入环
 												{
-													Error_Ind = (float)Value_Inductor_R/( (((float)Value_Inductor_L/100+(float)Value_Inductor_R/100)*((float)Value_Inductor_L/100+(float)Value_Inductor_R/100)/CONTROL_Huan50_Add )*time_/10 ) - Value_Inductor_L;
+													Error_Ind = (float)Value_Inductor_R/( (((float)Value_Inductor_L/100+(float)Value_Inductor_R/100)*((float)Value_Inductor_L/100+(float)Value_Inductor_R/100)/Now_InHuan_Add )*time_/10 ) - Value_Inductor_L;
 												}
 												else if( 2 == Sure_LR )	// 右入环
 												{
-													Error_Ind = Value_Inductor_R - (float)Value_Inductor_L/( (((float)Value_Inductor_L/100+(float)Value_Inductor_R/100)*((float)Value_Inductor_L/100+(float)Value_Inductor_R/100)/CONTROL_Huan50_Add )*time_/10 ) ;
+													Error_Ind = Value_Inductor_R - (float)Value_Inductor_L/( (((float)Value_Inductor_L/100+(float)Value_Inductor_R/100)*((float)Value_Inductor_L/100+(float)Value_Inductor_R/100)/Now_InHuan_Add )*time_/10 ) ;
 												}
 //												Turn_PWM = (LR_Error)*CONTROL_TurnPID_P + Error_D*CONTROL_TurnPID_D;	
 												Beep_Time(5);
@@ -537,6 +652,9 @@ void PIT_CH0_IRQHandler(void)
 												Huan_Flag ++;
 												temp_time = Run_Time;
 												temp_dis = Run_Distance;
+												
+												LED_Red_OFF();
+												LED_Green_OFF();
 											}
 											break;
 										}
@@ -578,35 +696,61 @@ void PIT_CH0_IRQHandler(void)
 //												LED_Blue_OFF();
 //												
 //											}
-											if( 
-//												Run_Distance - temp_dis > 8000 && 
-												(Sure_LR == 2 &&
-												IndL_rake > 110 && 		// 右入环判断
-												IndL_rake_Last > 110 &&
-												IndL_rake_Last2 > 110 &&
-												IndL_rake_Last3 > 110 &&
-												Value_Inductor_BL > 650) || 
-												(Sure_LR == 1 &&
-												IndR_rake > 110 &&  		// 左入环判断
-												IndR_rake_Last > 110 &&
-												IndR_rake_Last2 > 110 &&
-												IndR_rake_Last3 > 110 &&
-												Value_Inductor_BR > 650)
+
+
+//											if( 
+////												Run_Distance - temp_dis > 8000 && 
+//												(Sure_LR == 2 &&
+//												IndL_rake > 110 && 		// 右入环判断
+//												IndL_rake_Last > 110 &&
+//												IndL_rake_Last2 > 110 &&
+//												IndL_rake_Last3 > 110 &&
+//												Value_Inductor_BL > 650) || 
+//												(Sure_LR == 1 &&
+//												IndR_rake > 110 &&  		// 左入环判断
+//												IndR_rake_Last > 110 &&
+//												IndR_rake_Last2 > 110 &&
+//												IndR_rake_Last3 > 110 &&
+//												Value_Inductor_BR > 650)
+//											)
+											if(	
+											   (Sure_LR == 1 &&
+												IndR_rake <= 0 && 		// 左入环
+												IndR_rake_Last > 0 && 
+												IndR_rake_Last2 > 0 &&
+												IndR_rake_Last3 > 0 &&
+												Value_Inductor_L > _Com_Huan_Value_-100 && 		// 出环触发判断（越大越不容易触发）
+												Value_Inductor_BL > _Com_Huan_Value_-100  && 
+												Value_Inductor_BR > _Com_Huan_Value_-100  ) || 
+												(Sure_LR == 2 &&		
+												IndL_rake <= 0 && 		// 右入环
+												IndL_rake_Last > 0 && 
+												IndL_rake_Last2 > 0 &&
+												IndL_rake_Last3 > 0 &&
+												Value_Inductor_R > _Com_Huan_Value_-100  && 
+												Value_Inductor_BL > _Com_Huan_Value_-100  && 
+												Value_Inductor_BR > _Com_Huan_Value_-100  )
 											)
 											{
 												Huan_Flag ++;
 												temp_time = Run_Time-1;
 												temp_dis = Run_Distance;
-												LED_Blue_OFF();
+												
+												LED_Red_OFF();
 												LED_Green_OFF();
-												LED_Purple_ON();
+												
+												LED_Blue_ON();
+												
+												Variable[2] = 200;
+												
+//												Stop_Flag = 1;
 											}
 											break;
 										}
 										
 										case 3:		// 出环标志
 										{
-//											if( 
+//											if(
 ////												Run_Time - temp_time > 50			&&	// 已入环一定时间
 ////												Run_Distance - temp_dis > 4000		&&	// 已入环一定距离
 //												Value_Inductor_L > _Com_Huan_Value_	 &&
@@ -727,25 +871,31 @@ void PIT_CH0_IRQHandler(void)
 
 //											if( Error_Ind < -200 )
 //												Error_Ind = Error_Ind - (Error_Ind - Eroor_Ind_Old)/2;
-											if( Run_Distance - temp_dis > CONTROL_InHuan60_Min && 
-												Run_Distance - temp_dis < CONTROL_InHuan60_Max )
+											if( Run_Distance - temp_dis > Now_OutHuan_Min && 
+												Run_Distance - temp_dis < Now_OutHuan_Max )
 											{
+												Variable[2] = 500;
 												if( 1 == Sure_LR )
-													Error_Ind = _Com_HuanOut_L_Add_;
+													Error_Ind = IndR_rake*10/Now_OutHuan_Add;
+//													Error_Ind = -Error_Ind;
 												else if( 2 == Sure_LR )
-													Error_Ind = -_Com_HuanOut_R_Add_ ;
+													Error_Ind = -IndL_rake*10/Now_OutHuan_Add;
+//													 Error_Ind = -Error_Ind;
+
 											}
-											else if( Run_Distance - temp_dis > CONTROL_InHuan60_Max)
+											else if( Run_Distance - temp_dis > Now_OutHuan_Max)
 											{
 												Huan_Flag++;
 												temp_time = Run_Time;
 												temp_dis = Run_Distance;
+												LED_Blue_OFF();
+												LED_Red_ON();
 											}
 											break;
 										}
 										case 4:		// 完全出环，清标志位
 										{
-											if( Run_Distance - temp_dis > 8000 )
+											if( Run_Distance - temp_dis > 3000 )
 											{
 												Huan_Flag = 0;
 												temp_time = 0;
@@ -754,7 +904,9 @@ void PIT_CH0_IRQHandler(void)
 												Sure_LR = 0;
 												
 												Huan_No ++;
-												LED_Blue_OFF();
+
+												if( Huan_No > _Com_Huan_Num_ )
+													Huan_No = 1;
 												LED_Red_OFF();
 												
 												Beep_Time(200);
@@ -778,13 +930,86 @@ void PIT_CH0_IRQHandler(void)
 	float Error_D = Error_Ind - Eroor_Ind_Old;
 	Turn_PWM = (LR_Error)*CONTROL_TurnPID_P + Error_D*CONTROL_TurnPID_D;
 									
+
 								L_Final_PWM = Angle_PWM + Speed_PWM - Turn_PWM;
 								R_Final_PWM = Angle_PWM + Speed_PWM + Turn_PWM;
 
-								
-									
-									
-     
+	
+//	if( _Com_Go_Mode_ == 2 && 	// 决赛发车
+//		Final_Mode == 0 &&
+//		Run_Time != 0 &&
+//		Value_Inductor_L < 10 && Value_Inductor_R < 10 && 
+//		Value_Inductor_BL < 10 && Value_Inductor_BR < 10 )	
+//	{
+//		Final_Mode = 1;
+//		LED_Green_ON();
+//		L_Final_PWM = 0;
+//		R_Final_PWM = 0;
+//	}
+//	else if( _Com_Go_Mode_ == 2 && 
+//			 Final_Mode == 1 && 
+//			 (Value_Inductor_L > 400 || Value_Inductor_R > 400 || Value_Inductor_BL > 400 || Value_Inductor_BR > 400) )
+//	{
+//		Final_Mode = 2;
+//	}		
+	
+	// 决赛模式
+     switch(Final_Mode)
+	 {
+		 static uint16_t time_1 = 0;
+		 case 0:
+			if( _Com_Go_Mode_ == 2 && 	// 触发等待 发车信号
+				Run_Time != 0 &&
+				Value_Inductor_L < 10 && Value_Inductor_R < 10 && 
+				Value_Inductor_BL < 10 && Value_Inductor_BR < 10 )
+			{
+				Final_Mode++;
+				LED_Green_ON();
+
+			}
+			break;
+		 case 1:
+			 if(_Com_Go_Mode_ == 2 &&	// 等待发车信号
+				Value_Inductor_L < 50 && Value_Inductor_R < 50 && Value_Inductor_BL < 50 && Value_Inductor_BR< 50 )
+			 {
+				L_Final_PWM = 0;
+				R_Final_PWM = 0; 
+			 }
+			 else if( Value_Inductor_L > 500 || Value_Inductor_R > 500 || Value_Inductor_BL > 500 || Value_Inductor_BR > 500 )
+			 {
+				 LED_Green_OFF();
+				 time_1 = Run_Time;
+				 Final_Mode++;
+			 }
+			 break;
+		 case 2:						// 正常运行中，等待停车信号
+			if(	Value_Inductor_L == 0 && Value_Inductor_R == 0 && Value_Inductor_BL <= 5 && Value_Inductor_BR <= 5 && time_1 != 0 && Run_Time - time_1 > 500 && 
+				Ind_Queue[0][(Run_Time-1)%80] == 0 && Ind_Queue[0][(Run_Time-2)%80] == 0 && Ind_Queue[0][(Run_Time-3)%80] == 0 && 
+				Ind_Queue[1][(Run_Time-1)%80] == 0 && Ind_Queue[1][(Run_Time-2)%80] == 0 && Ind_Queue[1][(Run_Time-3)%80] == 0)
+			{
+				Final_Mode++;
+				LED_Red_ON();
+				Beep_Time(300);
+				Stop_Flag = 1;
+				time_1 = Run_Time;
+//						Motor_L_EN(Disable);
+//						Motor_R_EN(Disable);
+//				Protect_Flag = 1;
+			}
+			break;
+		 case 3:
+			if( Run_Time - time_1 > 200 )
+			{
+				Motor_L_EN(Disable);
+				Motor_R_EN(Disable);
+				Final_Mode = 0;
+				LED_Red_OFF();
+			}
+			
+			break;
+//		 case 3:
+//			break;
+	 }
 //											if( Huan_Flag == 3 )
 //											{
 //												L_Final_PWM = -(Value_End_L+Value_End_R)*100;
@@ -798,7 +1023,7 @@ void PIT_CH0_IRQHandler(void)
 								
 							if(Stop_Flag == 1)		// 刹车
 							{
-								L_Final_PWM = -(Value_End_L+Value_End_R)*100;
+								L_Final_PWM = -(Value_End_L+Value_End_R)*60;
 								R_Final_PWM = L_Final_PWM;
 							}
 
@@ -861,19 +1086,18 @@ void PIT_CH0_IRQHandler(void)
 								
 	if( Bt_Send && _Com_BT_ && Stop_Flag == 0 )
 	{
-		Variable[0] = Value_Inductor_L;  //左编码器
-		Variable[1] = Value_Inductor_R;  //右编码器
-//		Variable[2] = IndL_rake_Queue[Run_Time%40];  //俯仰角	// 斜率
-		Variable[2] = Value_Inductor_BL;
-		Variable[3] = Value_Inductor_BR;  //左电磁
+
 //		if(Ind_rake_start != 0)
 //			Variable[4] = Ind_rake_Queue[Ind_rake_Max%40];	//角度	// 最大值
 //		else
 //			Variable[4] = LR_Error;
-//		Variable[4] = (float)((float)Value_Inductor_L-Ind_Queue[0][(Run_Time-1)%80])*200/Ave_End;	// 转速
-//		Variable[5] = (float)((float)Value_Inductor_R-Ind_Queue[1][(Run_Time-1)%80])*200/Ave_End;
-		Variable[4] = IndL_rake;
-		Variable[5] = IndR_rake;
+
+		Variable[3] = Error_Ind;
+//		Variable[4] = IndL_rake;	// BL斜率			-400,400
+//		Variable[5] = IndR_rake;	// BR斜率			-400,400
+//		Variable[4] = Error_Ind;	// 偏差				-2000,2000
+		Variable[4] = Pitch;	// 电感偏差（L-R）		-10,40
+		Variable[5] = Huan_No;		// 速度				-30,120
 		Send_Begin();
 		Send_Variable();
 	}
@@ -956,7 +1180,7 @@ uint8_t Just_Do_It(void)
 	}
 		
 
-	
+	Protect_Flag = 0;
     while(1)
     {
 
@@ -968,10 +1192,16 @@ uint8_t Just_Do_It(void)
 #if 1
 		if(1 == _Com_RunProtect_)
 		{
-			if( (Value_End_L>300)||(Value_End_L<-300)			// 转速保护
-//				||Pitch<-40										// 角度保护
-				||Value_Inductor_L<200||Value_Inductor_R<200	// 电感值保护
-				
+			if( (
+				(Ave_End>250) || 
+				(Value_End_L<-80) || (Value_End_R<-80) ||
+				(Value_Inductor_L==0 && Value_Inductor_R==0 &&
+				Value_Inductor_BL<20 && Value_Inductor_BR<20 &&
+				Ind_Queue[0][(Run_Time-1)%80] == 0 && Ind_Queue[0][(Run_Time-2)%80] == 0 && Ind_Queue[0][(Run_Time-3)%80] == 0 && 
+				Ind_Queue[1][(Run_Time-1)%80] == 0 && Ind_Queue[1][(Run_Time-2)%80] == 0 && Ind_Queue[1][(Run_Time-3)%80] == 0)
+				) &&
+				Run_Time > 400 &&
+				_Com_Go_Mode_ != 2
 			  )
 				Protect_Flag = 1;
 		}
@@ -998,7 +1228,7 @@ uint8_t Just_Do_It(void)
 
 						/****关电机****/
 						Run_Time_Flag = 0;
-
+						Final_Mode = 0;
 						
 						Bt_Send = 0;
 						/**************/

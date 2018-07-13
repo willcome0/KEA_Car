@@ -143,11 +143,11 @@ uint8_t UI_Go(void)
 		
 		uint8_t str[30];
 
-//		sprintf((char *)str, "s%-.2f", (float)Run_Distance/DIS_RATIO);
-		sprintf((char *)str, "s%-.2f", (float)Run_Distance);
+		sprintf((char *)str, "s%-.2f", (float)Run_Distance/DIS_RATIO);
+//		sprintf((char *)str, "s%-.2f", (float)Run_Distance);
 		OLED_Show_Str(0, 27, str, 12, 1);
-//		sprintf((char *)str, "t%-.2f", (float)Run_Time*PERIOD);
-		sprintf((char *)str, "t%-.2f", (float)Run_Time);
+		sprintf((char *)str, "t%-.2f", (float)Run_Time*PERIOD);
+//		sprintf((char *)str, "t%-.2f", (float)Run_Time);
 		OLED_Show_Str(0, 40, str, 12, 1);
 		sprintf((char *)str, "v%-.2f", (float)Run_Distance/DIS_RATIO/((float)Run_Time*PERIOD));
 		OLED_Show_Str(0, 53, str, 12, 1);
@@ -1181,10 +1181,9 @@ void Write_State(uint8_t in_ch[][30])
 
     sprintf((char *)in_ch[0],  "  <     设  置       ");
 	
-	sprintf((char *)in_ch[1],  "   1.  环磁阈值  %4d", _Com_Huan_Value_);	//环磁补偿
+	sprintf((char *)in_ch[1],  "   1.  环磁阈值  %4d  ", _Com_Huan_Value_);		//环磁补偿
 
-	Judge_State(Judge_ch, _Com_Huan_LR_);
-    sprintf((char *)in_ch[2],  "   2.  Huan_LR     %s", Judge_ch);			//入环方向（套路）
+    sprintf((char *)in_ch[2],  "   2.  环 数 量  %4d  ", _Com_Huan_Num_);		//环的数量
 
 	sprintf((char *)in_ch[3],  "   3.  入环最小  %4d  ", _Com_InHuan_Min_);
 	
@@ -1325,8 +1324,8 @@ uint8_t UI_Set(void)
 								switch(UI_Case)
 								{
 									case  1:	Chang_Value(UI_Case, Frame_Min, &_Com_Huan_Value_,    1);	break;	// 环磁补偿
-									case  2:	Chang_State(UI_Case, Frame_Min, &_Com_Huan_LR_			);	break;	// 入环方向
-									case  3:	Chang_Value(UI_Case, Frame_Min, &_Com_InHuan_Min_,   1);	break;	// 入环最小
+									case  2:	Chang_Value(UI_Case, Frame_Min, &_Com_Huan_Num_ , 	  1);	break;	// 入环方向
+									case  3:	Chang_Value(UI_Case, Frame_Min, &_Com_InHuan_Min_,    1);	break;	// 入环最小
 									case  4:	Chang_Value(UI_Case, Frame_Min, &_Com_InHuan_Max_ ,   1);	break;	// 入环最大
 									case  5:	Chang_Value(UI_Case, Frame_Min, &_Com_RunTimeStop_,   1);	break;	// 时间停车
 									case  6:	Chang_Value(UI_Case, Frame_Min, &_Com_RunDisStop_ ,   1);	break;	// 距离停车

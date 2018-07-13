@@ -102,6 +102,56 @@ struct CON
 #define _INDEX_InHuan100_Min_	36
 #define _INDEX_InHuan100_Max_	37
 
+// 入环相关，在方案四里
+#define _Huan50_In_Add			ALL_DATA[140]	// 120+20
+#define _Huan50_In_Min			ALL_DATA[141]
+#define _Huan50_In_Max			ALL_DATA[142]
+
+#define _Huan60_In_Add			ALL_DATA[143]
+#define _Huan60_In_Min			ALL_DATA[144]
+#define _Huan60_In_Max			ALL_DATA[145]
+
+#define _Huan70_In_Add			ALL_DATA[146]
+#define _Huan70_In_Min			ALL_DATA[147]
+#define _Huan70_In_Max			ALL_DATA[148]
+
+#define _Huan80_In_Add			ALL_DATA[149]
+#define _Huan80_In_Min			ALL_DATA[150]
+#define _Huan80_In_Max			ALL_DATA[151]
+
+#define _Huan90_In_Add			ALL_DATA[152]
+#define _Huan90_In_Min			ALL_DATA[153]
+#define _Huan90_In_Max			ALL_DATA[154]
+
+#define _Huan100_In_Add			ALL_DATA[155]
+#define _Huan100_In_Min			ALL_DATA[156]
+#define _Huan100_In_Max			ALL_DATA[157]
+
+// 出环相关，在方案五里
+#define _Huan50_Out_Add			ALL_DATA[180]	// 160+20
+#define _Huan50_Out_Min			ALL_DATA[181]
+#define _Huan50_Out_Max			ALL_DATA[182]
+
+#define _Huan60_Out_Add			ALL_DATA[183]
+#define _Huan60_Out_Min			ALL_DATA[184]
+#define _Huan60_Out_Max			ALL_DATA[185]
+
+#define _Huan70_Out_Add			ALL_DATA[186]
+#define _Huan70_Out_Min			ALL_DATA[187]
+#define _Huan70_Out_Max			ALL_DATA[188]
+
+#define _Huan80_Out_Add			ALL_DATA[189]
+#define _Huan80_Out_Min			ALL_DATA[190]
+#define _Huan80_Out_Max			ALL_DATA[191]
+
+#define _Huan90_Out_Add			ALL_DATA[192]
+#define _Huan90_Out_Min			ALL_DATA[193]
+#define _Huan90_Out_Max			ALL_DATA[194]
+
+#define _Huan100_Out_Add		ALL_DATA[195]
+#define _Huan100_Out_Min		ALL_DATA[196]
+#define _Huan100_Out_Max		ALL_DATA[197]
+
 /******************* 方案菜单 修改一 ↑******************/
 
 #define _P1_Target_Angle_		ALL_DATA[0]
@@ -134,6 +184,7 @@ struct CON
 #define _Com_HuanOut_R_Add_     ALL_DATA[216]	// 右出环补偿
 #define _Com_HuanOut_AddDis_    ALL_DATA[217]	// 出环补偿路程
 #define _Com_Go_Mode_    		ALL_DATA[218]	// 发车模式（普通、预赛、决赛）
+#define _Com_Huan_Num_    		ALL_DATA[219]
 /******************* 设置菜单 修改一 ↑******************/
 
 //将flash中得数据缓存到数组里
