@@ -224,9 +224,9 @@ int main(void)
 
         switch(GO)
         {
-            case  0:   GO = UI_Main();      break;
+            case  0:   GO = UI_Main();     break;
             case  1:   GO = UI_Go();        break;
-            case  2:   GO = UI_Plan();      break;
+            case  2:   GO = UI_Plan();       break;
             case  3:   GO = UI_Driver();    break;
             case  4:   GO = UI_Set();       break;
 			case  5:   GO = UI_Check();		break;

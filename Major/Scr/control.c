@@ -141,7 +141,8 @@ uint8_t Final_Mode = 0;	// 决赛模式
 
 uint8_t Protect_Flag = 0;
 
-
+uint32_t Huan_temp = 0;
+uint32_t Huan_Dis = 0;	// 计算环的周长，用于判断环的大小
 void Huan_Get_Data(uint8_t Huan_NoX_Data)
 {
 	if( 0 != Huan_NoX_Data)
@@ -349,17 +350,17 @@ void PIT_CH0_IRQHandler(void)
 		Ind_Queue[2][Run_Time%80] = Value_Inductor_BL;
 		Ind_Queue[3][Run_Time%80] = Value_Inductor_BR;
 		
-		uint8_t index_last1 = (Run_Time-1)%80;
-		uint8_t index_last2 = (Run_Time-2)%80;	// 可能为最大值
-		uint8_t index_last3 = (Run_Time-3)%80;
+//		uint8_t index_last1 = (Run_Time-1)%80;
+//		uint8_t index_last2 = (Run_Time-2)%80;	// 可能为最大值
+//		uint8_t index_last3 = (Run_Time-3)%80;
 		
-		if( Value_Inductor_BL - Value_Inductor_BR > 450 && 
+		if     ( Value_Inductor_BL - Value_Inductor_BR > _Com_HuanLR_Judge_ && 
 			Value_Inductor_L > 600 && Value_Inductor_R > 600 )		// 环可能在左
 		{
 			May_LR = 1;
 			May_LR_Dis = Run_Distance;
 		}
-		else if( Value_Inductor_BR - Value_Inductor_BL > 450 && 
+		else if( Value_Inductor_BR - Value_Inductor_BL > _Com_HuanLR_Judge_ && 
 			Value_Inductor_L > 600 && Value_Inductor_R > 600 )	// 环可能在右
 		{
 			May_LR = 2;
@@ -447,14 +448,15 @@ void PIT_CH0_IRQHandler(void)
 		Variable[3] = Value_Inductor_BR;  //左电磁
 	
 	
-	if( CONTROL_InHuan90_Min < Run_Time && Run_Time < CONTROL_InHuan90_Max && _Com_Go_Mode_ == 1)
+	if( Run_Distance < _Com_Acc_Dis_*56.2 && _Com_Go_Mode_ != 0)
 	{
 //		int16_t count_t = (CONTROL_InHuan90_Max - CONTROL_InHuan90_Min)/2;
 //		if( CONTROL_InHuan90_Min <= Run_Time && Run_Time <= CONTROL_InHuan90_Min + count_t )
 //			Angle_PWM = (float)CONTROL_AnglePID_P*(-Pitch + CONTROL_Target_Angle - (CONTROL_Target_Angle - CONTROL_Huan90_Add)*(Run_Time-CONTROL_InHuan90_Min)/count_t ) + (float)CONTROL_AnglePID_D/100*(Gyro_Y);   //直立环
 //		else if( CONTROL_InHuan90_Min + count_t < Run_Time && Run_Time < CONTROL_InHuan90_Max )
 //			Angle_PWM = (float)CONTROL_AnglePID_P*(-Pitch + CONTROL_Huan90_Add + (CONTROL_Target_Angle - CONTROL_Huan90_Add)*(Run_Time-CONTROL_InHuan90_Min-count_t)/count_t ) + (float)CONTROL_AnglePID_D/100*(Gyro_Y);
-		Angle_PWM = (float)CONTROL_AnglePID_P*(-Pitch + CONTROL_Huan90_Add) + (float)CONTROL_AnglePID_D/100*(Gyro_Y);
+		Angle_PWM = (float)CONTROL_AnglePID_P*(-Pitch + _Com_Acc_Angle_) + (float)CONTROL_AnglePID_D/100*(Gyro_Y);
+		
 	}
 	else
 		Angle_PWM = (float)CONTROL_AnglePID_P*(-Pitch + (float)CONTROL_Target_Angle) + (float)CONTROL_AnglePID_D/100*(Gyro_Y - (Gyro_Z>0?Gyro_Z:-Gyro_Z)*0.005 );   //直立环
@@ -508,7 +510,7 @@ void PIT_CH0_IRQHandler(void)
 				May_LR = 0;
 				May_LR_Dis = 0;
 				if( (IndL_rake_Last <= 0 || IndL_rake_Last2 <= 0 || IndL_rake_Last3 <= 0) && 
-					Value_Inductor_BL <= 400 && temp_time == 0 )	// 环起点触发
+					Value_Inductor_BL <= _Com_HuanBegin_B_ && temp_time == 0 && Huan_temp == 0 )	// 环起点触发	/*这里可能要改*/
 				{
 					Judge_Huan_Form();
 					
@@ -522,6 +524,8 @@ void PIT_CH0_IRQHandler(void)
 					temp_dis = Run_Distance;
 					Huan_Flag ++;
 					LED_Red_ON();
+					
+					Huan_temp = Run_Distance;
 					
 					Variable[0] = 10;
 				}
@@ -557,7 +561,7 @@ void PIT_CH0_IRQHandler(void)
 				May_LR = 0;
 				May_LR_Dis = 0;
 				if( (IndR_rake_Last <= 0 || IndR_rake_Last2 <= 0 || IndR_rake_Last3 <= 0) && 
-					Value_Inductor_BR <= 400 && temp_time == 0 )	
+					Value_Inductor_BR <= _Com_HuanBegin_B_ && temp_time == 0 && Huan_temp == 0 )	
 				{
 					Judge_Huan_Form();
 					
@@ -571,6 +575,8 @@ void PIT_CH0_IRQHandler(void)
 					temp_dis = Run_Distance;
 					Huan_Flag ++;
 					LED_Green_ON();
+					
+					Huan_temp = Run_Distance;
 					
 					Variable[0] = 10;
 				}
@@ -719,17 +725,17 @@ void PIT_CH0_IRQHandler(void)
 												IndR_rake_Last > 0 && 
 												IndR_rake_Last2 > 0 &&
 												IndR_rake_Last3 > 0 &&
-												Value_Inductor_L > _Com_Huan_Value_-100 && 		// 出环触发判断（越大越不容易触发）
-												Value_Inductor_BL > _Com_Huan_Value_-100  && 
-												Value_Inductor_BR > _Com_Huan_Value_-100  ) || 
+												Value_Inductor_L  > _Com_HuanOut_A_  && 		// 出环触发判断（越大越不容易触发）
+												Value_Inductor_BL > _Com_HuanOut_BL_ && 
+												Value_Inductor_BR > _Com_HuanOut_BR_  ) || 
 												(Sure_LR == 2 &&		
 												IndL_rake <= 0 && 		// 右入环
 												IndL_rake_Last > 0 && 
 												IndL_rake_Last2 > 0 &&
 												IndL_rake_Last3 > 0 &&
-												Value_Inductor_R > _Com_Huan_Value_-100  && 
-												Value_Inductor_BL > _Com_Huan_Value_-100  && 
-												Value_Inductor_BR > _Com_Huan_Value_-100  )
+												Value_Inductor_R  > _Com_HuanOut_A_  && 
+												Value_Inductor_BL > _Com_HuanOut_BL_  && 
+												Value_Inductor_BR > _Com_HuanOut_BR_  )
 											)
 											{
 												Huan_Flag ++;
@@ -741,9 +747,51 @@ void PIT_CH0_IRQHandler(void)
 												
 												LED_Blue_ON();
 												
-												Variable[2] = 200;
+												// 计算环的周长（从入环到出环的距离）
+												Huan_Dis = Run_Distance - Huan_temp;
+												Huan_temp = 0;
+
 												
-//												Stop_Flag = 1;
+//												if( 10000 < Huan_Dis && Huan_Dis <= 17514 )	// 50环
+//												{
+//													Now_OutHuan_Add = _Huan50_Out_Add;	
+//													Now_OutHuan_Min = _Huan50_Out_Min;
+//													Now_OutHuan_Max = _Huan50_Out_Max;
+//												}
+//												else if( Huan_Dis <= 21189 )	// 60环
+//												{
+//													Now_OutHuan_Add = _Huan60_Out_Add;	
+//													Now_OutHuan_Min = _Huan60_Out_Min;
+//													Now_OutHuan_Max = _Huan60_Out_Max;
+//												}
+//												else if( Huan_Dis <= 24865 )	// 70环
+//												{
+//													Now_OutHuan_Add = _Huan70_Out_Add;	
+//													Now_OutHuan_Min = _Huan70_Out_Min;
+//													Now_OutHuan_Max = _Huan70_Out_Max;
+//												}
+//												else if( Huan_Dis <= 28528 )	// 80环
+//												{
+//													Now_OutHuan_Add = _Huan80_Out_Add;	
+//													Now_OutHuan_Min = _Huan80_Out_Min;
+//													Now_OutHuan_Max = _Huan80_Out_Max;
+//												}
+//												else if( Huan_Dis <= 32176 )	// 90环
+//												{
+//													Now_OutHuan_Add = _Huan90_Out_Add;	
+//													Now_OutHuan_Min = _Huan90_Out_Min;
+//													Now_OutHuan_Max = _Huan90_Out_Max;
+//												}
+//												else if( Huan_Dis >= 32176 )	// 100环
+//												{
+//													Now_OutHuan_Add = _Huan100_Out_Add;	
+//													Now_OutHuan_Min = _Huan100_Out_Min;
+//													Now_OutHuan_Max = _Huan100_Out_Max;
+//												}
+												Huan_Dis = 0;	// 清标志位
+												
+												Variable[2] = 200;
+
 											}
 											break;
 										}
@@ -875,13 +923,14 @@ void PIT_CH0_IRQHandler(void)
 												Run_Distance - temp_dis < Now_OutHuan_Max )
 											{
 												Variable[2] = 500;
+												
+
 												if( 1 == Sure_LR )
 													Error_Ind = IndR_rake*10/Now_OutHuan_Add;
 //													Error_Ind = -Error_Ind;
 												else if( 2 == Sure_LR )
 													Error_Ind = -IndL_rake*10/Now_OutHuan_Add;
 //													 Error_Ind = -Error_Ind;
-
 											}
 											else if( Run_Distance - temp_dis > Now_OutHuan_Max)
 											{
@@ -921,7 +970,26 @@ void PIT_CH0_IRQHandler(void)
 //								Turn_PWM = LR_Error*CONTROL_TurnPID_P + GYRO.X/10*CONTROL_TurnPID_D;
 //								Turn_PWM = (LR_Error*0.4+LR1_Error*0.3+LR2_Error*0.2+LR3_Error*0.1)*CONTROL_TurnPID_P + (Error_Ind - Eroor_Ind_Old)*CONTROL_TurnPID_D;
 									
-
+	if( Run_Distance - Huan_temp > 40000 && Huan_temp != 0)	//大于最大环的距离，清标志位
+	{
+		Huan_Flag = 0;
+		temp_time = 0;
+		temp_dis = 0;
+		
+		Sure_LR = 0;
+												
+		Huan_No ++;
+		
+		if( Huan_No > _Com_Huan_Num_ )
+			Huan_No = 1;
+		LED_Red_OFF();
+		
+		Beep_Time(200);
+		
+		Huan_temp = 0;
+		Huan_Dis = 0;
+	}
+									
 	LR3_Error = LR2_Error;
 	LR2_Error = LR1_Error;
 	LR1_Error = LR_Error;
@@ -975,7 +1043,8 @@ void PIT_CH0_IRQHandler(void)
 				L_Final_PWM = 0;
 				R_Final_PWM = 0; 
 			 }
-			 else if( Value_Inductor_L > 500 || Value_Inductor_R > 500 || Value_Inductor_BL > 500 || Value_Inductor_BR > 500 )
+			 else if( Value_Inductor_L > _Com_FinalMode_End_ || Value_Inductor_R > _Com_FinalMode_End_ || 
+					Value_Inductor_BL > _Com_FinalMode_End_ || Value_Inductor_BR > _Com_FinalMode_End_ )
 			 {
 				 LED_Green_OFF();
 				 time_1 = Run_Time;
@@ -998,7 +1067,7 @@ void PIT_CH0_IRQHandler(void)
 			}
 			break;
 		 case 3:
-			if( Run_Time - time_1 > 200 )
+			if( Run_Time - time_1 > 100 )
 			{
 				Motor_L_EN(Disable);
 				Motor_R_EN(Disable);
@@ -1017,8 +1086,9 @@ void PIT_CH0_IRQHandler(void)
 //											}
 							if( 0 == Read_Input_State(Reed2_Port, Reed2_Pin) )
 							{
-								Stop_Flag = 1;
 								Beep_Time(300);
+								if( (float)_Com_Gan_Begin_/100 < Run_Distance/DIS_RATIO )	// 干簧管距离停车
+									Stop_Flag = 1;
 							}		
 								
 							if(Stop_Flag == 1)		// 刹车
@@ -1085,6 +1155,7 @@ void PIT_CH0_IRQHandler(void)
 
 								
 	if( Bt_Send && _Com_BT_ && Stop_Flag == 0 )
+//	if( Bt_Send && _Com_BT_ )							
 	{
 
 //		if(Ind_rake_start != 0)
@@ -1092,14 +1163,17 @@ void PIT_CH0_IRQHandler(void)
 //		else
 //			Variable[4] = LR_Error;
 
-		Variable[3] = Error_Ind;
-//		Variable[4] = IndL_rake;	// BL斜率			-400,400
-//		Variable[5] = IndR_rake;	// BR斜率			-400,400
-//		Variable[4] = Error_Ind;	// 偏差				-2000,2000
-		Variable[4] = Pitch;	// 电感偏差（L-R）		-10,40
-		Variable[5] = Huan_No;		// 速度				-30,120
+//		Variable[3] = Error_Ind;
+		Variable[4] = IndL_rake;	// BL斜率			-400,400
+		Variable[5] = IndR_rake;	// BR斜率			-400,400
+//		Variable[5] = Error_Ind;	// 偏差				-2000,2000
+//		Variable[4] = Pitch;	// 电感偏差（L-R）		-10,40
+//		Variable[5] = Ave_End;		// 速度				-30,120
+//		Variable[5] = Huan_Dis;		// 环的周长			//
 		Send_Begin();
 		Send_Variable();
+		
+		
 	}
 	
     /*中断内容--结束*/
@@ -1132,51 +1206,51 @@ uint8_t Just_Do_It(void)
 	Bt_Send = 1;
 	
 	{
-	uint16_t Index_Plan_Offset_1 = (_Com_Plan_-1)*40;
-	
-	CONTROL_Target_Angle = ALL_DATA[Index_Plan_Offset_1 + _INDEX_Target_Angle_	];
-	CONTROL_Target_Speed = ALL_DATA[Index_Plan_Offset_1 + _INDEX_Target_Speed_	];
-	CONTROL_AnglePID_P 	 = ALL_DATA[Index_Plan_Offset_1 + _INDEX_AnglePID_P_	];
-	CONTROL_AnglePID_D 	 = ALL_DATA[Index_Plan_Offset_1 + _INDEX_AnglePID_D_	];
-	CONTROL_SpeedPID_P 	 = ALL_DATA[Index_Plan_Offset_1 + _INDEX_SpeedPID_P_	];
-	CONTROL_SpeedPID_I   = ALL_DATA[Index_Plan_Offset_1 + _INDEX_SpeedPID_I_	];
-	CONTROL_TurnPID_P    = ALL_DATA[Index_Plan_Offset_1 + _INDEX_TurnPID_P_		];
-	CONTROL_TurnPID_D    = ALL_DATA[Index_Plan_Offset_1 + _INDEX_TurnPID_D_		];
+		uint16_t Index_Plan_Offset_1 = (_Com_Plan_-1)*40;
+		
+		CONTROL_Target_Angle = ALL_DATA[Index_Plan_Offset_1 + _INDEX_Target_Angle_	];
+		CONTROL_Target_Speed = ALL_DATA[Index_Plan_Offset_1 + _INDEX_Target_Speed_	];
+		CONTROL_AnglePID_P 	 = ALL_DATA[Index_Plan_Offset_1 + _INDEX_AnglePID_P_	];
+		CONTROL_AnglePID_D 	 = ALL_DATA[Index_Plan_Offset_1 + _INDEX_AnglePID_D_	];
+		CONTROL_SpeedPID_P 	 = ALL_DATA[Index_Plan_Offset_1 + _INDEX_SpeedPID_P_	];
+		CONTROL_SpeedPID_I   = ALL_DATA[Index_Plan_Offset_1 + _INDEX_SpeedPID_I_	];
+		CONTROL_TurnPID_P    = ALL_DATA[Index_Plan_Offset_1 + _INDEX_TurnPID_P_		];
+		CONTROL_TurnPID_D    = ALL_DATA[Index_Plan_Offset_1 + _INDEX_TurnPID_D_		];
 
-	CONTROL_Huan50_Add   = ALL_DATA[Index_Plan_Offset_1 + _INDEX_Huan50_Add_	];
-	CONTROL_InHuan50_Min = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan50_Min_	];
-	CONTROL_InHuan50_Max = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan50_Max_	];
-	
-	CONTROL_Huan60_Add   = ALL_DATA[Index_Plan_Offset_1 + _INDEX_Huan60_Add_	];
-	CONTROL_InHuan60_Min = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan60_Min_	];
-	CONTROL_InHuan60_Max = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan60_Max_	];
-	
-	CONTROL_Huan70_Add   = ALL_DATA[Index_Plan_Offset_1 + _INDEX_Huan70_Add_	];
-	CONTROL_InHuan70_Min = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan70_Min_	];
-	CONTROL_InHuan70_Max = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan70_Max_	];
-	
-	CONTROL_Huan80_Add   = ALL_DATA[Index_Plan_Offset_1 + _INDEX_Huan80_Add_	];
-	CONTROL_InHuan80_Min = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan80_Min_	];
-	CONTROL_InHuan80_Max = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan80_Max_	];
-	
-	CONTROL_Huan90_Add   = ALL_DATA[Index_Plan_Offset_1 + _INDEX_Huan90_Add_	];
-	CONTROL_InHuan90_Min = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan90_Min_	];
-	CONTROL_InHuan90_Max = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan90_Max_	];
-	
-	CONTROL_Huan100_Add   = ALL_DATA[Index_Plan_Offset_1 + _INDEX_Huan100_Add_	];
-	CONTROL_InHuan100_Min = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan100_Min_	];
-	CONTROL_InHuan100_Max = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan100_Max_	];
-	
-	
-	CONTROL_Huan1_Data	 = ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan1_Para_];
-	CONTROL_Huan2_Data	 = ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan2_Para_];
-	CONTROL_Huan3_Data	 = ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan3_Para_];
-	CONTROL_Huan4_Data	 = ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan4_Para_];
-	CONTROL_Huan5_Data	 = ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan5_Para_];
-	CONTROL_Huan6_Data	 = ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan6_Para_];
-	CONTROL_Huan7_Data	 = ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan7_Para_];
-	CONTROL_Huan8_Data	 = ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan8_Para_];
-	CONTROL_Huan9_Data	 = ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan9_Para_];
+		CONTROL_Huan50_Add   = ALL_DATA[Index_Plan_Offset_1 + _INDEX_Huan50_Add_	];
+		CONTROL_InHuan50_Min = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan50_Min_	];
+		CONTROL_InHuan50_Max = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan50_Max_	];
+		
+		CONTROL_Huan60_Add   = ALL_DATA[Index_Plan_Offset_1 + _INDEX_Huan60_Add_	];
+		CONTROL_InHuan60_Min = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan60_Min_	];
+		CONTROL_InHuan60_Max = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan60_Max_	];
+		
+		CONTROL_Huan70_Add   = ALL_DATA[Index_Plan_Offset_1 + _INDEX_Huan70_Add_	];
+		CONTROL_InHuan70_Min = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan70_Min_	];
+		CONTROL_InHuan70_Max = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan70_Max_	];
+		
+		CONTROL_Huan80_Add   = ALL_DATA[Index_Plan_Offset_1 + _INDEX_Huan80_Add_	];
+		CONTROL_InHuan80_Min = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan80_Min_	];
+		CONTROL_InHuan80_Max = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan80_Max_	];
+		
+		CONTROL_Huan90_Add   = ALL_DATA[Index_Plan_Offset_1 + _INDEX_Huan90_Add_	];
+		CONTROL_InHuan90_Min = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan90_Min_	];
+		CONTROL_InHuan90_Max = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan90_Max_	];
+		
+		CONTROL_Huan100_Add   = ALL_DATA[Index_Plan_Offset_1 + _INDEX_Huan100_Add_	];
+		CONTROL_InHuan100_Min = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan100_Min_	];
+		CONTROL_InHuan100_Max = ALL_DATA[Index_Plan_Offset_1 + _INDEX_InHuan100_Max_	];
+		
+		
+		CONTROL_Huan1_Data	 = ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan1_Para_];
+		CONTROL_Huan2_Data	 = ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan2_Para_];
+		CONTROL_Huan3_Data	 = ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan3_Para_];
+		CONTROL_Huan4_Data	 = ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan4_Para_];
+		CONTROL_Huan5_Data	 = ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan5_Para_];
+		CONTROL_Huan6_Data	 = ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan6_Para_];
+		CONTROL_Huan7_Data	 = ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan7_Para_];
+		CONTROL_Huan8_Data	 = ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan8_Para_];
+		CONTROL_Huan9_Data	 = ALL_DATA[(_Com_Plan_-1)*40 + _INDEX_Huan9_Para_];
 	}
 		
 
@@ -1185,9 +1259,10 @@ uint8_t Just_Do_It(void)
     {
 
 		uint8_t Protect_Flag = 0;
-		if( 0 == Read_Input_State(Reed2_Port, Reed2_Pin) )
+		if( 0 == Read_Input_State(Reed2_Port, Reed2_Pin) )	// 10秒后才开启干簧管停车
 		{
-			Stop_Flag = 1;
+			if( (float)_Com_Gan_Begin_/100 < Run_Distance/DIS_RATIO )	// 干簧管距离停车
+				Stop_Flag = 1;
 		}
 #if 1
 		if(1 == _Com_RunProtect_)

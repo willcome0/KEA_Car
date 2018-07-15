@@ -1181,38 +1181,56 @@ void Write_State(uint8_t in_ch[][30])
 
     sprintf((char *)in_ch[0],  "  <     设  置       ");
 	
-	sprintf((char *)in_ch[1],  "   1.  环磁阈值  %4d  ", _Com_Huan_Value_);		//环磁补偿
+	sprintf((char *)in_ch[1],  "   1.  环磁阈值  %4d  ", _Com_Huan_Value_	);		// 环磁补偿
 
-    sprintf((char *)in_ch[2],  "   2.  环 数 量  %4d  ", _Com_Huan_Num_);		//环的数量
-
-	sprintf((char *)in_ch[3],  "   3.  入环最小  %4d  ", _Com_InHuan_Min_);
+    sprintf((char *)in_ch[2],  "   2.  加速距离  %4d  ", _Com_Acc_Dis_		);		// 加速距离
 	
-	sprintf((char *)in_ch[4],  "   4.  入环最大  %4d  ", _Com_InHuan_Max_ );
-
-	sprintf((char *)in_ch[5],  "   5.  时间停车  %4d  ", _Com_RunTimeStop_);
+	sprintf((char *)in_ch[3],  "   3.  加速角度  %4d  ", _Com_Acc_Angle_	);		// 加速距离
 	
-	sprintf((char *)in_ch[6],  "   6.  距离停车  %4d  ", _Com_RunDisStop_ );
+	sprintf((char *)in_ch[4],  "   4.  环 数 量  %4d  ", _Com_Huan_Num_		);		// 环数量
+	
+	sprintf((char *)in_ch[5],  "   5.  干簧停车  %4d  ", _Com_Gan_Begin_	);		// 干簧管停车
+
+	sprintf((char *)in_ch[6],  "   6.  入环最小  %4d  ", _Com_InHuan_Min_);
+	
+	sprintf((char *)in_ch[7],  "   7.  入环最大  %4d  ", _Com_InHuan_Max_ );
+
+	sprintf((char *)in_ch[8],  "   8.  时间停车  %4d  ", _Com_RunTimeStop_);
+	
+	sprintf((char *)in_ch[9],  "   9.  距离停车  %4d  ", _Com_RunDisStop_ );
 	
 	Judge_State(Judge_ch, _Com_RunProtect_);
-    sprintf((char *)in_ch[7],  "   7.  保  护      %s", Judge_ch);	// 保护开关
+    sprintf((char *)in_ch[10], "  10.  保  护      %s", Judge_ch);	// 保护开关
 
 	Judge_State(Judge_ch, _Com_Debug_);
-    sprintf((char *)in_ch[8],  "   8.  调  试      %s", Judge_ch);	// 调试开关：开后，电机禁能且关保护
+    sprintf((char *)in_ch[11], "  11.  调  试      %s", Judge_ch);	// 调试开关：开后，电机禁能且关保护
 	
     Judge_State(Judge_ch, _Com_LED_);
-    sprintf((char *)in_ch[9],  "   9.  L E D       %s", Judge_ch);
+    sprintf((char *)in_ch[12], "  12.  L E D       %s", Judge_ch);
 	
     Judge_State(Judge_ch, _Com_Buzzer_);
-    sprintf((char *)in_ch[10], "  10.  蜂 鸣 器    %s", Judge_ch);
+    sprintf((char *)in_ch[13], "  13.  蜂 鸣 器    %s", Judge_ch);
 	
     Judge_State(Judge_ch, _Com_BT_);
-    sprintf((char *)in_ch[11], "  11.  蓝  牙      %s", Judge_ch);
+    sprintf((char *)in_ch[14], "  14.  蓝  牙      %s", Judge_ch);
 
-	sprintf((char *)in_ch[12], "  12.  左出补偿  %4d  ", _Com_HuanOut_L_Add_ );
+	sprintf((char *)in_ch[15], "  15.  左出补偿  %4d  ", _Com_HuanOut_L_Add_ );
 	
-	sprintf((char *)in_ch[13], "  13.  右出补偿  %4d  ", _Com_HuanOut_R_Add_ );
+	sprintf((char *)in_ch[16], "  16.  右出补偿  %4d  ", _Com_HuanOut_R_Add_ );
 	
-	sprintf((char *)in_ch[14], "  14.  出补路程  %4d  ", _Com_HuanOut_AddDis_);
+	sprintf((char *)in_ch[17], "  17.  出补路程  %4d  ", _Com_HuanOut_AddDis_);
+	
+	sprintf((char *)in_ch[18], "  18.  入环副头  %4d  ", _Com_HuanBegin_B_);
+	
+	sprintf((char *)in_ch[19], "  19.  出环主头  %4d  ", _Com_HuanOut_A_);
+	
+	sprintf((char *)in_ch[20], "  20.  出环副L   %4d  ", _Com_HuanOut_BL_);
+	
+	sprintf((char *)in_ch[21], "  21.  出环副R   %4d  ", _Com_HuanOut_BR_);
+	
+	sprintf((char *)in_ch[22], "  22.  决赛停车  %4d  ", _Com_FinalMode_End_);
+	
+	sprintf((char *)in_ch[23], "  23.  左右判值  %4d  ", _Com_HuanLR_Judge_);	// 左右触发阈值
 	/****************************设置菜单 修改二 ↑****************************/
 }
 
@@ -1293,7 +1311,7 @@ uint8_t UI_Set(void)
     uint8_t Frame_Min = 1;
     uint8_t Frame_Temp = 0;
     uint8_t Should_Refresh = 0;//用于更改值后刷新
-	const uint8_t SHOW_NUM = 15;	// 显示数目，菜单数目为SHOW_NUM-1
+	const uint8_t SHOW_NUM = 24;	// 显示数目，菜单数目为SHOW_NUM-1
 
     OLED_Clear();
     uint8_t UI_Menu[SHOW_NUM][30];
@@ -1324,21 +1342,33 @@ uint8_t UI_Set(void)
 								switch(UI_Case)
 								{
 									case  1:	Chang_Value(UI_Case, Frame_Min, &_Com_Huan_Value_,    1);	break;	// 环磁补偿
-									case  2:	Chang_Value(UI_Case, Frame_Min, &_Com_Huan_Num_ , 	  1);	break;	// 入环方向
-									case  3:	Chang_Value(UI_Case, Frame_Min, &_Com_InHuan_Min_,    1);	break;	// 入环最小
-									case  4:	Chang_Value(UI_Case, Frame_Min, &_Com_InHuan_Max_ ,   1);	break;	// 入环最大
-									case  5:	Chang_Value(UI_Case, Frame_Min, &_Com_RunTimeStop_,   1);	break;	// 时间停车
-									case  6:	Chang_Value(UI_Case, Frame_Min, &_Com_RunDisStop_ ,   1);	break;	// 距离停车
+									case  2:	Chang_Value(UI_Case, Frame_Min, &_Com_Acc_Dis_ , 	  1);	break;	// 加速距离
+									case  3:	Chang_Value(UI_Case, Frame_Min, &_Com_Acc_Angle_ , 	  1);	break;	// 加速角度
 									
-									case  7:	Chang_State(UI_Case, Frame_Min, &_Com_RunProtect_		);	break;	// 保护开关
-									case  8:	Chang_State(UI_Case, Frame_Min, &_Com_Debug_			);	break;	// 调试开关
-									case  9:  	Chang_State(UI_Case, Frame_Min, &_Com_LED_				);	break;	// LED开关
-									case 10:  	Chang_State(UI_Case, Frame_Min, &_Com_Buzzer_			);	break;	// 蜂鸣器开关
-									case 11:  	Chang_State(UI_Case, Frame_Min, &_Com_BT_				);	break;	// 蓝牙开关
+									case  4:	Chang_Value(UI_Case, Frame_Min, &_Com_Huan_Num_ , 	  1);	break;	// 环数量
+									case  5:	Chang_Value(UI_Case, Frame_Min, &_Com_Gan_Begin_ , 	  1);	break;	// 干簧停车
+									
+									case  6:	Chang_Value(UI_Case, Frame_Min, &_Com_InHuan_Min_,    1);	break;	// 入环最小
+									case  7:	Chang_Value(UI_Case, Frame_Min, &_Com_InHuan_Max_ ,   1);	break;	// 入环最大
+									case  8:	Chang_Value(UI_Case, Frame_Min, &_Com_RunTimeStop_,   1);	break;	// 时间停车
+									case  9:	Chang_Value(UI_Case, Frame_Min, &_Com_RunDisStop_ ,   1);	break;	// 距离停车
+									
+									case 10:	Chang_State(UI_Case, Frame_Min, &_Com_RunProtect_		);	break;	// 保护开关
+									case 11:	Chang_State(UI_Case, Frame_Min, &_Com_Debug_			);	break;	// 调试开关
+									case 12:  	Chang_State(UI_Case, Frame_Min, &_Com_LED_				);	break;	// LED开关
+									case 13:  	Chang_State(UI_Case, Frame_Min, &_Com_Buzzer_			);	break;	// 蜂鸣器开关
+									case 14:  	Chang_State(UI_Case, Frame_Min, &_Com_BT_				);	break;	// 蓝牙开关
 
-									case 12:	Chang_Value(UI_Case, Frame_Min, &_Com_HuanOut_L_Add_ , 1);	break;	// 左出环补偿
-									case 13:	Chang_Value(UI_Case, Frame_Min, &_Com_HuanOut_R_Add_ , 1);	break;	// 左出环补偿
-									case 14:	Chang_Value(UI_Case, Frame_Min, &_Com_HuanOut_AddDis_, 1);	break;	// 出环补偿路程
+									case 15:	Chang_Value(UI_Case, Frame_Min, &_Com_HuanOut_L_Add_ , 1);	break;	// 左出环补偿
+									case 16:	Chang_Value(UI_Case, Frame_Min, &_Com_HuanOut_R_Add_ , 1);	break;	// 左出环补偿
+									case 17:	Chang_Value(UI_Case, Frame_Min, &_Com_HuanOut_AddDis_, 1);	break;	// 出环补偿路程
+									case 18:	Chang_Value(UI_Case, Frame_Min, &_Com_HuanBegin_B_,    1);	break;
+									case 19:	Chang_Value(UI_Case, Frame_Min, &_Com_HuanOut_A_,      1);	break;
+									case 20:	Chang_Value(UI_Case, Frame_Min, &_Com_HuanOut_BL_,     1);	break;
+									case 21:	Chang_Value(UI_Case, Frame_Min, &_Com_HuanOut_BR_, 	   1);	break;
+									case 22:	Chang_Value(UI_Case, Frame_Min, &_Com_FinalMode_End_,  1);	break;	// 决赛停车触发阈值
+									case 23:	Chang_Value(UI_Case, Frame_Min, &_Com_HuanLR_Judge_,  1);	break;	// 左右判断阈值
+									
 									/****************************设置菜单 修改三 ↑****************************/
 
 									default:	return 0;//防止真出现其他情况

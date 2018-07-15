@@ -166,6 +166,7 @@ struct CON
 /******************* 设置菜单 ************************/
 #define _Com_LED_				ALL_DATA[200]	
 #define _Com_Buzzer_			ALL_DATA[201]
+
 #define _Com_BT_				ALL_DATA[202]	
 #define _Com_Debug_				ALL_DATA[203]	// 调试开关。开后电机一直禁能
 #define _Com_Huan_Value_		ALL_DATA[204]   // 环处电磁阈值
@@ -184,7 +185,17 @@ struct CON
 #define _Com_HuanOut_R_Add_     ALL_DATA[216]	// 右出环补偿
 #define _Com_HuanOut_AddDis_    ALL_DATA[217]	// 出环补偿路程
 #define _Com_Go_Mode_    		ALL_DATA[218]	// 发车模式（普通、预赛、决赛）
-#define _Com_Huan_Num_    		ALL_DATA[219]
+#define _Com_Huan_Num_    		ALL_DATA[219]	// 环数量
+#define _Com_Acc_Dis_			ALL_DATA[220]	// 加速距离
+
+#define _Com_HuanBegin_B_		ALL_DATA[221]	// 入环 副头触发
+#define _Com_HuanOut_A_			ALL_DATA[222]	// 出环 主头
+#define _Com_HuanOut_BL_		ALL_DATA[223]	// 出环 副头L
+#define _Com_HuanOut_BR_		ALL_DATA[224]	// 出环 副头R
+#define _Com_FinalMode_End_		ALL_DATA[225]	// 决赛模式 停车触发
+#define _Com_Gan_Begin_			ALL_DATA[226]	// 干簧管触发距离
+#define _Com_HuanLR_Judge_		ALL_DATA[227]	// 环左右判断阈值
+#define _Com_Acc_Angle_			ALL_DATA[228]	//加速角度
 /******************* 设置菜单 修改一 ↑******************/
 
 //将flash中得数据缓存到数组里
